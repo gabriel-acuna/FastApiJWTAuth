@@ -1,7 +1,15 @@
-from fastapi import FastAPI
+from fastapi import  APIRouter, FastAPI
+from app.api.endpoints import auth
+api_router = APIRouter()
 
-app = FastAPI()
-
-@app.get("/", tags=["root"])
+@api_router.get("/", tags=["root"])
 async def read_root() -> dict:
     return {"message":"Api test"}
+
+api_router.include_router( auth.router, tags=["auth"])
+
+
+
+
+app = FastAPI()
+app.include_router(api_router)

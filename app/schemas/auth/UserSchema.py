@@ -1,15 +1,21 @@
 from pydantic import BaseModel, Field, EmailStr
 
 class UserSchema(BaseModel):
-    fullname: str = Field(...)
+    primer_nombre: str = Field(...)
+    segundo_nombre: str = Field(...) 
+    primer_apellido: str = Field(...)
+    segundo_apellido: str = Field(...)
     email: EmailStr = Field(...)
     password: str = Field(...)
 
     class Config:
         schema_extra = {
             "example": {
-                "fullname": "Abdulazeez Abdulazeez Adeshina",
-                "email": "abdulazeez@x.com",
-                "password": "weakpassword"
+                "primer_nombre": "Gabriel",
+                "segundo_nombre": "Stefano",
+                "primer_apellido":"Acuña",
+                "segundo_apellido": "Regalado",
+                "email": "g.acuna@mail.com",
+                "password": "G.Pj_67893Q"
             }
         }
