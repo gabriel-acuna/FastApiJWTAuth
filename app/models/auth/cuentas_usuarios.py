@@ -1,9 +1,12 @@
 from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import Boolean, DateTime, Enum
 from app.models import Base
 from sqlalchemy import Column, String 
 from sqlalchemy.dialects.postgresql import UUID
+
+import enum
 
 """ 
     Autor: Ing. Gabriel Acuña
@@ -14,7 +17,7 @@ rol_usuario = Table(
     'roles_usuarios',
     Base.metadata,
     Column('rol_id', ForeignKey('roles.id')),
-    Column('right_id', ForeignKey('cuentas_usuarios.id'))
+    Column('usuario_id', ForeignKey('cuentas_usuarios.id'))
 
 )
 
@@ -35,3 +38,19 @@ class CuentaUsuario(Base):
     segundo_segundo = Column(String(30),)
     email = Column(String,)
     clave_encriptada = Column(String(),)
+
+class TipoToken(enum.Enum):
+    acceso = "Access Token"
+    solicitud_cambio_calve = "Resset Password Token Request"
+
+
+class TokenAutorizacion(Base):
+    __tablename__ = "tokens_autorizaciones"
+    id = Column(UUID, primary_key=True, index=True)
+    tipo_token = Column(Enum(TipoToken))
+    token = Column(String())
+    usuario_id = Column(ForeignKey("cuentas_usuarios.id"))
+    generado_en = Column(DateTime)
+    usado_hasta = Column(DateTime,nullable=True)
+    estado = Column(Boolean(), default=True)
+    
