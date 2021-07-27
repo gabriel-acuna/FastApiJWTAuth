@@ -2,7 +2,7 @@ from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.orm import relationship
 from app.models import Base
-from sqlalchemy import Column, String, 
+from sqlalchemy import Column, String 
 from sqlalchemy.dialects.postgresql import UUID
 
 """ 
@@ -63,10 +63,10 @@ class TipoFuncioinario(Base):
     tipo = Column(String(50), unique=True)
 
 
-class NivelEducativo(Base):
-    __tablename__ = "nivel_educativo"
+class TipoDocenteLOES(Base):
+    __tablename__ = "tipos_docente_loes"
     id = Column(UUID, primary_key=True, index=True)
-    nivel = Column(String(50), unique=True)
+    tipo_docente = Column(String(50), unique=True)
 
 class CategoriaDocenteLOSEP(Base):
     __tablename__  = "categorias_docentes_losep"

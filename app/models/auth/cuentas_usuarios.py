@@ -2,7 +2,7 @@ from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.orm import relationship
 from app.models import Base
-from sqlalchemy import Column, String, 
+from sqlalchemy import Column, String 
 from sqlalchemy.dialects.postgresql import UUID
 
 """ 
@@ -34,4 +34,4 @@ class CuentaUsuario(Base):
     primer_apellido = Column(String(30),)
     segundo_segundo = Column(String(30),)
     email = Column(String,)
-    clave_encriptada = column(String(),)
+    clave_encriptada = Column(String(),)
