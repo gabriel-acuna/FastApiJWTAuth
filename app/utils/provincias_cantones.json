@@ -1,0 +1,352 @@
+[
+    {
+        "provincia": "AZUAY",
+        "cantones": [
+            "CUENCA",
+            "GIRON",
+            "GUALACEO",
+            "NABON",
+            "PAUTE",
+            "PUCARA",
+            "SAN FERNANDO",
+            "SANTA ISABEL",
+            "SIGSIG",
+            "OÑA",
+            "CHORDELEG",
+            "EL PAN",
+            "SEVILLA DE ORO",
+            "GUACHAPALA",
+            "CAMILO PONCE ENRIQUEZ"
+        ]
+    },
+    {
+        "provincia": "BOLIVAR",
+        "cantones": [
+            "GUARANDA",
+            "CHILLANES",
+            "CHIMBO",
+            "ECHEANDIA",
+            "SAN MIGUEL",
+            "CALUMA",
+            "LAS NAVES"
+        ]
+    },
+    {
+        "provincia": "CAÑAR",
+        "cantones": [
+            "AZOGUES",
+            "BIBLIAN",
+            "CAÑAR",
+            "LA TRONCAL",
+            "EL TAMBO",
+            "DELEG",
+            "SUSCAL",
+            "TULCAN",
+            "BOLIVAR",
+            "ESPEJO",
+            "MIRA",
+            "MONTUFAR",
+            "SAN PEDRO DE HUACA"
+        ]
+    },
+    {
+        "provincia": "COTOPAXI",
+        "cantones": [
+            "LATACUNGA",
+            "LA MANA",
+            "PANGUA",
+            "PUJILI",
+            "SALCEDO",
+            "SAQUISILI",
+            "SIGCHOS"
+        ]
+    },
+    {
+        "provincia": "CHIMBORAZO",
+        "cantones": [
+            "RIOBAMBA",
+            "ALAUSI",
+            "COLTA",
+            "CHAMBO",
+            "CHUNCHI",
+            "GUAMOTE",
+            "GUANO",
+            "PALLATANGA",
+            "PENIPE",
+            "CUMANDA"
+        ]
+    },
+    {
+        "provincia": "EL ORO",
+        "cantones": [
+            "MACHALA",
+            "ARENILLAS",
+            "ATAHUALPA",
+            "BALSAS",
+            "CHILLA",
+            "EL GUABO",
+            "HUAQUILLAS",
+            "MARCABELI",
+            "PASAJE",
+            "PIÑAS",
+            "PORTOVELO",
+            "SANTA ROSA",
+            "ZARUMA",
+            "LAS LAJAS"
+        ]
+    },
+    {
+        "provincia": "ESMERALDAS",
+        "cantones": [
+            "ESMERALDAS",
+            "ELOY ALFARO",
+            "MUISNE",
+            "QUININDE",
+            "SAN LORENZO",
+            "ATACAMES",
+            "RIOVERDE"
+        ]
+    },
+    {
+        "provincia": "GUAYAS",
+        "cantones": [
+            "GUAYAQUIL",
+            "ALFREDO BAQUERIZO MORENO (JUJAN)",
+            "BALAO",
+            "BALZAR",
+            "COLIMES",
+            "DAULE",
+            "DURAN",
+            "EL EMPALME",
+            "EL TRIUNFO",
+            "MILAGRO",
+            "NARANJAL",
+            "NARANJITO",
+            "PALESTINA",
+            "PEDRO CARBO",
+            "SAMBORONDON",
+            "SANTA LUCIA",
+            "SALITRE (URBINA JADO)",
+            "SAN JACINTO DE YAGUACHI",
+            "PLAYAS",
+            "SIMON BOLIVAR",
+            "CORONEL MARCELINO MARIDUEÑA",
+            "LOMAS DE SARGENTILLO",
+            "NOBOL",
+            "GENERAL ANTONIO ELIZALDE",
+            "ISIDRO AYORA"
+        ]
+    },
+    {
+        "provincia": "IMBABURA",
+        "cantones": [
+            "IBARRA",
+            "ANTONIO ANTE",
+            "COTACACHI",
+            "OTAVALO",
+            "PIMAMPIRO",
+            "SAN MIGUEL DE URCUQUI"
+        ]
+    },
+    {
+        "provincia": "LOJA",
+        "cantones": [
+            "LOJA",
+            "CALVAS",
+            "CATAMAYO",
+            "CELICA",
+            "CHAGUARPAMBA",
+            "ESPINDOLA",
+            "GONZANAMA",
+            "MACARA",
+            "PALTAS",
+            "PUYANGO",
+            "SARAGURO",
+            "SOZORANGA",
+            "ZAPOTILLO",
+            "PINDAL",
+            "QUILANGA",
+            "OLMEDO"
+        ]
+    },
+    {
+        "provincia": "LOS RIOS",
+        "cantones": [
+            "BABAHOYO",
+            "BABA",
+            "MONTALVO",
+            "PUEBLOVIEJO",
+            "QUEVEDO",
+            "URDANETA",
+            "VENTANAS",
+            "VINCES",
+            "PALENQUE",
+            "BUENA FE",
+            "VALENCIA",
+            "MOCACHE",
+            "QUINSALOMA"
+        ]
+    },
+    {
+        "provincia": "MANABI",
+        "cantones": [
+            "PORTOVIEJO",
+            "BOLIVAR",
+            "CHONE",
+            "EL CARMEN",
+            "FLAVIO ALFARO",
+            "JIPIJAPA",
+            "JUNIN",
+            "MANTA",
+            "MONTECRISTI",
+            "PAJAN",
+            "PICHINCHA",
+            "ROCAFUERTE",
+            "SANTA ANA",
+            "SUCRE",
+            "TOSAGUA",
+            "24 DE MAYO",
+            "PEDERNALES",
+            "OLMEDO",
+            "PUERTO LOPEZ",
+            "JAMA",
+            "JARAMIJO",
+            "SAN VICENTE"
+        ]
+    },
+    {
+        "provincia": "MORONA SANTIAGO",
+        "cantones": [
+            "MORONA",
+            "GUALAQUIZA",
+            "LIMON INDANZA",
+            "PALORA",
+            "SANTIAGO",
+            "SUCUA",
+            "HUAMBOYA",
+            "SAN JUAN BOSCO",
+            "TAISHA",
+            "LOGROÑO",
+            "PABLO SEXTO",
+            "TIWINTZA"
+        ]
+    },
+    {
+        "provincia": "NAPO",
+        "cantones": [
+            "TENA",
+            "ARCHIDONA",
+            "EL CHACO",
+            "QUIJOS",
+            "CARLOS JULIO AROSEMENA TOLA"
+        ]
+    },
+    {
+        "provincia": "PASTAZA",
+        "cantones": [
+            "PASTAZA",
+            "MERA",
+            "SANTA CLARA",
+            "ARAJUNO"
+        ]
+    },
+    {
+        "provincia": "PICHINCHA",
+        "cantones": [
+            "QUITO",
+            "CAYAMBE",
+            "MEJIA",
+            "PEDRO MONCAYO",
+            "RUMIÑAHUI",
+            "SAN MIGUEL DE LOS BANCOS",
+            "PEDRO VICENTE MALDONADO",
+            "PUERTO QUITO"
+        ]
+    },
+    {
+        "provincia": "TUNGURAHUA",
+        "cantones": [
+            "AMBATO",
+            "BAÑOS DE AGUA SANTA",
+            "CEVALLOS",
+            "MOCHA",
+            "PATATE",
+            "QUERO",
+            "SAN PEDRO DE PELILEO",
+            "SANTIAGO DE PILLARO",
+            "TISALEO"
+        ]
+    },
+    {
+        "provincia": "ZAMORA CHINCHIPE",
+        "cantones": [
+            "ZAMORA",
+            "CHINCHIPE",
+            "NANGARITZA",
+            "YACUAMBI",
+            "YANTZAZA (YANZATZA)",
+            "EL PANGUI",
+            "CENTINELA DEL CONDOR",
+            "PALANDA",
+            "PAQUISHA"
+        ]
+    },
+    {
+        "provincia": "GALAPAGOS",
+        "cantones": [
+            "SAN CRISTOBAL",
+            "ISABELA",
+            "SANTA CRUZ"
+        ]
+    },
+    {
+        "provincia": "SUCUMBIOS",
+        "cantones": [
+            "LAGO AGRIO",
+            "GONZALO PIZARRO",
+            "PUTUMAYO",
+            "SHUSHUFINDI",
+            "SUCUMBIOS",
+            "CASCALES",
+            "CUYABENO"
+        ]
+    },
+    {
+        "provincia": "ORELLANA",
+        "cantones": [
+            "ORELLANA",
+            "AGUARICO",
+            "LA JOYA DE LOS SACHAS",
+            "LORETO"
+        ]
+    },
+    {
+        "provincia": "SANTO DOMINGO DE LOS TSACHILAS",
+        "cantones": [
+            "LA CONCORDIA",
+            "SANTO DOMINGO"
+        ]
+    },
+    {
+        "provincia": "SANTA ELENA",
+        "cantones": [
+            "SANTA ELENA",
+            "LA LIBERTAD",
+            "SALINAS"
+        ]
+    },
+    {
+        "provincia": "ZONAS NO DELIMITADAS",
+        "cantones": [
+            "LAS GOLONDRINAS",
+            "MANGA DEL CURA",
+            "EL PIEDRERO"
+        ]
+    },
+    {
+        "provincia": "NO APLICA",
+        "cantones": [
+            "NO APLICA"
+        ]
+    }
+]

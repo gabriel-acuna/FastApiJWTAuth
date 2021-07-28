@@ -79,3 +79,15 @@ class Pais(Base):
     id = Column(Integer, primary_key=True, index=True)
     pais = Column(String(120))
     nacionalidad = Column(String(120), nullable=True, default='')
+
+class Provincia(Base):
+    __tablename__ = "provincias"
+    id = Column(Integer, primary_key=True, index=True)
+    provincia = Column(String(120))
+    cantones = relationship("Canton")
+
+class Canton(Base):
+    __tablename__ = "cantones"
+    id = Column(Integer, primary_key=True)
+    canton = Column(String(120))
+    provincia_id = Column(Integer, ForeignKey("provincias.id"))
