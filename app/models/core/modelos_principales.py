@@ -1,6 +1,7 @@
 from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import Integer
 from app.models import Base
 from sqlalchemy import Column, String 
 from sqlalchemy.dialects.postgresql import UUID
@@ -72,3 +73,9 @@ class CategoriaDocenteLOSEP(Base):
     __tablename__  = "categorias_docentes_losep"
     id = Column(UUID, primary_key=True, index=True)
     categoria_docente = Column(String(50), unique=True)
+
+class Pais(Base):
+    __tablename__ = "paises"
+    id = Column(Integer, primary_key=True, index=True)
+    pais = Column(String(120))
+    nacionalidad = Column(String(120), nullable=True, default='')
