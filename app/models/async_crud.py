@@ -25,19 +25,19 @@ class OperacionesEscrituraAsinconas:
 
 class OperacionesLecturaAsincronas:
     @classmethod
-    async def listar(cls, id, paginacion=False):
+    async def listar(cls, id):
         query = select(cls)
         results = await async_db_session.execute(query)
         return results@classmethod
 
     @classmethod
-    async def filtarPor(cls, paginacion=False, **kwargs):
+    async def filtarPor(cls, **kwargs):
         query = cls.filter_by(kwargs)
         results = await async_db_session.execute(query)
         return results
 
     @classmethod
-    async def obtner(cls, id, paginacion=False):
+    async def obtner(cls, id):
         query = select(cls).where(cls.id == id)
         results = await async_db_session.execute(query)
         (result,) = results.one()

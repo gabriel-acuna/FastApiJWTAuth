@@ -19,7 +19,7 @@ class Discapacidad(Base, OperacionesEscrituraAsinconas,
                    OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "discapacidades"
     id = Column(UUID, primary_key=True, index=True)
-    discapacidad = Column(String(6), unique=True)
+    discapacidad = Column(String(30), unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
     actualizado_en = Column(TIMESTAMP, nullable=True,
                             onupdate=func.current_timestamp())
@@ -69,7 +69,7 @@ class TipoEscalafonNombramiento(Base, OperacionesEscrituraAsinconas,
                                 OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "tipos_relaciones_nombramientos"
     id = Column(UUID, primary_key=True, index=True)
-    relacion_nombramiento = Column(String(50), nullable=False, unique=True)
+    escalafon_nombramiento = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
     actualizado_en = Column(TIMESTAMP, nullable=True,
                             onupdate=func.current_timestamp())
