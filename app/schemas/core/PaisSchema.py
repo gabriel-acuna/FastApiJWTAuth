@@ -14,7 +14,7 @@ class PaisSchema(BaseModel):
 
 class PaisPostSchema(BaseModel):
     pais: str = Field(...)
-    nacionalidad = Field(...)
+    nacionalidad: str = Field(...)
 
     @validator('pais')
     def pais_longitud_maxima(cls, value):
@@ -36,7 +36,7 @@ class PaisPostSchema(BaseModel):
 class PaisPutSchema(BaseModel):
     id: str = Field(...)
     pais: str = Field(...)
-    nacionalidad = Field(...)
+    nacionalidad: str = Field(...)
 
     @validator('pais')
     def pais_longitud_maxima(cls, value):

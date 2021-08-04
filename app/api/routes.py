@@ -1,5 +1,5 @@
 from fastapi import APIRouter, FastAPI
-from app.api.endpoints import auth
+from app.api.endpoints import auth, pais
 api_router = APIRouter()
 
 
@@ -14,6 +14,7 @@ async def read_root() -> dict:
         }
 
 api_router.include_router(auth.router, tags=["auth"])
+api_router.include_router(pais.router, tags=["paises"])
 
 app = FastAPI(title="Sigac Unesum API", )
 

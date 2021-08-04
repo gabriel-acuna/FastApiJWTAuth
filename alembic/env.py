@@ -14,7 +14,7 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option("sqlalchemy.url", cnf("DATABASE_URL"))
+config.set_main_option("sqlalchemy.url", cnf("DATABASE_URL_MIGRATIONS"))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

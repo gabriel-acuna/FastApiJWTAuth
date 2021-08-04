@@ -21,7 +21,7 @@ class Discapacidad(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     discapacidad = Column(String(30), unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -31,7 +31,7 @@ class Etnia(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     etnia = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -41,7 +41,7 @@ class Nacionalidad(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     nacionalidad = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -51,7 +51,7 @@ class TipoDocumento(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     tipo_documento = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -61,7 +61,7 @@ class RelacionIES(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     relacion = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -71,7 +71,7 @@ class TipoEscalafonNombramiento(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     escalafon_nombramiento = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -81,7 +81,7 @@ class CategoriaContratoProfesor(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     categoria_contrato = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -91,7 +91,7 @@ class TiempoDedicacionProfesor(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     tiempo_dedicacion = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -101,7 +101,7 @@ class NivelEducativo(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     nivel = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -111,7 +111,7 @@ class TipoFuncioinario(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     tipo = Column(String(50), nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),
                             onupdate=func.current_timestamp())
 
 
@@ -121,7 +121,7 @@ class TipoDocenteLOES(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     tipo_docente = Column(String(50),nullable=False, unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,    onupdate=func.current_timestamp())
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
 
 
 class CategoriaDocenteLOSEP(Base, OperacionesEscrituraAsinconas,
@@ -130,7 +130,7 @@ class CategoriaDocenteLOSEP(Base, OperacionesEscrituraAsinconas,
     id = Column(UUID, primary_key=True, index=True)
     categoria_docente = Column(String(50), unique=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,    onupdate=func.current_timestamp())
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
 
 
 class Pais(Base, OperacionesEscrituraAsinconas,
@@ -140,7 +140,7 @@ class Pais(Base, OperacionesEscrituraAsinconas,
     pais = Column(String(120), nullable=False)
     nacionalidad = Column(String(120), nullable=True, default='')
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,    onupdate=func.current_timestamp())
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
 
 
 class Provincia(Base, OperacionesEscrituraAsinconas,
@@ -150,7 +150,7 @@ class Provincia(Base, OperacionesEscrituraAsinconas,
     provincia = Column(String(120), nullable=False)
     cantones = relationship("Canton")
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,    onupdate=func.current_timestamp())
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
 
 
 class Canton(Base, OperacionesEscrituraAsinconas,
@@ -160,4 +160,4 @@ class Canton(Base, OperacionesEscrituraAsinconas,
     canton = Column(String(120), nullable=False)
     provincia_id = Column(Integer, ForeignKey("provincias.id"))
     registrado_en = Column(TIMESTAMP, server_default=func.now())
-    actualizado_en = Column(TIMESTAMP, nullable=True,    onupdate=func.current_timestamp())
+    actualizado_en = Column(TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())

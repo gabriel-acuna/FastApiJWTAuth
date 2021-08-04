@@ -1,5 +1,6 @@
-from typing import Any
+from typing import Any, NoReturn
 from sqlalchemy import update as sqlalchemy_update
+import sqlalchemy
 from sqlalchemy.sql.expression import select
 from app.database.conf import async_db_session
 
@@ -25,27 +26,48 @@ class OperacionesEscrituraAsinconas:
 
 class OperacionesLecturaAsincronas:
     @classmethod
-    async def listar(cls, id):
-        query = select(cls)
-        results = await async_db_session.execute(query)
-        return results@classmethod
+    async def listar(cls):
+        try:
+            await async_db_session.init()
+            query = select(cls)
+            results = await async_db_session.execute(query)
+            return results.all()
+        except Exception as ex:
+            raise(f"Ha ocurrido una excepción: {ex}")
+        finally:
+            async_db_session.close()
 
     @classmethod
     async def filtarPor(cls, **kwargs):
-        query = cls.filter_by(kwargs)
-        results = await async_db_session.execute(query)
-        return results
+        try:
+            await async_db_session.init()
+            query = cls.filter_by(kwargs)
+            results = await async_db_session.execute(query)
+            results
+        except Exception as ex:
+            raise(f"Ha ocurrido una excepción: {ex}")
+        finally:
+            await async_db_session.close()
 
     @classmethod
-    async def obtner(cls, id):
-        query = select(cls).where(cls.id == id)
-        results = await async_db_session.execute(query)
-        (result,) = results.one()
-        return result
+    async def obtener(cls, id):
+        try:
+            result:Any
+            await async_db_session.init()
+            query = select(cls).where(cls.id == id)
+            results = await async_db_session.execute(query)
+            (result, )= results.one() 
+            return result
+                
+        except Exception as ex:
+            print(f"Ha ocurrido una excepción: {ex}")
+        finally:
+            await async_db_session.close()
 
 
 class EliminacionAsincrona():
     @classmethod
     async def eliminar(cls, objeto: Any):
+        await async_db_session.init()
         result = await async_db_session.delete(objeto)
         return result

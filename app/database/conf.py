@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import sessionmaker
 from decouple import config
 from app.models import Base
 
@@ -13,7 +13,7 @@ class AsyncDatabaseSession:
         return getattr(self._session, name)
 
     async def init(self):
-        self._engine = create_async_engine(           
+        self._engine = create_async_engine(
             config("DATABASE_URL"),
             echo=True,
         )
@@ -25,6 +25,9 @@ class AsyncDatabaseSession:
     async def create_all(self):
         async with self._engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+
+    async def close(self):
+        await self._session.close()
 
 
 async_db_session = AsyncDatabaseSession()
