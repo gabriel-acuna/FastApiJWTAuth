@@ -1,24 +1,20 @@
-from typing import List
-from fastapi import APIRouter, HTTPException
-from app.models.core.modelos_principales import Pais
 from app.schemas.core.PaisSchema import PaisSchema
+from typing import List
+from app.services.core.ServicioPais import ServicioPais
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
 
 
-@router.get("/paises")
+@router.get("/paises", response_model=List[PaisSchema])
 async def listar_paises():
-    paises: List[PaisSchema] = []
-    resultado = await Pais.listar()
-    for pais in resultado:
-        p = PaisSchema(**pais[0].__dict__)
-        paises.append(p)
-    return paises
+    return await ServicioPais.listar()
 
 
-@router.get("/paises/{id}")
+@router.get("/paises/{id}", response_model= PaisSchema)
 async def obtener_pais(id: int):
-    resultado = await Pais.obtener(id)
-    if not resultado:
-        raise HTTPException(status_code=404, detail="Pais no encontrado")
-    return PaisSchema(**resultado.__dict__)
+    pais = await ServicioPais.buscar_por_id(id)
+    if not pais:
+        raise HTTPException(status_code=404, detail="País no encontrado")
+    return PaisSchema(**pais[0].__dict__)
+   

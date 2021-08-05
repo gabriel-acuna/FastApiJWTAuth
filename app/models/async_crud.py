@@ -35,30 +35,29 @@ class OperacionesLecturaAsincronas:
         except Exception as ex:
             raise(f"Ha ocurrido una excepción: {ex}")
         finally:
-            async_db_session.close()
+            await async_db_session.close()
 
     @classmethod
     async def filtarPor(cls, **kwargs):
         try:
             await async_db_session.init()
-            query = cls.filter_by(kwargs)
+            query = select(cls).filter_by(**kwargs)
             results = await async_db_session.execute(query)
-            results
+            return results.all()
         except Exception as ex:
-            raise(f"Ha ocurrido una excepción: {ex}")
+            print(f"Ha ocurrido una excepción: {ex}")
         finally:
             await async_db_session.close()
 
     @classmethod
     async def obtener(cls, id):
         try:
-            result:Any
+        
             await async_db_session.init()
             query = select(cls).where(cls.id == id)
             results = await async_db_session.execute(query)
-            (result, )= results.one() 
-            return result
-                
+            return results.first() 
+
         except Exception as ex:
             print(f"Ha ocurrido una excepción: {ex}")
         finally:
