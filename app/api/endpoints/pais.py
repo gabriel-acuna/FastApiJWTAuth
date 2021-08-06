@@ -3,15 +3,15 @@ from typing import List
 from app.services.core.ServicioPais import ServicioPais
 from fastapi import APIRouter, HTTPException
 
-router = APIRouter()
+router = APIRouter(prefix="/paises")
 
 
-@router.get("/paises", response_model=List[PaisSchema])
+@router.get("/", response_model=List[PaisSchema])
 async def listar_paises():
     return await ServicioPais.listar()
 
 
-@router.get("/paises/{id}", response_model= PaisSchema)
+@router.get("/{id}", response_model= PaisSchema)
 async def obtener_pais(id: int):
     pais = await ServicioPais.buscar_por_id(id)
     if not pais:

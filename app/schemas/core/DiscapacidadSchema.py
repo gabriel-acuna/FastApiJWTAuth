@@ -13,7 +13,7 @@ class DiscapacidadSchema(BaseModel):
 class DiscapacidadPostSchema(BaseModel):
     discapacidad: str = Field(...)
 
-    @validator('discpacidad')
+    @validator('discapacidad')
     def discapacidad_longitud_maxima(cls, value):
         longitud_maxima(30, value)
 
@@ -29,6 +29,6 @@ class DiscapacidadPutSchema(BaseModel):
     id: str = Field(...)
     discapacidad: str = Field(...)
 
-    @validator('discpacidad')
+    @validator('discapacidad')
     def discapacidad_longitud_maxima(cls, value):
         longitud_maxima(30, value)
