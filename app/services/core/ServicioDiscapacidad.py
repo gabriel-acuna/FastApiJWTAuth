@@ -3,8 +3,8 @@ from app.models.core.modelos_principales import Discapacidad
 from app.schemas.core.DiscapacidadSchema import DiscapacidadPostSchema, DiscapacidadPutSchema, DiscapacidadSchema
 
 
+
 class ServicioDiscapacidad():
-    
 
     @classmethod
     async def listar(cls) -> List[DiscapacidadSchema]:
@@ -27,20 +27,34 @@ class ServicioDiscapacidad():
     @classmethod
     async def agregar_registro(cls, discapacidad: DiscapacidadPostSchema):
         try:
-            return await Discapacidad.crear(discapacidad)
+            return await Discapacidad.crear(discapacidad=discapacidad.discapacidad)
         except Exception as ex:
             print(f"Ha ocurrido una excepcion {ex}")
 
     @classmethod
-    async def actualizar_registro(cls, discapacida: DiscapacidadPutSchema):
+    async def actualizar_registro(cls, discapacidad: DiscapacidadPutSchema):
         try:
-            return await Discapacidad.actualizar(discapacida.__dict__)
+           return await Discapacidad.actualizar(id=str(discapacidad.id), discapacidad=discapacidad.discapacidad)
         except Exception as ex:
             print(f"Ha ocurrido una excepcion {ex}")
 
     @classmethod
-    async def eliminar_registro(cls, id: int):
+    async def eliminar_registro(cls, id:str):
         try:
-            eliminado = await cls.__discapacidad.eliminar(id)
+            eliminado = await Discapacidad.eliminar(id)
         except Exception as ex:
             print(f"Ha ocurrido una excepcion {ex}")
+    
+
+    @classmethod
+    async def existe(cls, discapacidad: Discapacidad)->bool:
+        try:
+            existe = await Discapacidad.filtarPor(discapacidad)
+            if existe:
+                return True
+            return False
+            
+
+        except Exception as ex:
+            print(f"Ha ocurrido una excepcion {ex}")
+

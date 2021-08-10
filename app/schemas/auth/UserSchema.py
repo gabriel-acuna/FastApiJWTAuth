@@ -10,7 +10,7 @@ class UserSchema(BaseModel):
 
     class Config:
         schema_extra = {
-            "user": {
+            "example": {
                 "primer_nombre": "Gabriel",
                 "segundo_nombre": "Stefano",
                 "primer_apellido":"Acuña",

@@ -1,6 +1,6 @@
 from typing import Any, NoReturn
 from sqlalchemy import update as sqlalchemy_update, insert
-from sqlalchemy.sql.expression import select
+from sqlalchemy.sql.expression import delete, select
 from app.database.conf import async_db_session
 
 
@@ -10,7 +10,7 @@ class OperacionesEscrituraAsinconas:
         ok: bool = False
         try:
             await async_db_session.init()
-            query = insert(cls).values(**kwargs)
+            query = insert(cls).values(kwargs)
             await async_db_session.execute(query)
             await async_db_session.commit()
             ok = True
@@ -22,7 +22,8 @@ class OperacionesEscrituraAsinconas:
         return ok
 
     @classmethod
-    async def actualizar(cls, id, **kwargs):
+    async def actualizar(cls, id, **kwargs) -> bool:
+        ok: bool = False
         try:
             await async_db_session.init()
             query = (
@@ -34,11 +35,12 @@ class OperacionesEscrituraAsinconas:
 
             await async_db_session.execute(query)
             await async_db_session.commit()
+            ok = True
         except Exception as ex:
             raise
         finally:
             await async_db_session.close()
-
+        return ok
 
 class OperacionesLecturaAsincronas:
     @classmethod
@@ -82,12 +84,16 @@ class OperacionesLecturaAsincronas:
 
 class EliminacionAsincrona():
     @classmethod
-    async def eliminar(cls, objeto: Any):
+    async def eliminar(cls, id: Any) -> bool:
+        ok:bool = False
         try:
             await async_db_session.init()
-            result = await async_db_session.delete(objeto)
-            return result
+            query = delete(cls).where(cls.id ==id)
+            await async_db_session.execute(query)
+            await async_db_session.commit()
+            ok = True
         except Exception as ex:
             raise
         finally:
             await async_db_session.close()
+        return ok

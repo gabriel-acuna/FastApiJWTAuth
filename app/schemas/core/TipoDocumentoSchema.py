@@ -15,11 +15,11 @@ class TipoDocumentoPostSchema(BaseModel):
 
     @validator("tipo_documento")
     def tipo_documento_longitud_maxima(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
 
     class Config:
         schema_extra = {
-            "tipo_documento": {
+            "example": {
                 "tipo_documento": "CONTRATO"
             }
         }

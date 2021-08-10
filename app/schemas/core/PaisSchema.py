@@ -18,7 +18,7 @@ class PaisPostSchema(BaseModel):
 
     @validator('pais')
     def pais_longitud_maxima(cls, value):
-        longitud_maxima(120, value)
+        return longitud_maxima(120, value)
 
     @validator('nacionalidad')
     def nacionalidad_longitud_maxima(cls, value):
@@ -26,7 +26,7 @@ class PaisPostSchema(BaseModel):
 
     class Config:
         schema_extra = {
-            "pais": {
+            "example": {
                 "pais": "ECUADOR",
                 "nacionalidad": "ECUATORIANA"
             }

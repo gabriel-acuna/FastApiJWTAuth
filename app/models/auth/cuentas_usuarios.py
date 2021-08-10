@@ -5,6 +5,7 @@ from sqlalchemy.sql.sqltypes import Boolean, DateTime, Enum
 from app.models import Base
 from sqlalchemy import Column, String, func
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import text
 from app.models.async_crud import OperacionesEscrituraAsinconas, EliminacionAsincrona, OperacionesLecturaAsincronas
 import enum
 
@@ -25,7 +26,7 @@ rol_usuario = Table(
 class Rol(Base, OperacionesEscrituraAsinconas,
           OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "roles"
-    id = Column(UUID, primary_key=True, index=True)
+    id = Column(UUID, primary_key=True, index=True, server_default=text("uuid_generate_v4()"))
     rol = Column(String(50), nullable=False)
     descripcion = Column(String(120), nullable=False)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
@@ -37,7 +38,7 @@ class Rol(Base, OperacionesEscrituraAsinconas,
 class CuentaUsuario(Base, OperacionesEscrituraAsinconas,
                     OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "cuentas_usuarios"
-    id = Column(UUID, primary_key=True, index=True)
+    id = Column(UUID, primary_key=True, index=True, server_default=text("uuid_generate_v4()"))
     primer_nombre = Column(String(30), nullable=False)
     segundo_nombre = Column(String(30), nullable=False)
     primer_apellido = Column(String(30), nullable=False)
@@ -58,7 +59,7 @@ class TipoToken(enum.Enum):
 class TokenAutorizacion(Base, OperacionesEscrituraAsinconas,
                         OperacionesLecturaAsincronas):
     __tablename__ = "tokens_autorizaciones"
-    id = Column(UUID, primary_key=True, index=True)
+    id = Column(UUID, primary_key=True, index=True, server_default=text("uuid_generate_v4()"))
     tipo_token = Column(Enum(TipoToken), nullable=False)
     token = Column(String(), nullable=False)
     usuario_id = Column(ForeignKey("cuentas_usuarios.id"))

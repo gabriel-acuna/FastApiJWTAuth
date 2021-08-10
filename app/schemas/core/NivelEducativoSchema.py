@@ -15,11 +15,11 @@ class NivelEducativoPostSchema(BaseModel):
 
     @validator("nivel")
     def tiempo_dedicacion_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
 
     class Config:
         schema_extra = {
-            "nivel_educativo": {
+            "example": {
                 "nivel": "TERCER NIVEL"
             }
         }

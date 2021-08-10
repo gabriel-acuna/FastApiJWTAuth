@@ -16,11 +16,11 @@ class CategoriaContratoProfesorPostSchema(BaseModel):
 
     @validator("categoria_contrato")
     def categoria_contrato_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
 
     class Config:
         eschema_extra = {
-            "ejemplo": {
+            "example": {
                 "categoria": "TITULAR PRINCIPAL"
             }
         }

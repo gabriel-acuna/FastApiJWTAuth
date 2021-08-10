@@ -15,11 +15,11 @@ class TipoDocenteLOESPostSchema(BaseModel):
 
     @validator("tipo_docente")
     def tipo_docente_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
 
     class Config:
         schema_extra = {
-            "tipo_docente": {
+            "example": {
                 "tipo": "TECNICO DOCENTE"
             }
         }

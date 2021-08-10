@@ -15,11 +15,11 @@ class DiscapacidadPostSchema(BaseModel):
 
     @validator('discapacidad')
     def discapacidad_longitud_maxima(cls, value):
-        longitud_maxima(30, value)
+        return longitud_maxima(30, value)
 
     class Config:
         schema_extra = {
-            "discapacidad": {
+            "example": {
                 "discapacidad": "AUDITIVA"
             }
         }
@@ -31,4 +31,4 @@ class DiscapacidadPutSchema(BaseModel):
 
     @validator('discapacidad')
     def discapacidad_longitud_maxima(cls, value):
-        longitud_maxima(30, value)
+        return longitud_maxima(30, value)

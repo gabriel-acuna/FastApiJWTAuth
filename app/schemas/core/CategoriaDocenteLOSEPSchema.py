@@ -16,11 +16,11 @@ class CategoriaDocenteLOSEPPostSchema(BaseModel):
 
     @validator("categoria_docente")
     def categoria_docente_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
 
     class Config:
         schema_extra = {
-            "ejemplo": {
+            "example": {
                 "tipo": "ADMINISTRATIVO"
             }
         }

@@ -16,11 +16,11 @@ class EtniaPostSchema(BaseModel):
 
     @validator('etnia')
     def etnia_longitud_maxima(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
 
     class Config:
         schema_extra = {
-            "etnia": {
+            "example": {
                 "etnia": "INDIGENA"
             }
         }

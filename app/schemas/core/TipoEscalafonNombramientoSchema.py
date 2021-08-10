@@ -15,11 +15,11 @@ class TipoEscalafonNombramientoPostSchema(BaseModel):
 
     @validator("escalafon_nombramiento")
     def escalafon_nombramiento_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
 
     class Config:
         schema_extra = {
-            "ejemplo": {
+            "example": {
                 "escalafon_nombramiento": "LABORAL PREVIO"
             }
         }
