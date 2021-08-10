@@ -8,7 +8,7 @@ class CsvtoList():
     def getList(self)->List:
         data:List = []
         try:
-            with open(self.filename, newline='', ) as f:
+            with open(self.filename, newline='', encoding='utf8') as f:
                 reader = csv.DictReader(f, delimiter = ';')
                 for row in reader:
                   data.append(row)
