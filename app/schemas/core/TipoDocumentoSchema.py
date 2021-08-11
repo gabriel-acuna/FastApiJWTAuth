@@ -3,7 +3,7 @@ from app.schemas.validaciones import longitud_maxima
 from pydantic import BaseModel, Field, validator
 
 
-class TipoDocumentosSchema(BaseModel):
+class TipoDocumentoSchema(BaseModel):
     id: str
     tipo_documento: str
     registrado_en: datetime
@@ -31,4 +31,4 @@ class TipoDocumentoPutSchema(BaseModel):
 
     @validator("tipo_documento")
     def tipo_documento_longitud_maxima(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)

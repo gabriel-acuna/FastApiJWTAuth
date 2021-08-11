@@ -1,5 +1,5 @@
 from fastapi import APIRouter, FastAPI
-from app.api.endpoints import auth, canton, discapacidad, etnia, nacionalidad, pais, provincia
+from app.api.endpoints import auth, canton, discapacidad, etnia, nacionalidad, pais, provincia, tipo_documento
 api_router = APIRouter()
 
 
@@ -20,6 +20,7 @@ api_router.include_router(canton.router, tags= ["cantones"])
 api_router.include_router(discapacidad.router, tags=["discapacidades"])
 api_router.include_router(etnia.router, tags=["etnias"])
 api_router.include_router(nacionalidad.router, tags=["nacionalidades"])
+api_router.include_router(tipo_documento.router, tags=["tipo documento"] )
 
 app = FastAPI(title="Sigac Unesum API", )
 

@@ -15,7 +15,7 @@ async def listar_nacionalidades():
 
 
 @router.get("/{id}", response_model=NacionalidadSchema)
-async def obtner_nacionalidad(id: str):
+async def obtener_nacionalidad(id: str):
     nacionalidad = await ServicioNacionalidad.buscar_por_id(id)
     if not nacionalidad:
         raise HTTPException(
