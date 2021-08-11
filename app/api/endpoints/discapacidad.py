@@ -1,3 +1,4 @@
+from app.api.messages import DELETE_SUCCESS_MSG, DELETE_WARNING_MSG, ERROR_MSG, POST_SUCCESS_MSG, PUT_SUCCESS_MSG, PUT_WARNING_MSG
 from app.schemas.Message import MessageSchema
 from typing import List
 from app.schemas.core.DiscapacidadSchema import DiscapacidadPostSchema, DiscapacidadPutSchema, DiscapacidadSchema
@@ -27,10 +28,10 @@ async def registar_discapacidad(response: Response, discapacidad: DiscapacidadPo
     if not existe:
         registrado = await ServicioDiscapacidad.agregar_registro(discapacidad=discapacidad)
         if registrado:
-            return MessageSchema(type="success", content="Se registró correctamente")
+            return MessageSchema(type="success", content=POST_SUCCESS_MSG)
 
         response.status_code = status.HTTP_409_CONFLICT
-        return MessageSchema(type="error", content="Algo salió mal intente otra vez")
+        return MessageSchema(type="error", content=ERROR_MSG)
     response.status_code = status.HTTP_202_ACCEPTED
     return MessageSchema(type="warning", content=f"La discapacidad {discapacidad.discapacidad} ya está resgistrada")
 
@@ -41,21 +42,22 @@ async def actualizar_discapacidad(response: Response, discapacidad: Discapacidad
     if existe:
         actualizado = await ServicioDiscapacidad.actualizar_registro(discapacidad)
         if actualizado:
-            return MessageSchema(type="success", content="Se actualizó correctamente")
+            return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 
         response.status_code = status.HTTP_409_CONFLICT
-        return MessageSchema(type="error", content="Algo salió mal intente otra vez")
+        return MessageSchema(type="error", content=ERROR_MSG)
     response.status_code = status.HTTP_202_ACCEPTED
-    return MessageSchema(type="warning", content=f"La actualización no se pudo completar")
+    return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}",response_model=MessageSchema)
-async def eliminar_registro(id: str, response:Response):
+@router.delete("/{id}", response_model=MessageSchema)
+async def eliminar_discapacidad(id: str, response: Response):
     discapacidad = await ServicioDiscapacidad.buscar_por_id(id)
     if discapacidad:
         eliminado = await ServicioDiscapacidad.eliminar_registro(id)
         if eliminado:
-            return MessageSchema(type="success", content="Se eliminó correctamente")
+            return MessageSchema(type="success", content=DELETE_SUCCESS_MSG)
+
         response.status_code = status.HTTP_409_CONFLICT
-        return MessageSchema(type="error", content="Algo salió mal intente otra vez")
-    return MessageSchema(type="warning", content="La eliminación no se pudo completar")
+        return MessageSchema(type="error", content=ERROR_MSG)
+    return MessageSchema(type="warning", content=DELETE_WARNING_MSG)

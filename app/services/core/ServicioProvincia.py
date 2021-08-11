@@ -14,7 +14,7 @@ class ServicioProvincia():
             for fila in filas:
                 provincias.append(ProvinciaSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepcion {ex}")
+            print(f"Ha ocurrido una excepción {ex}")
         return provincias
 
     @classmethod
@@ -22,7 +22,7 @@ class ServicioProvincia():
         try:
             return await Provincia.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepcion {ex}")
+            print(f"Ha ocurrido una excepción {ex}")
 
     @classmethod
     async def listar_cantones_por_provincia(cls, id_provincia: int):
@@ -32,5 +32,5 @@ class ServicioProvincia():
             for fila in filas:
                 cantones.append(CantonSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepcion {ex}")
+            print(f"Ha ocurrido una excepción {ex}")
         return cantones

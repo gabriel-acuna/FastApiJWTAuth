@@ -26,10 +26,10 @@ class EtniaPostSchema(BaseModel):
         }
 
 
-class EtniaPostSchema(BaseModel):
+class EtniaPutSchema(BaseModel):
     id: str = Field(...)
     etnia: str = Field(...)
 
     @validator('etnia')
     def etnia_longitud_maxima(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)

@@ -13,7 +13,7 @@ class ServicioPais:
             for fila in filas:
                 paises.append(PaisSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepcion {ex}")
+            print(f"Ha ocurrido una excepción {ex}")
         return paises
 
     @classmethod
@@ -21,4 +21,4 @@ class ServicioPais:
         try:
             return await Pais.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepcion {ex}")
+            print(f"Ha ocurrido una excepción {ex}")

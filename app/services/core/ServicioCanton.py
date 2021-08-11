@@ -15,7 +15,7 @@ class ServicioCanton():
                 cantones.append(CantonSchema(**fila[0].__dict__))
 
         except Exception as ex:
-            print(f"Ha ocurrido una excepcion {ex}")
+            print(f"Ha ocurrido una excepción {ex}")
         return cantones
 
     @classmethod
@@ -23,4 +23,4 @@ class ServicioCanton():
         try:
             return await Canton.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepcion {ex}")
+            print(f"Ha ocurrido una excepción {ex}")
