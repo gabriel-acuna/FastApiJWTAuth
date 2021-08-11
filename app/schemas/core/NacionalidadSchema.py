@@ -20,7 +20,7 @@ class NacionalidadPostSchema(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "nacionalidad": "AUDITIVA"
+                "nacionalidad": "TSACHILA"
             }
         }
 
@@ -31,4 +31,4 @@ class NacionalidadPutSchema(BaseModel):
 
     @validator('nacionalidad')
     def nacionalidad_longitud_maxima(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)

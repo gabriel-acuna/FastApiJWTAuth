@@ -1,4 +1,3 @@
-from app.api.endpoints import discapacidad
 from typing import List
 from app.models.core.modelos_principales import Etnia
 from app.schemas.core.EtniaSchema import EtniaSchema, EtniaPostSchema, EtniaPutSchema
