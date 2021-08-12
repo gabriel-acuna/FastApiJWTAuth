@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, validator
 from app.schemas.validaciones import longitud_maxima
 
 
-class TipoDocenteLOSEPost(BaseModel):
+class TipoDocenteLOESSchema(BaseModel):
     id: str
     tipo_docente: str
     registrado_en: datetime
@@ -31,4 +31,4 @@ class TipoDocenteLOESPutSchema(BaseModel):
 
     @validator("tipo_docente")
     def tipo_docente_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
