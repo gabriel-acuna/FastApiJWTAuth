@@ -4,7 +4,7 @@ from app.schemas.validaciones import longitud_maxima
 from pydantic import BaseModel, Field, validator
 
 
-class CategoriaContatoProfesorSchema(BaseModel):
+class CategoriaContratoProfesorSchema(BaseModel):
     id: str
     categoria_contrato: str
     registrado_en: datetime
@@ -32,4 +32,4 @@ class CategoriaContatoProfesorPutSchema(BaseModel):
 
     @validator("categoria_contrato")
     def categoria_contrato_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)

@@ -6,14 +6,14 @@ class ServicioRelacionIES():
     
     @classmethod
     async def listar(cls) -> List[RelacionIESSchema]:
-        documentos: List[TipoDocumentoSchema] = []
+        relaciones: List[RelacionIESSchema] = []
         try:
             filas = await RelacionIES.listar()
             for fila in filas:
-                documentos.append(RelacionIESSchema(**fila[0].__dict__))
+                relaciones.append(RelacionIESSchema(**fila[0].__dict__))
         except Exception as ex:
             print(f"Ha ocurrido una excepción {ex}")
-        return documentos
+        return relaciones
 
     @classmethod
     async def buscar_por_id(cls, id: str):

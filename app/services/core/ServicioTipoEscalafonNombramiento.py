@@ -7,14 +7,14 @@ class ServicioTipoEscalafonNombramiento():
 
     @classmethod
     async def listar(cls) -> List[TipoEscalafonNombramientoSchema]:
-        documentos: List[TipoDocumentoSchema] = []
+        esclafones: List[TipoEscalafonNombramientoSchema] = []
         try:
             filas = await TipoEscalafonNombramiento.listar()
             for fila in filas:
-                documentos.append(TipoEscalafonNombramientoSchema(**fila[0].__dict__))
+                esclafones.append(TipoEscalafonNombramientoSchema(**fila[0].__dict__))
         except Exception as ex:
             print(f"Ha ocurrido una excepción {ex}")
-        return documentos
+        return esclafones
 
     @classmethod
     async def buscar_por_id(cls, id: str):

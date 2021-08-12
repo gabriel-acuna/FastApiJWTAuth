@@ -23,7 +23,7 @@ async def obetner_relacion_ies(id: str):
 
 
 @router.post("/", response_model=MessageSchema, status_code=201)
-async def registrar_documento(response: Response, relacion_ies: RelacionIESPostSchema):
+async def registrar_relacion_ies(response: Response, relacion_ies: RelacionIESPostSchema):
     existe = await ServicioRelacionIES.existe(relacion=relacion_ies)
     if not existe:
         registrado = await ServicioRelacionIES.agregar_registro(relacion=relacion_ies)
@@ -36,7 +36,7 @@ async def registrar_documento(response: Response, relacion_ies: RelacionIESPostS
 
 
 @router.put("/", response_model=MessageSchema)
-async def actualizar_documento(response: Response, relacion_ies: RelacionIESPutSchema):
+async def actualizar_relacion_ies(response: Response, relacion_ies: RelacionIESPutSchema):
     existe = await ServicioRelacionIES.buscar_por_id(relacion_ies.id)
     if existe:
         actualizado = await ServicioRelacionIES.actualizar_registro(relacion_ies)
@@ -49,7 +49,7 @@ async def actualizar_documento(response: Response, relacion_ies: RelacionIESPutS
 
 
 @router.delete("/{id}", response_model=MessageSchema)
-async def eliminar_documento(id: str, response: Response):
+async def eliminar_relacion_ies(id: str, response: Response):
     documento = await ServicioRelacionIES.buscar_por_id(id)
     if documento:
         eliminado = await ServicioRelacionIES.eliminar_registro(id)
