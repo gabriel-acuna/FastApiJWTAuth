@@ -2,7 +2,7 @@ from decouple import config
 import socket
 from app.schemas.InfoIES import InfoIESSchema
 from fastapi import APIRouter, FastAPI
-from app.api.endpoints import auth, canton, discapacidad, etnia, nacionalidad
+from app.api.endpoints import auth, canton, discapacidad, etnia, nacionalidad, tiempo_dedicacion_profesor
 from app.api.endpoints import pais, provincia, tipo_documento, relacion_ies, tipo_escalafon_nombramiento
 api_router = APIRouter()
 
@@ -31,6 +31,8 @@ api_router.include_router(tipo_escalafon_nombramiento.router, tags=[
                           "Tipo escalafón nombramiento"])
 api_router.include_router(tipo_escalafon_nombramiento.router, tags=[
                           "Categoría contrato docente"])
+api_router.include_router(tiempo_dedicacion_profesor.router, tags=[
+                          "Tiempo dedicación profesor"])
 
 
 app = FastAPI(title="Sigac Unesum API", )

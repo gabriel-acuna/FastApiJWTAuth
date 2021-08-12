@@ -32,4 +32,4 @@ class TiempoDedicacionProfesorPutSchema(BaseModel):
 
     @validator("tiempo_dedicacion")
     def tiempo_dedicacion_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
