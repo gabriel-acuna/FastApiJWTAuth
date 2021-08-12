@@ -1,5 +1,5 @@
 from fastapi import APIRouter, FastAPI
-from app.api.endpoints import auth, canton, discapacidad, etnia, nacionalidad, pais, provincia, tipo_documento
+from app.api.endpoints import auth, canton, discapacidad, etnia,nacionalidad, pais, provincia, tipo_documento, relacion_ies
 api_router = APIRouter()
 
 
@@ -13,14 +13,15 @@ async def read_root() -> dict:
         "URL":"http://unesum.edu.ec/"
         }
 
-api_router.include_router(auth.router, tags=["auth"])
-api_router.include_router(pais.router, tags=["paises"])
-api_router.include_router(provincia.router, tags=["provincias"])
-api_router.include_router(canton.router, tags= ["cantones"])
-api_router.include_router(discapacidad.router, tags=["discapacidades"])
-api_router.include_router(etnia.router, tags=["etnias"])
-api_router.include_router(nacionalidad.router, tags=["nacionalidades"])
-api_router.include_router(tipo_documento.router, tags=["tipo documento"] )
+api_router.include_router(auth.router, tags=["Auth"])
+api_router.include_router(pais.router, tags=["Países"])
+api_router.include_router(provincia.router, tags=["Provincias"])
+api_router.include_router(canton.router, tags= ["Cantones"])
+api_router.include_router(discapacidad.router, tags=["Discapacidades"])
+api_router.include_router(etnia.router, tags=["Etnias"])
+api_router.include_router(nacionalidad.router, tags=["Nacionalidades"])
+api_router.include_router(tipo_documento.router, tags=["Tipo documento"] )
+api_router.include_router(relacion_ies.router, tags=["Relación IES"])
 
 app = FastAPI(title="Sigac Unesum API", )
 

@@ -31,4 +31,4 @@ class RelacionIESPutSchema(BaseModel):
 
     @validator('relacion')
     def relacion_longitud_maxima(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
