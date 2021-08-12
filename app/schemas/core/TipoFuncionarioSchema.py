@@ -25,10 +25,10 @@ class TipoFuncionarioPostSchema(BaseModel):
         }
 
 
-class TipoFuncionarioPostSchema(BaseModel):
+class TipoFuncionarioPutSchema(BaseModel):
     id: str = Field(...)
     tipo: str = Field(...)
 
     @validator("tipo")
     def tipo_funcionario_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)

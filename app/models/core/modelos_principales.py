@@ -113,7 +113,7 @@ class NivelEducativo(Base, OperacionesEscrituraAsinconas,
                             onupdate=func.current_timestamp())
 
 
-class TipoFuncioinario(Base, OperacionesEscrituraAsinconas,
+class TipoFuncionario(Base, OperacionesEscrituraAsinconas,
                        OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "tipo_funcionarios"
     id = Column(UUID, primary_key=True, index=True,
