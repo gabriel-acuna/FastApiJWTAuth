@@ -7,7 +7,7 @@ class NivelEducativoSchema(BaseModel):
     id: str
     nivel: str
     registrado_en: datetime
-    actualiado_en: datetime
+    actualizado_en: datetime
 
 
 class NivelEducativoPostSchema(BaseModel):
@@ -26,8 +26,9 @@ class NivelEducativoPostSchema(BaseModel):
 
 
 class NivelEducativoPutSchema(BaseModel):
+    id: str = Field(...)
     nivel: str = Field(...)
 
     @validator("nivel")
     def tiempo_dedicacion_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)
