@@ -31,4 +31,4 @@ class TipoEscalafonNombramientoPutSchema(BaseModel):
 
     @validator("escalafon_nombramiento")
     def escalafon_nombramiento_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        return longitud_maxima(50, value)

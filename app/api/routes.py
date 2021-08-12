@@ -1,5 +1,6 @@
 from fastapi import APIRouter, FastAPI
-from app.api.endpoints import auth, canton, discapacidad, etnia,nacionalidad, pais, provincia, tipo_documento, relacion_ies
+from app.api.endpoints import auth, canton, discapacidad, etnia,nacionalidad
+from app.api.endpoints import pais, provincia, tipo_documento, relacion_ies, tipo_escalafon_nombramiento
 api_router = APIRouter()
 
 
@@ -10,7 +11,9 @@ async def read_root() -> dict:
         "CODIGO_IES":1025,
         "PROVINCIA":"MANABÍ",
         "CANTÓN":"JIPIJAPA",
-        "URL":"http://unesum.edu.ec/"
+        "URL":"http://unesum.edu.ec/",
+        "documentacion": "/docs"
+
         }
 
 api_router.include_router(auth.router, tags=["Auth"])
@@ -22,7 +25,7 @@ api_router.include_router(etnia.router, tags=["Etnias"])
 api_router.include_router(nacionalidad.router, tags=["Nacionalidades"])
 api_router.include_router(tipo_documento.router, tags=["Tipo documento"] )
 api_router.include_router(relacion_ies.router, tags=["Relación IES"])
-
+api_router.include_router(tipo_escalafon_nombramiento.router, tags=["Tipo escalafón nombramiento"])
 app = FastAPI(title="Sigac Unesum API", )
 
 app.include_router(api_router)
