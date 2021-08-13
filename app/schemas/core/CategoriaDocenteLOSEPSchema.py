@@ -1,7 +1,7 @@
 from datetime import datetime
 from app.models.core.modelos_principales import CategoriaDocenteLOSEP
 from pydantic import BaseModel, Field, validator
-from app.schemas.validaciones import longitud_maxima
+from app.schemas.validaciones import es_alafanumerico, longitud_maxima
 
 
 class CategoriaDocenteLOSEPSchema(BaseModel):
@@ -16,20 +16,32 @@ class CategoriaDocenteLOSEPPostSchema(BaseModel):
 
     @validator("categoria_docente")
     def categoria_docente_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+        r = longitud_maxima(50, value,11)
+        if r and es_alafanumerico(value):
+            return value
 
     class Config:
         schema_extra = {
             "example": {
-                "tipo": "ADMINISTRATIVO"
+                "categoria_docente": "CATEGORIA 1"
             }
         }
 
 
-class CategoriaDocenteLOSEPPostSchema(BaseModel):
+class CategoriaDocenteLOSEPPutSchema(BaseModel):
     id: str = Field(...)
     categoria_docente: str = Field(...)
 
     @validator("categoria_docente")
     def categoria_docente_maxima_longitud(cls, value):
-        longitud_maxima(50, value)
+        r = longitud_maxima(50, value,11)
+        if r and es_alafanumerico(value):
+            return r
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "id":"",
+                "categoria_docente": ""
+            }
+        }

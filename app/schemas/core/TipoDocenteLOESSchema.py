@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, Field, validator
-from app.schemas.validaciones import longitud_maxima
+from app.schemas.validaciones import es_no_numerico, longitud_maxima
 
 
 class TipoDocenteLOESSchema(BaseModel):
@@ -14,13 +14,18 @@ class TipoDocenteLOESPostSchema(BaseModel):
     tipo_docente: str = Field(...)
 
     @validator("tipo_docente")
-    def tipo_docente_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+    def tipo_docente_validaciones(cls, value):
+        r  = longitud_maxima(50, value,7)
+        if  r and  not es_no_numerico(value) :
+            return value
 
+   
+
+    
     class Config:
         schema_extra = {
             "example": {
-                "tipo": "TECNICO DOCENTE"
+                "tipo_docente": "TECNICO DOCENTE"
             }
         }
 
@@ -30,5 +35,7 @@ class TipoDocenteLOESPutSchema(BaseModel):
     tipo_docente: str = Field(...)
 
     @validator("tipo_docente")
-    def tipo_docente_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+    def tipo_docente_validaciones(cls, value):
+        r  = longitud_maxima(50, value,7)
+        if  r and  not es_no_numerico(value):
+            return value
