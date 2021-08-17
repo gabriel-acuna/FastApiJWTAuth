@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, validator
 
 
 class PaisSchema(BaseModel):
-    id: str
+    id: int
     pais: str
     nacionalidad: str
     registrado_en: datetime

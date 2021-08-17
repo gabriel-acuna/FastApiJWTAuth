@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.schemas.validaciones import longitud_maxima
+from app.schemas.validaciones import es_no_numerico, longitud_maxima
 from pydantic import BaseModel, Field, validator
 
 
@@ -14,8 +14,10 @@ class DiscapacidadPostSchema(BaseModel):
     discapacidad: str = Field(...)
 
     @validator('discapacidad')
-    def discapacidad_longitud_maxima(cls, value):
-        return longitud_maxima(30, value)
+    def discapacidad_validaciones(cls, value):
+        r = longitud_maxima(30, value,5)
+        if r and not es_no_numerico(value):
+            return value
 
     class Config:
         schema_extra = {
@@ -31,4 +33,6 @@ class DiscapacidadPutSchema(BaseModel):
 
     @validator('discapacidad')
     def discapacidad_longitud_maxima(cls, value):
-        return longitud_maxima(30, value)
+        r = longitud_maxima(30, value,5)
+        if r and not es_no_numerico(value):
+            return value

@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from decouple import config
 from app.models import Base
-
+from sqlalchemy.pool import NullPool
 
 class AsyncDatabaseSession:
     def __init__(self):
@@ -16,6 +16,7 @@ class AsyncDatabaseSession:
         self._engine = create_async_engine(
             config("DATABASE_URL"),
             echo=True,
+            poolclass=NullPool
         )
 
         self._session = sessionmaker(
