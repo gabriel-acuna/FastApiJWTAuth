@@ -34,7 +34,7 @@ async def test_registrar_discapacidad_menor_a_longitud_máxima(test_app):
     assert resp.status_code == 422
     assert resp.json() ==  {'detail': [{'loc': ['body', 'discapacidad'], 'msg': 'Longitud máxima 30 caracteres', 'type': 'value_error'}]} 
 
-
+"""""
 @pytest.mark.asyncio
 async def test_registar_discapacidad_con_status_code_201(test_app):
     discapacidad = {'discapacidad':'FISICA MOTORA'}
@@ -43,7 +43,7 @@ async def test_registar_discapacidad_con_status_code_201(test_app):
     assert resp.json()=={'type':'success', 'content':'Registro exitoso'}
 
 
-""" @pytest.mark.asyncio
+@pytest.mark.asyncio
 async def test_registar_discapacidad_con_status_code_202(test_app):
     discapacidad = {'discapacidad':'FISICA MOTORA'}
     resp = await test_app.post(url='/discapacidades', json= discapacidad)

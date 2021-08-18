@@ -32,7 +32,7 @@ class Rol(Base, OperacionesEscrituraAsinconas,
     registrado_en = Column(TIMESTAMP, server_default=func.now())
     actualizado_en = Column(
         TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
-    usuario = relationship("CuentaUsuario", secondary=rol_usuario)
+    usuarios = relationship("CuentaUsuario", secondary=rol_usuario)
 
 
 class CuentaUsuario(Base, OperacionesEscrituraAsinconas,
@@ -42,13 +42,14 @@ class CuentaUsuario(Base, OperacionesEscrituraAsinconas,
     primer_nombre = Column(String(30), nullable=False)
     segundo_nombre = Column(String(30), nullable=False)
     primer_apellido = Column(String(30), nullable=False)
-    segundo_segundo = Column(String(30), nullable=False)
+    segundo_apellido = Column(String(30), nullable=False)
     email = Column(String, nullable=False)
     clave_encriptada = Column(String(), nullable=False)
     estado = Column(Boolean, default=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())
     actualizado_en = Column(
         TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
+    roles = relationship("Rol", secondary=rol_usuario, overlaps="usuarios")
 
 
 class TipoToken(enum.Enum):
