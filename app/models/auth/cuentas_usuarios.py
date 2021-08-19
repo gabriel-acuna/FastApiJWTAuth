@@ -1,4 +1,5 @@
 from sqlalchemy.dialects.postgresql.base import TIMESTAMP
+from sqlalchemy.sql.expression import select
 from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Enum
@@ -50,6 +51,7 @@ class CuentaUsuario(Base, OperacionesEscrituraAsinconas,
     actualizado_en = Column(
         TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
     roles = relationship("Rol", secondary=rol_usuario, overlaps="usuarios")
+
 
 
 class TipoToken(enum.Enum):

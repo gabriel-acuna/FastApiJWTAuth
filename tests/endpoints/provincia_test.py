@@ -11,8 +11,9 @@ async def test_listar_provincias(test_app):
 async def test_obtener_provincia(test_app):
     resp = await test_app.get("/provincias/1")
     assert resp.status_code == 200
-    assert resp.json() == {"id": 1, "provincia": "AZUAY",
-                           "registrado_en": "2021-08-10T11:02:49.604761", "actualizado_en": "2021-08-10T11:02:49.604761"}
+    provincia = resp.json()
+    assert provincia['id'] == 1
+    assert provincia['provincia'] == "AZUAY"
 
 
 @pytest.mark.asyncio

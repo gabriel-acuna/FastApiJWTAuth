@@ -12,7 +12,9 @@ async def test_listar_cantones(test_app):
 async def test_obtener_canton(test_app):
     resp = await test_app.get("/cantones/1")
     assert resp.status_code == 200
-    assert resp.json() == {"id": 1, "canton": "CUENCA", "provincia_id": "1"}
+    canton = resp.json()
+    assert canton['id'] == 1
+    assert canton['canton'] == "CUENCA"
 
 
 @pytest.mark.asyncio

@@ -7,7 +7,7 @@ Create Date: 2021-08-18 14:12:20.994952
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.sql.expression import select, delete, text
+from sqlalchemy.sql.expression import select, delete
 from app.models.auth.cuentas_usuarios import Rol, CuentaUsuario
 from sqlalchemy.orm.session import Session
 from decouple import config 
