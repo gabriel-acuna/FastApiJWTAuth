@@ -36,9 +36,10 @@ api_router.include_router(tiempo_dedicacion_profesor.router, tags=[
 api_router.include_router(nivel_educativo.router, tags=["Nivel educativo"])
 api_router.include_router(tipo_funcionario.router, tags=["Tipo funcionario"])
 api_router.include_router(tipo_docente_loes.router, tags=["Tipo docente LOES"])
-api_router.include_router(categoria_docente_losep.router, tags=["Categoría docente LOSEP"])
+api_router.include_router(categoria_docente_losep.router, tags=[
+                          "Categoría docente LOSEP"])
 
-app = FastAPI(title="SIGAC UNESUM API", 
-description="REST APi para el Sistema de Gestión de Aseguramiento de la Calidad de la Universidad Estatal del Sur de Manabí")
+app = FastAPI(title="SIGAC UNESUM API",
+              description="REST APi para el Sistema de Gestión de Aseguramiento de la Calidad de la Universidad Estatal del Sur de Manabí")
 
 app.include_router(api_router)

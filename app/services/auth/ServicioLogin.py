@@ -1,12 +1,11 @@
 from typing import Optional
-
 from sqlalchemy.sql.expression import select
-
-
 from app.models.auth.cuentas_usuarios import CuentaUsuario, Rol, TipoToken, rol_usuario
 from app.schemas.auth.UserLoginSchema import UserLoginSchema
 import bcrypt
 from app.database.conf import async_db_session
+
+
 class ServicioLogin():
 
     @classmethod
@@ -24,7 +23,12 @@ class ServicioLogin():
         return bcrypt.checkpw(b'{clave}', b'{clave_encriptada}')
 
     @classmethod
-    async def obtner_roles(str:id):
-        pass
-        
-    
+    async def obtener_roles(cls, id:str):
+        roles = []
+        await async_db_session.init()
+        result = await async_db_session.execute(
+            '''SELECT r.rol FROM roles_usuarios ru INNER JOIN roles
+             r ON ru.rol_id=r.id WHERE ru.usuario_id = :usuario_id''', {'usuario_id': id} )
+        for fila in result:
+            roles.append(fila[0])
+        return roles
