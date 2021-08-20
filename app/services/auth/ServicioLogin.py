@@ -20,7 +20,7 @@ class ServicioLogin():
 
     @classmethod
     async def verificar_clave(cls, clave: str, clave_encriptada: str) -> bool:
-        return bcrypt.checkpw(b'{clave}', b'{clave_encriptada}')
+        return bcrypt.checkpw(clave.encode(), clave_encriptada.encode())
 
     @classmethod
     async def obtener_roles(cls, id:str):
@@ -36,4 +36,4 @@ class ServicioLogin():
         except Exception as ex:
             print(f"Ha ocurrido una excepción {ex}")
         finally:
-            async_db_session.close()
+           await async_db_session.close()

@@ -9,6 +9,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text
 from app.models.async_crud import OperacionesEscrituraAsinconas, EliminacionAsincrona, OperacionesLecturaAsincronas
 import enum
+import bcrypt
 
 """ 
     Autor: Ing. Gabriel Acuña
@@ -52,6 +53,10 @@ class CuentaUsuario(Base, OperacionesEscrituraAsinconas,
         TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
     roles = relationship("Rol", secondary=rol_usuario, overlaps="usuarios")
 
+    @classmethod
+    def cifrar_clave(cls, clave):
+        password = bcrypt.hashpw(clave.encode(), bcrypt.gensalt())
+        return password.decode('utf-8')
 
 
 class TipoToken(enum.Enum):

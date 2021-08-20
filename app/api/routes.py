@@ -40,6 +40,7 @@ api_router.include_router(core.categoria_docente_losep.router, tags=[
                           "Categoría docente LOSEP"])
 
 app = FastAPI(title="SIGAC UNESUM API",
-              description="REST APi para el Sistema de Gestión de Aseguramiento de la Calidad de la Universidad Estatal del Sur de Manabí")
+              description='''REST APi para el Sistema de Gestión de Aseguramiento
+                    de la Calidad de la Universidad Estatal del Sur de Manabí''')
 
 app.include_router(api_router)

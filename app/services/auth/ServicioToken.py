@@ -15,7 +15,7 @@ JWT_ALGORITHM = config("algorithm")
 class ServicioToken():
 
     @classmethod
-    async def agregar_registro(**kwargs) -> bool:
+    async def agregar_registro(cls, **kwargs) -> bool:
         try:
             return await TokenAutorizacion.crear(
                 tipo_token=kwargs['tipo_token'],
@@ -27,16 +27,10 @@ class ServicioToken():
             print(f"Ha ocurrido una excepción {ex}")
 
     @classmethod
-    async def actualizar_registro(**kwargs) -> bool:
+    async def actualizar_registro(cls, token_id: str) -> bool:
         try:
-            token: TokenAutorizacion
-            resp = await TokenAutorizacion.filtarPor(token=kwargs['token'])
-            if resp:
-                token = resp[0][0]
-                token.estado = False
-                token.usado_hasta = datetime.now(0)
-                return await TokenAutorizacion.actualizar(
-                    id=token.id, estado=token.estado, usado_hasta=token.usado_hasta)
+            return await TokenAutorizacion.actualizar(
+                id=token_id, estado=False, usado_hasta=datetime.now())
         except Exception as ex:
             print(f"Ha ocurrido una excepción {ex}")
 
@@ -44,18 +38,22 @@ class ServicioToken():
     def firmar_token(cls, user:  Dict[str, Any]) -> Dict[str, str]:
         payload = {
             "user": user,
-            "expires": time.time() + 600
+            "expires": time.time() + 300
         }
         token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
         return token
 
     @classmethod
-    def decodificar_token(cls, token: str) -> dict:
+    async def decodificar_token(cls, token: str, token_id: str) -> dict:
         try:
             decoded_token = jwt.decode(
                 token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-            return decoded_token if decoded_token["expires"] >= time.time() else None
+            if decoded_token["expires"] >= time.time():
+                return decoded_token
+            else:
+                await ServicioToken.actualizar_registro(token_id)
+                return None
         except:
             return {}
 
@@ -70,7 +68,8 @@ class JWTBearer(HTTPBearer):
             if not credentials.scheme == "Bearer":
                 raise HTTPException(
                     status_code=403, detail="Invalid authentication scheme.")
-            if not self.verificar_jwt_jwt(credentials.credentials):
+            token_valido = await self.verificar_jwt(credentials.credentials)
+            if not token_valido:
                 raise HTTPException(
                     status_code=403, detail="Invalid token or expired token.")
             return credentials.credentials
@@ -78,11 +77,13 @@ class JWTBearer(HTTPBearer):
             raise HTTPException(
                 status_code=403, detail="Invalid authorization code.")
 
-    def verificar_jwt(self, jwtoken: str) -> bool:
+    async def verificar_jwt(self, jwtoken: str) -> bool:
         isTokenValid: bool = False
 
         try:
-            payload = ServicioToken.decodificar_token(jwtoken)
+            token =  await TokenAutorizacion.filtarPor(token=jwtoken)
+            if token and token[0][0].estado == True:
+                payload = await ServicioToken.decodificar_token(jwtoken , token[0][0].id)
         except:
             payload = None
         if payload:

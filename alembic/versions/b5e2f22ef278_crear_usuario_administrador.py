@@ -38,7 +38,7 @@ def upgrade():
     usuario.segundo_nombre = config("ADMIN_NAME2")
     usuario.primer_apellido = config("ADMIN_LASTNAME1")
     usuario.segundo_apellido = config("ADMIN_LASTNAME2")
-    usuario.clave_encriptada = (bcrypt.hashpw(b"{config('ADMIN_PASSP}", bcrypt.gensalt())).decode("utf-8")
+    usuario.clave_encriptada = CuentaUsuario.cifrar_clave(config('ADMIN_PASS'))
     
     usuario.roles = [r[0]]
     session.add(usuario)

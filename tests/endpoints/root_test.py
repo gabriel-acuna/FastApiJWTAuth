@@ -5,7 +5,7 @@ import socket
 
 @pytest.mark.asyncio
 async def test_root(test_app):
-    resp =  await test_app.get("/")
+    resp =  await test_app[0].get("/")
     assert resp.status_code == 200
     assert resp.json() == {"ies":"UNIVERSIDAD ESTATAL DEL SUR DE MANABÍ",
         "codigo_ies":1025,
