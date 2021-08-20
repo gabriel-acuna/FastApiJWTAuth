@@ -25,10 +25,15 @@ class ServicioLogin():
     @classmethod
     async def obtener_roles(cls, id:str):
         roles = []
-        await async_db_session.init()
-        result = await async_db_session.execute(
-            '''SELECT r.rol FROM roles_usuarios ru INNER JOIN roles
-             r ON ru.rol_id=r.id WHERE ru.usuario_id = :usuario_id''', {'usuario_id': id} )
-        for fila in result:
-            roles.append(fila[0])
-        return roles
+        try:
+            await async_db_session.init()
+            result = await async_db_session.execute(
+                '''SELECT r.rol FROM roles_usuarios ru INNER JOIN roles
+                r ON ru.rol_id=r.id WHERE ru.usuario_id = :usuario_id''', {'usuario_id': id} )
+            for fila in result:
+                roles.append(fila[0])
+            return roles
+        except Exception as ex:
+            print(f"Ha ocurrido una excepción {ex}")
+        finally:
+            async_db_session.close()
