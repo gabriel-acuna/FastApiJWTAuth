@@ -8,7 +8,6 @@ from fastapi import Request, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 
-
 JWT_SECRET = config("secret")
 JWT_ALGORITHM = config("algorithm")
 
@@ -41,10 +40,8 @@ class ServicioToken():
         except Exception as ex:
             print(f"Ha ocurrido una excepción {ex}")
 
-
-
     @classmethod
-    def firmar_token(cls,user:  Dict[str, Any]) -> Dict[str, str]:
+    def firmar_token(cls, user:  Dict[str, Any]) -> Dict[str, str]:
         payload = {
             "user": user,
             "expires": time.time() + 600
@@ -71,12 +68,15 @@ class JWTBearer(HTTPBearer):
         credentials: HTTPAuthorizationCredentials = await super(JWTBearer, self).__call__(request)
         if credentials:
             if not credentials.scheme == "Bearer":
-                raise HTTPException(status_code=403, detail="Invalid authentication scheme.")
+                raise HTTPException(
+                    status_code=403, detail="Invalid authentication scheme.")
             if not self.verificar_jwt_jwt(credentials.credentials):
-                raise HTTPException(status_code=403, detail="Invalid token or expired token.")
+                raise HTTPException(
+                    status_code=403, detail="Invalid token or expired token.")
             return credentials.credentials
         else:
-            raise HTTPException(status_code=403, detail="Invalid authorization code.")
+            raise HTTPException(
+                status_code=403, detail="Invalid authorization code.")
 
     def verificar_jwt(self, jwtoken: str) -> bool:
         isTokenValid: bool = False
