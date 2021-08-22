@@ -3,18 +3,19 @@ from app.schemas.Message import MessageSchema
 from typing import List
 from app.schemas.core.EtniaSchema import EtniaSchema, EtniaPostSchema, EtniaPutSchema
 from app.services.core.ServicioEtnia import ServicioEtnia
-from fastapi import APIRouter, HTTPException, Body, Response, status
+from fastapi import APIRouter, HTTPException, Body, Response, status, Depends
+from app.services.auth import ServicioToken
 
 
 router = APIRouter(prefix="/etnias")
 
 
-@router.get("/", response_model=List[EtniaPutSchema])
+@router.get("/", response_model=List[EtniaPutSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_etnias():
     return await ServicioEtnia.listar()
 
 
-@router.get("/{id}", response_model=EtniaSchema)
+@router.get("/{id}", response_model=EtniaSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_etnia(id: str):
     etnia = await ServicioEtnia.buscar_por_id(id)
     if not etnia:
@@ -22,7 +23,7 @@ async def obtener_etnia(id: str):
     return EtniaSchema(**etnia[0].__dict__)
 
 
-@router.post("/", response_model=MessageSchema, status_code=201)
+@router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registrar_etnia(response: Response, etnia: EtniaPostSchema = Body(...)):
     existe = await ServicioEtnia.existe(etnia=etnia)
     if not existe:
@@ -35,7 +36,7 @@ async def registrar_etnia(response: Response, etnia: EtniaPostSchema = Body(...)
     return MessageSchema(type="warning", content=f"La etnia {etnia.etnia} ya está resgistrada")
 
 
-@router.put("/", response_model=MessageSchema)
+@router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_etnia(response: Response, etnia: EtniaPutSchema):
     existe = await ServicioEtnia.buscar_por_id(etnia.id)
     if existe:
@@ -49,7 +50,7 @@ async def actualizar_etnia(response: Response, etnia: EtniaPutSchema):
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}", response_model=MessageSchema)
+@router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def eliminar_etnia(id: str, response: Response):
     etnia = await ServicioEtnia.buscar_por_id(id)
     if etnia:

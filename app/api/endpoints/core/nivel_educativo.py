@@ -1,21 +1,22 @@
 from app.schemas.core.NivelEducativoSchema import NivelEducativoSchema
 from app.services.core.ServicioNivelEducativo import ServicioNivelEducativo
 from typing import List
-from fastapi import APIRouter, HTTPException, Response, status
+from fastapi import APIRouter, HTTPException, Response, status, Depends
 from app.schemas.core.NivelEducativoSchema import *
 from app.schemas.Message import MessageSchema
 from app.api.messages import *
+from app.services.auth import ServicioToken
 
 
 router = APIRouter(prefix="/niveles-educativos")
 
 
-@router.get("/", response_model=List[NivelEducativoSchema])
+@router.get("/", response_model=List[NivelEducativoSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_niveles_educativos():
     return await ServicioNivelEducativo.listar()
 
 
-@router.get("/{id}", response_model=NivelEducativoSchema)
+@router.get("/{id}", response_model=NivelEducativoSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_nivel_educativo(id: str):
     nacionalidad = await ServicioNivelEducativo.buscar_por_id(id)
     if not nacionalidad:
@@ -25,7 +26,7 @@ async def obtener_nivel_educativo(id: str):
     return NivelEducativoSchema(**nacionalidad[0].__dict__)
 
 
-@router.post("/", response_model=MessageSchema, status_code=201)
+@router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registrar_nivel_educativo(response: Response, nivel: NivelEducativoPostSchema):
     existe = await ServicioNivelEducativo.existe(nivel=nivel)
     if not existe:
@@ -38,7 +39,7 @@ async def registrar_nivel_educativo(response: Response, nivel: NivelEducativoPos
     return MessageSchema(type="warning", content=f"EL nivel educativo {nivel.nivel} ya está registrado")
 
 
-@router.put("/", response_model=MessageSchema)
+@router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_nivel_educativo(response: Response, nivel: NivelEducativoPutSchema):
     existe = await ServicioNivelEducativo.buscar_por_id(nivel.id)
     if existe:
@@ -51,7 +52,7 @@ async def actualizar_nivel_educativo(response: Response, nivel: NivelEducativoPu
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}", response_model=MessageSchema)
+@router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def eliminar_nivel_educativo(id: str, response: Response):
     nacionalidad = await ServicioNivelEducativo.buscar_por_id(id)
     if nacionalidad:

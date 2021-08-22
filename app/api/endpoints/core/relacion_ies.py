@@ -1,18 +1,20 @@
 from app.services.core.ServicioRelacionIES import ServicioRelacionIES
 from typing import List
-from fastapi import APIRouter, HTTPException, Response, status
+from fastapi import APIRouter, HTTPException, Response, status, Depends
 from app.schemas.Message import MessageSchema
 from app.schemas.core.RelacionIESSchema import *
 from app.api.messages import *
+from app.services.auth import ServicioToken
+
 
 router = APIRouter(prefix="/relaciones-ies")
 
-@router.get("/", response_model=List[RelacionIESSchema])
+@router.get("/", response_model=List[RelacionIESSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_relaciones_ies():
     return await ServicioRelacionIES.listar()
 
 
-@router.get("/{id}", response_model=RelacionIESSchema)
+@router.get("/{id}", response_model=RelacionIESSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obetner_relacion_ies(id: str):
     documento = await ServicioRelacionIES.buscar_por_id(id)
     if not documento:
@@ -22,7 +24,7 @@ async def obetner_relacion_ies(id: str):
     return RelacionIESSchema(**documento[0].__dict__)
 
 
-@router.post("/", response_model=MessageSchema, status_code=201)
+@router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registrar_relacion_ies(response: Response, relacion_ies: RelacionIESPostSchema):
     existe = await ServicioRelacionIES.existe(relacion=relacion_ies)
     if not existe:
@@ -35,7 +37,7 @@ async def registrar_relacion_ies(response: Response, relacion_ies: RelacionIESPo
     return MessageSchema(type="warning", content=f"La relación IES {relacion_ies.relacion} ya está resgistrada")
 
 
-@router.put("/", response_model=MessageSchema)
+@router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_relacion_ies(response: Response, relacion_ies: RelacionIESPutSchema):
     existe = await ServicioRelacionIES.buscar_por_id(relacion_ies.id)
     if existe:
@@ -48,7 +50,7 @@ async def actualizar_relacion_ies(response: Response, relacion_ies: RelacionIESP
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}", response_model=MessageSchema)
+@router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def eliminar_relacion_ies(id: str, response: Response):
     documento = await ServicioRelacionIES.buscar_por_id(id)
     if documento:

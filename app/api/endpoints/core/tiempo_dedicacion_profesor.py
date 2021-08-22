@@ -1,20 +1,21 @@
 from app.services.core.ServicioTiempoDedicacion import ServicioTiempoDedicacionProfesor
 from typing import List
-from fastapi import APIRouter, HTTPException, Response, status
+from fastapi import APIRouter, HTTPException, Response, status, Depends
 from app.schemas.core.TiempoDedicacionProfesorSchema import *
 from app.schemas.Message import MessageSchema
 from app.api.messages import *
+from app.services.auth import ServicioToken
 
 
 router = APIRouter(prefix="/tiempos-dedicaciones-profesores")
 
 
-@router.get("/", response_model=List[TiempoDedicacionProfesorSchema])
+@router.get("/", response_model=List[TiempoDedicacionProfesorSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_tiempos_dedicaciones():
     return await ServicioTiempoDedicacionProfesor.listar()
 
 
-@router.get("/{id}", response_model=TiempoDedicacionProfesorSchema)
+@router.get("/{id}", response_model=TiempoDedicacionProfesorSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obetner_tiempo_dedicacion(id: str):
     documento = await ServicioTiempoDedicacionProfesor.buscar_por_id(id)
     if not documento:
@@ -24,7 +25,7 @@ async def obetner_tiempo_dedicacion(id: str):
     return TiempoDedicacionProfesorSchema(**documento[0].__dict__)
 
 
-@router.post("/", response_model=MessageSchema, status_code=201)
+@router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registrar_tiempo_dedicacion(response: Response, dedicacion: TiempoDedicacionProfesorPostSchema):
     existe = await ServicioTiempoDedicacionProfesor.existe(dedicacion=dedicacion)
     if not existe:
@@ -37,7 +38,7 @@ async def registrar_tiempo_dedicacion(response: Response, dedicacion: TiempoDedi
     return MessageSchema(type="warning", content=f"El tiempo de dedicación profesor {dedicacion.tiempo_dedicacion} ya está resgistrado")
 
 
-@router.put("/", response_model=MessageSchema)
+@router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_tiempo_dedicacion(response: Response, dedicacion: TiempoDedicacionProfesorPutSchema):
     existe = await ServicioTiempoDedicacionProfesor.buscar_por_id(dedicacion.id)
     if existe:
@@ -50,7 +51,7 @@ async def actualizar_tiempo_dedicacion(response: Response, dedicacion: TiempoDed
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}", response_model=MessageSchema)
+@router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def eliminar_tiempo_dedicacion(id: str, response: Response):
     documento = await ServicioTiempoDedicacionProfesor.buscar_por_id(id)
     if documento:

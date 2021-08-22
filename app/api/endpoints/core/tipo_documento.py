@@ -1,20 +1,21 @@
 from app.services.core.ServicioTipoDocumento import ServicioTipoDocumento
 from typing import List
-from fastapi import APIRouter, HTTPException, Response, status
+from fastapi import APIRouter, HTTPException, Response, status, Depends
 from app.schemas.core.TipoDocumentoSchema import *
 from app.schemas.Message import MessageSchema
 from app.api.messages import *
+from app.services.auth import ServicioToken
 
 
 router = APIRouter(prefix="/tipos-documentos")
 
 
-@router.get("/", response_model=List[TipoDocumentoSchema])
+@router.get("/", response_model=List[TipoDocumentoSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_documentos():
     return await ServicioTipoDocumento.listar()
 
 
-@router.get("/{id}", response_model=TipoDocumentoSchema)
+@router.get("/{id}", response_model=TipoDocumentoSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obetner_documento(id: str):
     documento = await ServicioTipoDocumento.buscar_por_id(id)
     if not documento:
@@ -24,7 +25,7 @@ async def obetner_documento(id: str):
     return TipoDocumentoSchema(**documento[0].__dict__)
 
 
-@router.post("/", response_model=MessageSchema, status_code=201)
+@router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registrar_documento(response: Response, documento: TipoDocumentoPostSchema):
     existe = await ServicioTipoDocumento.existe(documento=documento)
     if not existe:
@@ -37,7 +38,7 @@ async def registrar_documento(response: Response, documento: TipoDocumentoPostSc
     return MessageSchema(type="warning", content=f"El tipo de documento {documento.tipo_documento} ya está resgistrado")
 
 
-@router.put("/", response_model=MessageSchema)
+@router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_documento(response: Response, documento: TipoDocumentoPutSchema):
     existe = await ServicioTipoDocumento.buscar_por_id(documento.id)
     if existe:
@@ -50,7 +51,7 @@ async def actualizar_documento(response: Response, documento: TipoDocumentoPutSc
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}", response_model=MessageSchema)
+@router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def eliminar_documento(id: str, response: Response):
     documento = await ServicioTipoDocumento.buscar_por_id(id)
     if documento:

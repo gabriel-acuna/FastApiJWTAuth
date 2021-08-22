@@ -1,20 +1,21 @@
 from app.services.core.ServicioTipoEscalafonNombramiento import ServicioTipoEscalafonNombramiento
 from typing import List
-from fastapi import APIRouter, HTTPException, Response, status
+from fastapi import APIRouter, HTTPException, Response, status, Depends
 from app.schemas.core.TipoEscalafonNombramientoSchema import *
 from app.schemas.Message import MessageSchema
 from app.api.messages import *
+from app.services.auth import ServicioToken
 
 
 router = APIRouter(prefix="/tipos-escalafones-nombramientos")
 
 
-@router.get("/", response_model=List[TipoEscalafonNombramientoSchema])
+@router.get("/", response_model=List[TipoEscalafonNombramientoSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_tipos_escalafones_nombramientos():
     return await ServicioTipoEscalafonNombramiento.listar()
 
 
-@router.get("/{id}", response_model=TipoEscalafonNombramientoSchema)
+@router.get("/{id}", response_model=TipoEscalafonNombramientoSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obetner_tipo_esclafon_nombramiento(id: str):
     documento = await ServicioTipoEscalafonNombramiento.buscar_por_id(id)
     if not documento:
@@ -24,7 +25,7 @@ async def obetner_tipo_esclafon_nombramiento(id: str):
     return TipoEscalafonNombramientoSchema(**documento[0].__dict__)
 
 
-@router.post("/", response_model=MessageSchema, status_code=201)
+@router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registrar_tipo_escalafon_nombramiento(response: Response, tipo_escalafon: TipoEscalafonNombramientoPostSchema):
     existe = await ServicioTipoEscalafonNombramiento.existe(tipo_escalafon=tipo_escalafon)
     if not existe:
@@ -37,7 +38,7 @@ async def registrar_tipo_escalafon_nombramiento(response: Response, tipo_escalaf
     return MessageSchema(type="warning", content=f"El tipo de escalafón nombramiento {tipo_escalafon.escalafon_nombramiento} ya está resgistrado")
 
 
-@router.put("/", response_model=MessageSchema)
+@router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_tipo_escalafon_nombramiento(response: Response, tipo_escalafon: TipoEscalafonNombramientoPutSchema):
     existe = await ServicioTipoEscalafonNombramiento.buscar_por_id(tipo_escalafon.id)
     if existe:
@@ -50,7 +51,7 @@ async def actualizar_tipo_escalafon_nombramiento(response: Response, tipo_escala
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}", response_model=MessageSchema)
+@router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def eliminar_tipo_escalafon_nombramiento(id: str, response: Response):
     documento = await ServicioTipoEscalafonNombramiento.buscar_por_id(id)
     if documento:

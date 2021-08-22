@@ -3,17 +3,18 @@ from app.schemas.Message import MessageSchema
 from typing import List
 from app.schemas.core.DiscapacidadSchema import DiscapacidadPostSchema, DiscapacidadPutSchema, DiscapacidadSchema
 from app.services.core.ServicioDiscapacidad import ServicioDiscapacidad
-from fastapi import APIRouter, HTTPException, Body, Response, status
+from fastapi import APIRouter, HTTPException, Body, Response, status, Depends
+from app.services.auth import ServicioToken
 
 router = APIRouter(prefix="/discapacidades")
 
 
-@router.get("/", response_model=List[DiscapacidadSchema])
+@router.get("/", response_model=List[DiscapacidadSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_discapacidades():
     return await ServicioDiscapacidad.listar()
 
 
-@router.get("/{id}", response_model=DiscapacidadSchema)
+@router.get("/{id}", response_model=DiscapacidadSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_discapacidad(id: str):
     discapacidad = await ServicioDiscapacidad.buscar_por_id(id)
     if not discapacidad:
@@ -22,7 +23,7 @@ async def obtener_discapacidad(id: str):
     return DiscapacidadSchema(**discapacidad[0].__dict__)
 
 
-@router.post("/", response_model=MessageSchema, status_code=201)
+@router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registar_discapacidad(response: Response, discapacidad: DiscapacidadPostSchema = Body(...)):
     existe = await ServicioDiscapacidad.existe(discapacidad=discapacidad)
     if not existe:
@@ -36,7 +37,7 @@ async def registar_discapacidad(response: Response, discapacidad: DiscapacidadPo
     return MessageSchema(type="warning", content=f"La discapacidad {discapacidad.discapacidad} ya está resgistrada")
 
 
-@router.put("/", response_model=MessageSchema)
+@router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_discapacidad(response: Response, discapacidad: DiscapacidadPutSchema = Body(...)):
     existe = await ServicioDiscapacidad.buscar_por_id(str(discapacidad.id))
     if existe:
@@ -50,7 +51,7 @@ async def actualizar_discapacidad(response: Response, discapacidad: Discapacidad
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
 
 
-@router.delete("/{id}", response_model=MessageSchema)
+@router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def eliminar_discapacidad(id: str, response: Response):
     discapacidad = await ServicioDiscapacidad.buscar_por_id(id)
     if discapacidad:
