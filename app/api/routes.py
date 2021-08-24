@@ -6,18 +6,6 @@ from app.api.endpoints.auth import auth
 import app.api.endpoints.core as core
 api_router = APIRouter()
 
-
-@api_router.get("/", tags=["root"], response_model=InfoIESSchema)
-async def info_ies() -> dict:
-    return InfoIESSchema(
-        ies="UNIVERSIDAD ESTATAL DEL SUR DE MANABÍ",
-        codigo_ies=1025,
-        provincia="MANABÍ",
-        canton="JIPIJAPA",
-        url="http://unesum.edu.ec/",
-        documentacion_api=f"http://{socket.gethostname()}:{config('PORT')}/redoc")
-
-
 api_router.include_router(auth.router, tags=["Auth"])
 api_router.include_router(core.pais.router, tags=["Países"])
 api_router.include_router(core.provincia.router, tags=["Provincias"])
@@ -30,7 +18,7 @@ api_router.include_router(core.relacion_ies.router, tags=["Relación IES"])
 api_router.include_router(core.tipo_escalafon_nombramiento.router, tags=[
                           "Tipo escalafón nombramiento"])
 api_router.include_router(core.categoria_contrato_profesor.router, tags=[
-                          "Categoría contrato docente"])
+                          "Categoría contrato profesor"])
 api_router.include_router(core.tiempo_dedicacion_profesor.router, tags=[
                           "Tiempo dedicación profesor"])
 api_router.include_router(core.nivel_educativo.router, tags=["Nivel educativo"])
@@ -42,5 +30,16 @@ api_router.include_router(core.categoria_docente_losep.router, tags=[
 app = FastAPI(title="SIGAC UNESUM API",
               description='''REST APi para el Sistema de Gestión de Aseguramiento
                     de la Calidad de la Universidad Estatal del Sur de Manabí''')
+                    
+@app.get("/", tags=["root"], response_model=InfoIESSchema)
+async def info_ies() -> dict:
+    return InfoIESSchema(
+        ies="UNIVERSIDAD ESTATAL DEL SUR DE MANABÍ",
+        codigo_ies=1025,
+        provincia="MANABÍ",
+        canton="JIPIJAPA",
+        url="http://unesum.edu.ec/",
+        documentacion_api=f"http://{socket.gethostname()}:{config('PORT')}/redoc")
 
-app.include_router(api_router)
+app.include_router(api_router, prefix='/api')
+

@@ -10,6 +10,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 JWT_SECRET = config("secret")
 JWT_ALGORITHM = config("algorithm")
+JWT_TIME = config("jwt_time")
 
 
 class ServicioToken():
@@ -38,7 +39,7 @@ class ServicioToken():
     def firmar_token(cls, user:  Dict[str, Any]) -> Dict[str, str]:
         payload = {
             "user": user,
-            "expires": time.time() + 300
+            "expires": time.time() + int(JWT_TIME)
         }
         token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
