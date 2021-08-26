@@ -44,4 +44,4 @@ async def user_login(user: UserLoginSchema = Body(...)):
                 return TokenSchema(token=token, type=TipoToken.acceso.value)
 
     raise HTTPException(
-        status_code=400, detail="Credenciales incorecctas, la clave o el usuario no son correctos")
+        status_code=400, detail="Credenciales incorrectas, la clave o el usuario no son correctos")

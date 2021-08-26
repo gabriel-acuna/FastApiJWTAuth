@@ -4,6 +4,9 @@ from app.schemas.InfoIES import InfoIESSchema
 from fastapi import APIRouter, FastAPI
 from app.api.endpoints.auth import auth
 import app.api.endpoints.core as core
+from starlette.middleware.cors import CORSMiddleware
+
+
 api_router = APIRouter()
 
 api_router.include_router(auth.router, tags=["Auth"])
@@ -41,5 +44,17 @@ async def info_ies() -> dict:
         url="http://unesum.edu.ec/",
         documentacion_api=f"http://{socket.gethostname()}:{config('PORT')}/redoc")
 
-app.include_router(api_router, prefix='/api')
 
+
+# CORS
+if config('BACKEND_CORS_ORIGINS'):
+        
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[origin for origin in config('BACKEND_CORS_ORIGINS').split()],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+app.include_router(api_router, prefix='/api')
