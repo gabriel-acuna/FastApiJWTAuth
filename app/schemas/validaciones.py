@@ -19,10 +19,8 @@ def es_alafanumerico(value:str):
     return res
 def es_no_numerico(value:str):
     value = value.strip()
-
     res = value.isnumeric()
-    print(res)
-    if res:
+    if res or not value.isalpha():
         raise ValueError(f"No debe contener números")
     return res
 
