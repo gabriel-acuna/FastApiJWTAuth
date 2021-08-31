@@ -16,7 +16,7 @@ class TipoDocenteLOESPostSchema(BaseModel):
     @validator("tipo_docente")
     def tipo_docente_validaciones(cls, value):
         r  = longitud_maxima(50, value,7)
-        if  r and  not es_no_numerico(value) :
+        if  r and  es_no_numerico(value) :
             return value
 
    
@@ -37,5 +37,5 @@ class TipoDocenteLOESPutSchema(BaseModel):
     @validator("tipo_docente")
     def tipo_docente_validaciones(cls, value):
         r  = longitud_maxima(50, value,7)
-        if  r and  not es_no_numerico(value):
+        if  r and  es_no_numerico(value):
             return value

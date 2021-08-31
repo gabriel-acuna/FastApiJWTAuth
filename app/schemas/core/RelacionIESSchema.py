@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.schemas.validaciones import longitud_maxima
+from app.schemas.validaciones import es_no_numerico, longitud_maxima
 from pydantic import BaseModel, Field, validator
 
 
@@ -15,7 +15,10 @@ class RelacionIESPostSchema(BaseModel):
 
     @validator('relacion')
     def relacion_longitud_maxima(cls, value):
-        return longitud_maxima(50, value)
+        r = longitud_maxima(30, value,8)
+        if r and es_no_numerico(value):
+            return value
+        
 
     class Config:
         schema_extra = {
@@ -31,4 +34,6 @@ class RelacionIESPutSchema(BaseModel):
 
     @validator('relacion')
     def relacion_longitud_maxima(cls, value):
-        return longitud_maxima(50, value)
+        r = longitud_maxima(30, value,8)
+        if r and es_no_numerico(value):
+            return value

@@ -15,12 +15,13 @@ def es_alafanumerico(value:str):
     print(res)
     if not res:
         raise ValueError(f"Debe tener el siguiente formato ASDFGGH 2")
+    return res
 
     return res
 def es_no_numerico(value:str):
-    value = value.strip()
-    res = value.isnumeric()
-    if res or not value.isalpha():
+    res = re.search(r'^[A-Z]*\b.[A-Z]*$', value)
+    print(res)
+    if not res:
         raise ValueError(f"No debe contener números")
     return res
 

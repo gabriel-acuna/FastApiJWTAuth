@@ -80,7 +80,7 @@ class JWTBearer(HTTPBearer):
 
     async def verificar_jwt(self, jwtoken: str) -> bool:
         isTokenValid: bool = False
-
+        payload:any
         try:
             token =  await TokenAutorizacion.filtarPor(token=jwtoken)
             if token and token[0][0].estado == True:

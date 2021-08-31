@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.schemas.validaciones import longitud_maxima
+from app.schemas.validaciones import longitud_maxima, es_no_numerico
 from pydantic import BaseModel, Field, validator
 
 
@@ -15,7 +15,9 @@ class TipoDocumentoPostSchema(BaseModel):
 
     @validator("tipo_documento")
     def tipo_documento_longitud_maxima(cls, value):
-        return longitud_maxima(50, value)
+        r = longitud_maxima(30, value,7)
+        if r and es_no_numerico(value):
+            return value
 
     class Config:
         schema_extra = {
@@ -31,4 +33,6 @@ class TipoDocumentoPutSchema(BaseModel):
 
     @validator("tipo_documento")
     def tipo_documento_longitud_maxima(cls, value):
-        return longitud_maxima(50, value)
+        r = longitud_maxima(30, value,7)
+        if r and es_no_numerico(value):
+            return value

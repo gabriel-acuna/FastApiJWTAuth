@@ -16,7 +16,7 @@ class DiscapacidadPostSchema(BaseModel):
     @validator('discapacidad')
     def discapacidad_validaciones(cls, value):
         r = longitud_maxima(30, value,5)
-        if r and not es_no_numerico(value):
+        if r and es_no_numerico(value):
             return value
 
     class Config:
@@ -34,5 +34,5 @@ class DiscapacidadPutSchema(BaseModel):
     @validator('discapacidad')
     def discapacidad_longitud_maxima(cls, value):
         r = longitud_maxima(30, value,5)
-        if r and not es_no_numerico(value):
+        if r and es_no_numerico(value):
             return value
