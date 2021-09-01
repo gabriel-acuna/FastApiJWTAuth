@@ -8,7 +8,7 @@ from decouple import config
 async def test_app():
     async with AsyncClient(app=app, base_url="http://test") as ac:
         token :str = None
-        resp = await ac.post("/login", json={
+        resp = await ac.post("/api/login", json={
             'email': config('ADMIN_EMAIL'),
             'password': config('ADMIN_PASS')
         })

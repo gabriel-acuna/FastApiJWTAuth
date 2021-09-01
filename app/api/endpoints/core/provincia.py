@@ -27,5 +27,5 @@ async def listar_cantones_por_provincia(id: int):
     cantones = await ServicioProvincia.listar_cantones_por_provincia(id_provincia=id)
     if not cantones:
         raise HTTPException(
-            status_code=404, detail="La provinvia no se encontró o no tiene cantones registrados")
+            status_code=404, detail="La provincia no se encontró o no tiene cantones registrados")
     return cantones

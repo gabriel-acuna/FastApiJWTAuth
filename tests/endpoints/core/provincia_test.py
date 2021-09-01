@@ -2,14 +2,14 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_listar_provincias(test_app):
-    resp = await test_app[0].get("/provincias")
+    resp = await test_app[0].get("/api/provincias",  headers= test_app[1])
     assert resp.status_code == 200
     assert len(resp.json()) > 0
 
 
 @pytest.mark.asyncio
 async def test_obtener_provincia(test_app):
-    resp = await test_app[0].get("/provincias/1")
+    resp = await test_app[0].get("/api/provincias/1",  headers= test_app[1])
     assert resp.status_code == 200
     provincia = resp.json()
     assert provincia['id'] == 1
@@ -18,29 +18,29 @@ async def test_obtener_provincia(test_app):
 
 @pytest.mark.asyncio
 async def test_obtener_provincia_con_status_code_404(test_app):
-    resp = await test_app[0].get("/provincias/1000")
+    resp = await test_app[0].get("/api/provincias/1000",  headers= test_app[1])
     assert resp.status_code == 404
     assert resp.json() == {'detail': 'Provincia no encontrada'}
 
 
 @pytest.mark.asyncio
 async def test_obtener_cantones_provincia(test_app):
-    resp = await test_app[0].get("/provincias/1/cantones")
+    resp = await test_app[0].get("/api/provincias/1/cantones",  headers= test_app[1])
     assert resp.status_code == 200
     assert len(resp.json()) > 0
 
 
 @pytest.mark.asyncio
 async def test_obtener_cantones_provincia_con_status_code_404(test_app):
-    resp = await test_app[0].get("/provincias/1000/cantones")
+    resp = await test_app[0].get("/api/provincias/1000/cantones",  headers= test_app[1])
     assert resp.status_code == 404
     assert resp.json() == {
-        'detail': 'La provinvia no se encontró o no tiene cantones registrados'}
+        'detail': 'La provincia no se encontró o no tiene cantones registrados'}
 
 
 @pytest.mark.asyncio
 async def test_obtener_provincia_con_status_code_442(test_app):
-    resp = await test_app[0].get("/provincias/vuyviyv")
+    resp = await test_app[0].get("/api/provincias/vuyviyv",  headers= test_app[1])
     assert resp.status_code == 422
     r = resp.json()
     assert r['detail'][0]['type'] == 'type_error.integer'
@@ -48,13 +48,9 @@ async def test_obtener_provincia_con_status_code_442(test_app):
 
 @pytest.mark.asyncio
 async def test_obtener_cantones_provincia_con_status_code_442(test_app):
-    resp = await test_app[0].get("/provincias/vuyviyv/cantones")
+    resp = await test_app[0].get("/api/provincias/vuyviyv/cantones",  headers= test_app[1])
     assert resp.status_code == 422
     r = resp.json()
     assert r['detail'][0]['type'] == 'type_error.integer'
 
 
-@pytest.mark.asyncio
-async def test_obtener_cantones_provincia_con_status_404(test_app):
-    resp = await test_app[0].get("/provincias//cantones")
-    assert resp.status_code == 404
