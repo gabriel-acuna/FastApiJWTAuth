@@ -15,7 +15,7 @@ class NacionalidadPostSchema(BaseModel):
 
     @validator('nacionalidad')
     def nacionalidad_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value,3)
+        r = longitud_maxima(30, value, 3)
         if r and es_no_numerico(value):
             return value
 
@@ -33,6 +33,6 @@ class NacionalidadPutSchema(BaseModel):
 
     @validator('nacionalidad')
     def nacionalidad_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value,3)
+        r = longitud_maxima(30, value, 3)
         if r and es_no_numerico(value):
             return value

@@ -33,7 +33,7 @@ class ServicioCategoriaContratoProfesor():
             print(f"Ha ocurrido una excepción {ex}")
 
     @classmethod
-    async def actualizar_registro(cls, categoria: CategoriaContatoProfesorPutSchema):
+    async def actualizar_registro(cls, categoria: CategoriaContratoProfesorPutSchema):
         try:
             return await CategoriaContratoProfesor.actualizar(id=str(categoria.id), categoria_contrato=categoria.categoria_contrato)
         except Exception as ex:

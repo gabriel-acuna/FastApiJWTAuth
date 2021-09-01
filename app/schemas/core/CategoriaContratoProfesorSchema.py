@@ -16,7 +16,7 @@ class CategoriaContratoProfesorPostSchema(BaseModel):
 
     @validator("categoria_contrato")
     def categoria_contrato_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+        return longitud_maxima(50, value,8)
 
     class Config:
         eschema_extra = {
@@ -26,10 +26,10 @@ class CategoriaContratoProfesorPostSchema(BaseModel):
         }
 
 
-class CategoriaContatoProfesorPutSchema(BaseModel):
+class CategoriaContratoProfesorPutSchema(BaseModel):
     id: str = Field(...)
     categoria_contrato: str = Field(..., max_length=50)
 
     @validator("categoria_contrato")
     def categoria_contrato_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+        return longitud_maxima(50, value, 8)

@@ -25,7 +25,7 @@ async def obetner_categoria_contrato_profesor(id: str):
 
 
 @router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
-async def registrar_categoria_contrato_profesor(response: Response, categoria_contrato: CategoriaContratoProfesorSchema):
+async def registrar_categoria_contrato_profesor(response: Response, categoria_contrato: CategoriaContratoProfesorPostSchema):
     existe = await ServicioCategoriaContratoProfesor.existe(categoria=categoria_contrato)
     if not existe:
         registrado = await ServicioCategoriaContratoProfesor.agregar_registro(categoria=categoria_contrato)
@@ -38,7 +38,7 @@ async def registrar_categoria_contrato_profesor(response: Response, categoria_co
 
 
 @router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_categoria_contrato_profesor(response: Response, categoria_contrato: CategoriaContratoProfesorPostSchema):
+async def actualizar_categoria_contrato_profesor(response: Response, categoria_contrato: CategoriaContratoProfesorPutSchema):
     existe = await ServicioCategoriaContratoProfesor.buscar_por_id(categoria_contrato.id)
     if existe:
         actualizado = await ServicioCategoriaContratoProfesor.actualizar_registro(categoria_contrato)

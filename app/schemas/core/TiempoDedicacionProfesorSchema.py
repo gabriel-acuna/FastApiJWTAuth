@@ -16,7 +16,7 @@ class TiempoDedicacionProfesorPostSchema(BaseModel):
 
     @validator("tiempo_dedicacion")
     def tiempo_dedicacion_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+        return longitud_maxima(50, value, 14)
 
     class Config:
         schema_extra = {
@@ -32,4 +32,4 @@ class TiempoDedicacionProfesorPutSchema(BaseModel):
 
     @validator("tiempo_dedicacion")
     def tiempo_dedicacion_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+        return longitud_maxima(50, value, 14)

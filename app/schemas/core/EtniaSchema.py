@@ -16,7 +16,7 @@ class EtniaPostSchema(BaseModel):
 
     @validator('etnia')
     def etnia_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value,4)
+        r = longitud_maxima(30, value, 4)
         if r and es_no_numerico(value):
             return value
 
@@ -34,6 +34,6 @@ class EtniaPutSchema(BaseModel):
 
     @validator('etnia')
     def etnia_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value,4)
+        r = longitud_maxima(30, value, 4)
         if r and es_no_numerico(value):
             return value

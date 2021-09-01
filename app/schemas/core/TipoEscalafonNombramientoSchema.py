@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.schemas.validaciones import longitud_maxima
+from app.schemas.validaciones import es_no_numerico, longitud_maxima
 from pydantic import BaseModel, Field, validator
 
 
@@ -15,7 +15,9 @@ class TipoEscalafonNombramientoPostSchema(BaseModel):
 
     @validator("escalafon_nombramiento")
     def escalafon_nombramiento_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+        r = longitud_maxima(30, value, 9)
+        if r and es_no_numerico(value):
+            return value
 
     class Config:
         schema_extra = {
@@ -31,4 +33,6 @@ class TipoEscalafonNombramientoPutSchema(BaseModel):
 
     @validator("escalafon_nombramiento")
     def escalafon_nombramiento_maxima_longitud(cls, value):
-        return longitud_maxima(50, value)
+        r = longitud_maxima(30, value, 9)
+        if r and es_no_numerico(value):
+            return value

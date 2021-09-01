@@ -15,7 +15,7 @@ class TipoDocumentoPostSchema(BaseModel):
 
     @validator("tipo_documento")
     def tipo_documento_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value,7)
+        r = longitud_maxima(30, value, 7)
         if r and es_no_numerico(value):
             return value
 
@@ -33,6 +33,6 @@ class TipoDocumentoPutSchema(BaseModel):
 
     @validator("tipo_documento")
     def tipo_documento_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value,7)
+        r = longitud_maxima(30, value, 7)
         if r and es_no_numerico(value):
             return value
