@@ -4,9 +4,8 @@ from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Enum
 from app.models import Base
-from sqlalchemy import Column, String, func
+from sqlalchemy import Column, String, func, text
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import text
 from app.models.async_crud import OperacionesEscrituraAsinconas, EliminacionAsincrona, OperacionesLecturaAsincronas
 import enum
 import bcrypt
@@ -45,7 +44,7 @@ class CuentaUsuario(Base, OperacionesEscrituraAsinconas,
     segundo_nombre = Column(String(30), nullable=False)
     primer_apellido = Column(String(30), nullable=False)
     segundo_apellido = Column(String(30), nullable=False)
-    email = Column(String, nullable=False)
+    email = Column(String(80), nullable=False, unique=True)
     clave_encriptada = Column(String(), nullable=False)
     estado = Column(Boolean, default=True)
     registrado_en = Column(TIMESTAMP, server_default=func.now())

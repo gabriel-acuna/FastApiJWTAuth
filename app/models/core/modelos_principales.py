@@ -187,3 +187,9 @@ class Canton(Base, OperacionesEscrituraAsinconas,
     registrado_en = Column(TIMESTAMP, server_default=func.now())
     actualizado_en = Column(
         TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
+
+    
+    class EstadoCivil(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
+        __tablename__ = "estados_civiles"
+        id = Column(Integer, primary_key=True)
+        estado_civil= Column(String(30), nullable=False)
