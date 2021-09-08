@@ -54,6 +54,7 @@ def downgrade():
     session = Session(bind=op.get_bind())
 
     session.execute("truncate table roles_usuarios")
+    session.execute("truncate table tokens_autorizaciones")
     session.execute(delete(CuentaUsuario).where(CuentaUsuario.email==config("ADMIN_EMAIL")))
 
     session.execute(delete(Rol).where(Rol.rol=="Administrador"))

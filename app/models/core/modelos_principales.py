@@ -71,7 +71,7 @@ class RelacionIES(Base, OperacionesEscrituraAsinconas,
 
 class TipoEscalafonNombramiento(Base, OperacionesEscrituraAsinconas,
                                 OperacionesLecturaAsincronas, EliminacionAsincrona):
-    __tablename__ = "tipos_relaciones_nombramientos"
+    __tablename__ = "tipos_escalafones_nombramientos"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     escalafon_nombramiento = Column(String(50), nullable=False, unique=True)
