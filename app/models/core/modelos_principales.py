@@ -114,7 +114,7 @@ class NivelEducativo(Base, OperacionesEscrituraAsinconas,
 
 
 class TipoFuncionario(Base, OperacionesEscrituraAsinconas,
-                       OperacionesLecturaAsincronas, EliminacionAsincrona):
+                      OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "tipo_funcionarios"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -188,8 +188,16 @@ class Canton(Base, OperacionesEscrituraAsinconas,
     actualizado_en = Column(
         TIMESTAMP, server_default=func.now(),    onupdate=func.current_timestamp())
 
-    
-    class EstadoCivil(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
-        __tablename__ = "estados_civiles"
-        id = Column(Integer, primary_key=True)
-        estado_civil= Column(String(30), nullable=False)
+
+class EstadoCivil(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__ = "estados_civiles"
+    id = Column(Integer, primary_key=True)
+    estado_civil = Column(String(30), nullable=False)
+
+
+class EstructuraInstucional(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__ = "estructura_organica_institucional"
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(80), nullable=False)
+    codigo = Column(String(50), default='')
+    id_area = Column(Integer, default=0)

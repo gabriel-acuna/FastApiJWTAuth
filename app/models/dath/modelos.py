@@ -40,8 +40,8 @@ class InformacionPersonal(Base):
     segundo_apellido = Column(String(30), nullable=False)
     sexo = Column(Enum(Sexo), nullable=False)
     fecha_nacimiento = Column(Date, nullable=False)
-    id_pais_origen = Column(ForeignKey("paises.id"))
-    id_estado_civil = Column(ForeignKey("estados_civiles.id"))
+    id_pais_origen = Column(ForeignKey("paises.id"), nullable=False)
+    id_estado_civil = Column(ForeignKey("estados_civiles.id"), nullable=False)
     id_discapacidad = Column(ForeignKey("discapacidades.id"), nullable=False)
     carnet_conadis = Column(String(13), default='', nullable=False)
     porcentaje_discapacidad = Column(Integer, default=0)
@@ -122,10 +122,16 @@ class DetalleExpedianteLaboral(Base):
     remuneracion_hora = Column(Numeric(4, 2), default=0)
     fecha_inicio = Column(Date, nullable=False)
     fecha_fin = Column(Date)
-    id_tipo_funcionario = Column(ForeignKey('tipo_funcionarios.id'), default='')
+    id_tipo_funcionario = Column(ForeignKey(
+        'tipo_funcionarios.id'), default='')
     cargo = Column(String(80), nullable=False)
     id_tipo_docente = Column(ForeignKey('tipos_docente_loes.id'))
-    id_categoria_docente = Column(ForeignKey("categorias_docentes_losep.id"), default='')
+    id_categoria_docente = Column(ForeignKey(
+        "categorias_docentes_losep.id"), default='')
     puesto_jerarquico = Column(String(2), nullable=False)
     horas_laborables_semanales = Column(Integer, default=0)
+    id_area = Column(Integer, ForeignKey(
+        'estructura_organica_institucional.id'), nullable=False)
+    id_sub_area = Column(Integer, ForeignKey(
+        'estructura_organica_institucional.id'), default=0)
     id_nivel = Column(ForeignKey('nivel_educativo.id'), default='')
