@@ -195,7 +195,7 @@ class EstadoCivil(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincro
     estado_civil = Column(String(30), nullable=False)
 
 
-class EstructuraInstucional(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
+class EstructuraInstitucional(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "estructura_organica_institucional"
     id = Column(Integer, primary_key=True)
     nombre = Column(String(80), nullable=False)
