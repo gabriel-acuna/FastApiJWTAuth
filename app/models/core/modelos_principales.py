@@ -1,7 +1,8 @@
 from sqlalchemy.dialects.postgresql.base import TIMESTAMP
+from sqlalchemy.sql.operators import is_distinct_from
 from sqlalchemy.sql.schema import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.sqltypes import Integer
+from sqlalchemy.sql.sqltypes import DATE, Date, Integer
 from app.models import Base
 from sqlalchemy import Column, String, func, text
 from sqlalchemy.dialects.postgresql import UUID
@@ -198,6 +199,17 @@ class EstadoCivil(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincro
 class EstructuraInstitucional(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "estructura_organica_institucional"
     id = Column(Integer, primary_key=True)
+    documento_aprobacion = Column(String(80), nullable=False)
+    fecha_aprobacion = Column(Date, nullable=False)
+
+class AreaInsitucion(Base,OperacionesLecturaAsincronas, OperacionesEscrituraAsinconas, EliminacionAsincrona):
+    __tablename__ = "areas_institucionales"
+    id = Column(Integer, primary_key=True)
     nombre = Column(String(80), nullable=False)
-    codigo = Column(String(50), default='')
-    id_area = Column(Integer, default=0)
+    codigo = Column(String(30), default='')
+
+class Organigrama(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__ ="organigrama"
+    id_estructura_institucional = Column(Integer, ForeignKey('estructura_organica_institucional.id'), primary_key=True)
+    id_area_institucional = Column(Integer, ForeignKey('areas_institucionales.id'), primary_key=True)
+    id_sub_area = Column(Integer, ForeignKey('areas_institucionales.id'), default=0)
