@@ -24,16 +24,30 @@ api_router.include_router(core.categoria_contrato_profesor.router, tags=[
                           "Categoría contrato profesor"])
 api_router.include_router(core.tiempo_dedicacion_profesor.router, tags=[
                           "Tiempo dedicación profesor"])
-api_router.include_router(core.nivel_educativo.router, tags=["Nivel educativo"])
-api_router.include_router(core.tipo_funcionario.router, tags=["Tipo funcionario"])
-api_router.include_router(core.tipo_docente_loes.router, tags=["Tipo docente LOES"])
+api_router.include_router(core.nivel_educativo.router,
+                          tags=["Nivel educativo"])
+api_router.include_router(core.tipo_funcionario.router,
+                          tags=["Tipo funcionario"])
+api_router.include_router(core.tipo_docente_loes.router,
+                          tags=["Tipo docente LOES"])
 api_router.include_router(core.categoria_docente_losep.router, tags=[
                           "Categoría docente LOSEP"])
+api_router.include_router(
+    core.estado_civil.router, tags=["Estados civiles"]
+)
+
+api_router.include_router(
+    core.estructura_institucion.router, tags=["Estructura institucional"]
+)
+api_router.include_router(
+    core.area_institucion.router, tags=["Areaas institucionales"]
+)
 
 app = FastAPI(title="SIGAC UNESUM API",
               description='''REST APi para el Sistema de Gestión de Aseguramiento
                     de la Calidad de la Universidad Estatal del Sur de Manabí''')
-                    
+
+
 @app.get("/", tags=["root"], response_model=InfoIESSchema)
 async def info_ies() -> dict:
     return InfoIESSchema(
@@ -45,13 +59,13 @@ async def info_ies() -> dict:
         documentacion_api=f"http://{socket.gethostname()}:{config('PORT')}/redoc")
 
 
-
 # CORS
 if config('BACKEND_CORS_ORIGINS'):
-        
+
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[origin for origin in config('BACKEND_CORS_ORIGINS').split()],
+        allow_origins=[origin for origin in config(
+            'BACKEND_CORS_ORIGINS').split()],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

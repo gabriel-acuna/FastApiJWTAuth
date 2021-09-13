@@ -3,7 +3,7 @@ from app.models.core.modelos_principales import EstructuraInstitucional
 from app.schemas.core.EstructuraInstitucionalSchema import *
 
 
-class ServicioEtnia():
+class ServicioEstructuraInstitucional():
 
     @classmethod
     async def listar(cls) -> List[EstructuraInstitucionalSchema]:
@@ -17,7 +17,7 @@ class ServicioEtnia():
         return etnias
 
     @classmethod
-    async def buscar_por_id(cls, id: str):
+    async def buscar_por_id(cls, id: int):
         try:
             return await EstructuraInstitucional.obtener(id)
         except Exception as ex:

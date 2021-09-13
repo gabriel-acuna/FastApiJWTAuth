@@ -39,14 +39,15 @@ class EstructuraInstitucionalPutSchema(BaseModel):
     documento_aprobacion: str = Field(...)
     fecha_aprobacion: str = Field(...)
 
-    @validator('nombre')
+    @validator('documento_aprobacion')
     def documento_aprobacion_validaciones(cls, value):
         r = longitud_maxima(80, value, 8)
         if r:
             return value
 
     @validator('fecha_aprobacion')
-    def documento_aprobacion_validaciones(cls, value):
+    def fecha_aprobacion_validaciones(cls, value):
         r = longitud_maxima(80, value, 8)
         if r:
             return value
+

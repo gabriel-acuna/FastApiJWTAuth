@@ -1,5 +1,3 @@
-from sqlalchemy.util.compat import raise_
-from sqlalchemy.util.langhelpers import dependencies
 from app.schemas.Message import MessageSchema
 from app.api.messages import *
 from typing import List
@@ -22,11 +20,13 @@ async def listar_estados_civiles():
 @router.get("/{id}",
             response_model=EstadoCivilSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def obtener_estado_civil():
+async def obtener_estado_civil(id:int):
     estado_civil = await ServicioEstadoCivil.buscar_por_id(id)
     if not estado_civil:
         raise HTTPException(
             status_code=404, detail="Estado civil no encontrado")
+    return EstadoCivilSchema(**estado_civil[0].__dict__)
+
 
 
 @router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])

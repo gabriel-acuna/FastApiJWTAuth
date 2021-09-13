@@ -9,7 +9,7 @@ class AreaInstitucionSchema(BaseModel):
     codigo: str
 
 
-class AreaInstitucionalPutSachema(BaseModel):
+class AreaInstitucionalPostSchema(BaseModel):
     nombre: str = Field(...)
     codigo: Optional[str] = None
 
@@ -29,7 +29,7 @@ class AreaInstitucionalPutSachema(BaseModel):
         }
 
 
-class AreaInstitucionalPutSachema(BaseModel):
+class AreaInstitucionalPutSchema(BaseModel):
     id: int = Field(...)
     nombre: str = Field(...)
     codigo: Optional[str] = None
