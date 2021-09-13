@@ -202,7 +202,7 @@ class EstructuraInstitucional(Base, OperacionesEscrituraAsinconas, OperacionesLe
     documento_aprobacion = Column(String(80), nullable=False)
     fecha_aprobacion = Column(Date, nullable=False)
 
-class AreaInsitucion(Base,OperacionesLecturaAsincronas, OperacionesEscrituraAsinconas, EliminacionAsincrona):
+class AreaInstitucion(Base,OperacionesLecturaAsincronas, OperacionesEscrituraAsinconas, EliminacionAsincrona):
     __tablename__ = "areas_institucionales"
     id = Column(Integer, primary_key=True)
     nombre = Column(String(80), nullable=False)
@@ -212,4 +212,4 @@ class Organigrama(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincro
     __tablename__ ="organigrama"
     id_estructura_institucional = Column(Integer, ForeignKey('estructura_organica_institucional.id'), primary_key=True)
     id_area_institucional = Column(Integer, ForeignKey('areas_institucionales.id'), primary_key=True)
-    id_sub_area = Column(Integer, ForeignKey('areas_institucionales.id'), default=0)
+    id_sub_area = Column(Integer, ForeignKey('areas_institucionales.id'), default=0, primary_key=True)

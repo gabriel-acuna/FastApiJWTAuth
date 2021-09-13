@@ -105,7 +105,7 @@ class DetalleExpedianteLaboral(Base):
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     id_expediente = Column(ForeignKey('expedientes_laborales.id'))
-    tipo_porsonal = Column(Enum(TipoPersonal))
+    tipo_personal = Column(Enum(TipoPersonal))
     id_tipo_documento = Column(ForeignKey('tipos_documento.id'))
     motivo_accion = Column(String(30), default='')
     numero_documento = Column(String(30), nullable=False)
@@ -131,7 +131,7 @@ class DetalleExpedianteLaboral(Base):
     puesto_jerarquico = Column(String(2), nullable=False)
     horas_laborables_semanales = Column(Integer, default=0)
     id_area = Column(Integer, ForeignKey(
-        'estructura_organica_institucional.id'), nullable=False)
+        'areas_institucionales.id'), nullable=False)
     id_sub_area = Column(Integer, ForeignKey(
-        'estructura_organica_institucional.id'), default=0)
+        'areas_institucionales.id'), default=0)
     id_nivel = Column(ForeignKey('nivel_educativo.id'), default='')

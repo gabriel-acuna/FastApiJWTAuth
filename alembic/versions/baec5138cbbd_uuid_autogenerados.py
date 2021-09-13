@@ -297,7 +297,7 @@ def upgrade():
                     sa.Column('id', postgresql.UUID(), server_default=sa.text(
                         'uuid_generate_v4()'), nullable=False),
                     sa.Column('tipo_token', sa.Enum(
-                        'acceso', 'solicitud_cambio_calve', name='tipotoken'), nullable=False),
+                        'acceso', 'solicitud_cambio_calve', name='tipoToken'), nullable=False),
                     sa.Column('token', sa.String(), nullable=False),
                     sa.Column('usuario_id', postgresql.UUID(), nullable=True),
                     sa.Column('generado_en', postgresql.TIMESTAMP(),
@@ -382,4 +382,5 @@ def downgrade():
     op.drop_index(op.f('ix_categorias_contratos_profesores_id'),
                   table_name='categorias_contratos_profesores')
     op.drop_table('categorias_contratos_profesores')
+    sa.Enum(name='tipoToken').drop(op.get_bind(), checkfirst=False)
     # ### end Alembic commands ###

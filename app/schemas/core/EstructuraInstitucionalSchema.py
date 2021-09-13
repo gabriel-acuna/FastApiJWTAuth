@@ -1,33 +1,52 @@
 from pydantic import BaseModel, Field, validator
-from app.schemas.validaciones import es_no_numerico, longitud_maxima
+from app.schemas.validaciones import longitud_maxima
+
 
 class EstructuraInstitucionalSchema(BaseModel):
     id: int
-    nombre:str
-    codigo: str
-    id_area: int
+    documento_aprobacion: str
+    fecha_aprobacion: str
+
 
 class EstructuraInstitucionalPostSchema(BaseModel):
-    nombre:str  = Field(...)
-    codigo: str
-    id_area: int
-    
-    @validator('nombre')
-    def nombre_validaciones(cls, value):
-        r = longitud_maxima(30, value, 3)
-        if r and es_no_numerico(value):
+    documento_aprobacion: str = Field(...)
+    fecha_aprobacion: str = Field(...)
+
+    @validator('documento_aprobacion')
+    def documento_aprobacion_validaciones(cls, value):
+        r = longitud_maxima(80, value, 8)
+        if r:
+            return value
+
+    @validator('fecha_aprobacion')
+    def fecha_aprobacion_validaciones(cls, value):
+        r = longitud_maxima(80, value, 8)
+        if r:
             return value
 
     class Config:
         schema_extra = {
             "example": {
-                "nombre": "OCS"
+                "documento_aprobacion": "RESOLUCION No. 024-01-2020",
+                "fecha_aprobacion": "30 DE SEPTIEMBRE DE 2020"
+
             }
         }
 
 
 class EstructuraInstitucionalPutSchema(BaseModel):
     id: int
-    nombre:str = Field(...)
-    codigo: str
-    id_area:id
+    documento_aprobacion: str = Field(...)
+    fecha_aprobacion: str = Field(...)
+
+    @validator('nombre')
+    def documento_aprobacion_validaciones(cls, value):
+        r = longitud_maxima(80, value, 8)
+        if r:
+            return value
+
+    @validator('fecha_aprobacion')
+    def documento_aprobacion_validaciones(cls, value):
+        r = longitud_maxima(80, value, 8)
+        if r:
+            return value
