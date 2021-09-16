@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import Date, Enum, Integer, Numeric, String
 from app.models import Base
 from app.models.core.modelos_principales import Etnia, Nacionalidad
+from app.models.async_crud import *
 
 """"
     Autor: Ing. Gabriel Acuña
@@ -27,7 +28,7 @@ class Sexo(enum.Enum):
     MUJER = "MUJER"
 
 
-class InformacionPersonal(Base):
+class InformacionPersonal(Base, OperacionesLecturaAsincronas):
     ''' Este modelo contiene la infromación personal de profesores y funcionarios 
     pertenecientes a la institucion'''
 
@@ -57,7 +58,7 @@ class InformacionPersonal(Base):
     etnia = relationship('Etnia')
     nacionalidad = relationship('Nacionalidad')
     tipo_sangre = Column(String(5), nullable=False)
-    lencencia_coduccion = Column(String(2), nullable=False, default='')
+    lincencia_conduccion = Column(String(2), nullable=False, default='')
 
     def calcular_edad(self):
         hoy = date.today()
@@ -79,10 +80,10 @@ class DireccionDomicilio(Base):
         'datos_personales.identificacion'), nullable=False)
     id_provincia = Column(ForeignKey("provincias.id"), nullable=False)
     id_canton = Column(ForeignKey("cantones.id"), nullable=False)
-    id_parroquia = Column(String(40))
+    parroquia = Column(String(40), nullable=False)
     calle1 = Column(String(30), nullable=False)
     calle2 = Column(String(30))
-
+    referencia = Column(String(120))
 
 class ExpedienteLaboral(Base):
     __tablename__ = "expedientes_laborales"

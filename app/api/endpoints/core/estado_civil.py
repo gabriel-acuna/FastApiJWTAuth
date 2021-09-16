@@ -1,7 +1,7 @@
 from app.schemas.Message import MessageSchema
 from app.api.messages import *
 from typing import List
-from app.schemas.core.EstadoCivilSachema import *
+from app.schemas.core.EstadoCivilSchema import *
 from app.services.core.ServicioEstadoCivil import ServicioEstadoCivil
 from fastapi import APIRouter, HTTPException, Body, Response, status, Depends
 from app.services.auth import ServicioToken

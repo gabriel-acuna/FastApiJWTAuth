@@ -1,6 +1,6 @@
 from app.schemas.core.EtniaSchema import EtniaSchema
 from typing import List
-from app.schemas.core.EstadoCivilSachema import *
+from app.schemas.core.EstadoCivilSchema import *
 from app.models.core.modelos_principales import EstadoCivil
 
 
