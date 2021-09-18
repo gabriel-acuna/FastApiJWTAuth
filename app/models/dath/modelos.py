@@ -48,13 +48,13 @@ class InformacionPersonal(Base, OperacionesLecturaAsincronas):
     porcentaje_discapacidad = Column(Integer, default=0)
     id_etnia = Column(ForeignKey("etnias.id"))
     id_nacionalidad = Column(ForeignKey(
-        "nacionalidades.id"), nullable=False, default='')
+        "nacionalidades.id"))
     correo_institucional = Column(String(80), nullable=False, unique=True)
     correo_personal = Column(String, nullable=False, unique=True)
     telefono_domicilio = Column(
-        String(10), default="0000000000", nullable=False)
+        String(10), default="0000000000")
     telefono_movil = Column(String(13), nullable=False)
-    direccion_domicilio = relationship('DireccionDomicilio')
+    direccion_domicilio = relationship('DireccionDomicilio', uselist=False)
     etnia = relationship('Etnia')
     nacionalidad = relationship('Nacionalidad')
     tipo_sangre = Column(String(5), nullable=False)

@@ -16,6 +16,7 @@ class DireccionSchema(BaseModel):
 class DireccionPostSchema(BaseModel):
     id_provincia: int = Field(...)
     id_canton: int = Field(...)
+    parroquia: str = Field(...)
     calle1: str = Field(...)
     calle2: str = Field()
     referencia: str = Field(...)
@@ -24,6 +25,7 @@ class DireccionPostSchema(BaseModel):
 class DireccionPutSchema(BaseModel):
     id_provincia: int = Field(...)
     id_canton: int = Field(...)
+    parroquia: str = Field(...)
     calle1: str = Field(...)
     calle2: str = Field()
     referencia: str = Field(...)
