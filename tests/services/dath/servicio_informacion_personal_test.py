@@ -34,7 +34,7 @@ async def test_agregar_registro():
     discapacidad = Discapacidad(discapacidad='NINGUNA')
     existe = await ServicioDiscapacidad.existe(discapacidad)
     if not existe:
-        ServicioDiscapacidad.agregar_registro(discapacidad)
+        await ServicioDiscapacidad.agregar_registro(discapacidad)
     d = await Discapacidad.filtarPor(discapacidad='NINGUNA')
 
     existe_etnia = await ServicioEtnia.existe(Etnia(etnia='MONTUBIO/A'))
@@ -77,7 +77,7 @@ async def test_agregar_registro():
     registrado = await ServicioInformacionPersonal.agregar_registro(persona=data)
     assert registrado == True
 
-''''
+
 @pytest.mark.asyncio
 async def test_actualizar_registro():
 
@@ -97,8 +97,9 @@ async def test_actualizar_registro():
 
     discapacidad = Discapacidad(discapacidad='NINGUNA')
     existe = await ServicioDiscapacidad.existe(discapacidad)
+    print(existe)
     if not existe:
-        ServicioDiscapacidad.agregar_registro(discapacidad)
+        await ServicioDiscapacidad.agregar_registro(discapacidad)
     d = await Discapacidad.filtarPor(discapacidad='NINGUNA')
 
     existe_etnia = await ServicioEtnia.existe(Etnia(etnia='MONTUBIO/A'))
@@ -132,7 +133,7 @@ async def test_actualizar_registro():
 
     assert actualizado ==True
 
-
+'''
 @pytest.mark.asyncio
 async def test_buscar_por_id():
     persona = await ServicioInformacionPersonal.buscar_por_id(id='1314056407')
