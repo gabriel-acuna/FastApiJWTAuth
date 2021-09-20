@@ -54,9 +54,7 @@ class InformacionPersonal(Base, OperacionesLecturaAsincronas):
     telefono_domicilio = Column(
         String(10), default="0000000000")
     telefono_movil = Column(String(13), nullable=False)
-    direccion_domicilio = relationship('DireccionDomicilio', uselist=False)
-    etnia = relationship('Etnia')
-    nacionalidad = relationship('Nacionalidad')
+    direccion_domicilio = relationship('DireccionDomicilio', uselist=False, cascade="save-update")
     tipo_sangre = Column(String(5), nullable=False)
     lincencia_conduccion = Column(String(2), nullable=False, default='')
 
@@ -72,7 +70,7 @@ class InformacionPersonal(Base, OperacionesLecturaAsincronas):
         }
 
 
-class DireccionDomicilio(Base):
+class DireccionDomicilio(Base, OperacionesLecturaAsincronas):
     __tablename__ = "direcciones_domiciliarias"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))

@@ -8,12 +8,12 @@ from fastapi.testclient import TestClient
 
 client = TestClient(app)
 token = None
-'''response = client.post('/api/login',  json={
+response = client.post('/api/login',  json={
     'email': config('ADMIN_EMAIL'),
     'password': config('ADMIN_PASS')})
 if response.status_code == 200:
     r = response.json()
-    token = r['token']'''
+    token = r['token']
 
 
 @pytest.fixture(scope="function")

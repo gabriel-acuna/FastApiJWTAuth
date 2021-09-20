@@ -1,8 +1,9 @@
 from _pytest.mark import param
+from attr.validators import instance_of
 from app.schemas.core.DiscapacidadSchema import DiscapacidadPostSchema
 from app.models.core.modelos_principales import Discapacidad, EstadoCivil, Etnia
 from datetime import date
-from app.schemas.dath.InformacionPersonalSchema import InformacionPersonalPostSchema, Sexo, TipoIdentificacion
+from app.schemas.dath.InformacionPersonalSchema import InformacionPersonalPostSchema, Sexo, TipoIdentificacion, InformacionPersonalSchema
 from app.schemas.dath.DireccionSchema import DireccionPostSchema
 from app.services.core.ServicioDiscapacidad import ServicioDiscapacidad
 from app.services.core.ServicioEstadoCivil import ServicioEstadoCivil
@@ -67,9 +68,9 @@ async def test_agregar_registro():
     params = {'id': data.identificacion,
               'correo_institucional': data.correo_institucional}
     persona_existe = await ServicioInformacionPersonal.existe(**params
-                                                        )
+                                                              )
     # elimina el registro en caso que exista para evitar que falle el test
-    print( 'exite',persona_existe)
+    print('exite', persona_existe)
     if persona_existe:
         await ServicioInformacionPersonal.eliminar_registro(
             data.identificacion
@@ -129,12 +130,18 @@ async def test_actualizar_registro():
 
     )
     actualizado = await ServicioInformacionPersonal.actualizar_registro(persona=data, id='1314056407')
-    print('---test2-----', actualizado)
+    assert actualizado == True
 
-    assert actualizado ==True
 
-'''
 @pytest.mark.asyncio
 async def test_buscar_por_id():
     persona = await ServicioInformacionPersonal.buscar_por_id(id='1314056407')
-    print(persona)'''
+    assert persona is not None
+    assert persona.direccion_domicilio.calle2 == 'FEBRES CORDERO'
+
+@pytest.mark.asyncio
+async def test_listar():
+    personas = await ServicioInformacionPersonal.listar()
+    assert len(personas) > 0
+    print(personas[0].edad)
+    

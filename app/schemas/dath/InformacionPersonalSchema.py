@@ -37,10 +37,10 @@ class InformacionPersonalSchema(BaseModel):
     carnet_conadis: str
     porcentaje_discapacidad: int
     etnia: EtniaSchema
-    nacionalidad: NacionalidadSchema
+    nacionalidad: Optional[NacionalidadSchema]
     correo_institucional: EmailStr
     correo_personal: EmailStr
-    telefono_domicilio: str
+    telefono_domicilio: Optional[str]
     telefono_movil: str
     direccion_domicilio: DireccionSchema
     tipo_sangre: str
