@@ -1,0 +1,1 @@
+from app.api.endpoints.dath import informacion_personal

@@ -4,6 +4,7 @@ from app.schemas.InfoIES import InfoIESSchema
 from fastapi import APIRouter, FastAPI
 from app.api.endpoints.auth import auth
 import app.api.endpoints.core as core
+import app.api.endpoints.dath as dath
 from starlette.middleware.cors import CORSMiddleware
 
 
@@ -40,7 +41,11 @@ api_router.include_router(
     core.estructura_institucion.router, tags=["Estructura institucional"]
 )
 api_router.include_router(
-    core.area_institucion.router, tags=["Areaas institucionales"]
+    core.area_institucion.router, tags=["Areas institucionales"]
+)
+
+api_router.include_router(
+    dath.informacion_personal.router, tags=["Información personal"]
 )
 
 app = FastAPI(title="SIGAC UNESUM API",

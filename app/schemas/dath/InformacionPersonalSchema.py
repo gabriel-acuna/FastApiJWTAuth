@@ -2,7 +2,7 @@ from typing import Optional
 from pydantic.networks import EmailStr
 from app.schemas.core.EstadoCivilSchema import EstadoCivilSchema
 from datetime import date
-from app.schemas.core.PaisSchema import PaisPutSchema
+from app.schemas.core.PaisSchema import PaisSchema
 from pydantic import BaseModel, Field
 from app.schemas.dath.DireccionSchema import *
 from app.schemas.core.DiscapacidadSchema import DiscapacidadSchema
@@ -31,7 +31,7 @@ class InformacionPersonalSchema(BaseModel):
     sexo: Sexo
     fecha_nacimiento: date
     edad: dict
-    pais_origen: PaisPutSchema
+    pais_origen: PaisSchema
     estado_civil: EstadoCivilSchema
     discapacidad: DiscapacidadSchema
     carnet_conadis: str

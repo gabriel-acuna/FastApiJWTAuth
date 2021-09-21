@@ -11,7 +11,7 @@ router = APIRouter(prefix="/estados-civiles")
 
 
 @router.get("/",
-            response_model=EstadoCivilSchema,
+            response_model=List[EstadoCivilSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_estados_civiles():
     return await ServicioEstadoCivil.listar()
