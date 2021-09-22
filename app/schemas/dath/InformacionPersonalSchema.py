@@ -45,7 +45,7 @@ class InformacionPersonalSchema(BaseModel):
     direccion_domicilio: DireccionSchema
     tipo_sangre: str
     licencia_conduccion: str
-
+    fecha_ingreso: date
 
 class InformacionPersonalPostSchema(BaseModel):
     tipo_identificacion: TipoIdentificacion
@@ -70,6 +70,7 @@ class InformacionPersonalPostSchema(BaseModel):
     direccion_domicilio: DireccionPostSchema
     tipo_sangre: str = Field(...)
     licencia_conduccion: Optional[str]
+    fecha_ingreso: date
 
 
 class InformacionPersonalPutSchema(BaseModel):
@@ -94,3 +95,4 @@ class InformacionPersonalPutSchema(BaseModel):
     direccion_domicilio: DireccionPostSchema
     tipo_sangre: str = Field(...)
     licencia_conduccion: Optional[str]
+    fecha_ingreso:date

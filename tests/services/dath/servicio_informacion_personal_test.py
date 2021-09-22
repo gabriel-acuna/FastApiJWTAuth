@@ -1,5 +1,3 @@
-from _pytest.mark import param
-from attr.validators import instance_of
 from app.schemas.core.DiscapacidadSchema import DiscapacidadPostSchema
 from app.models.core.modelos_principales import Discapacidad, EstadoCivil, Etnia
 from datetime import date
@@ -11,7 +9,6 @@ from app.services.core.ServicioEtnia import ServicioEtnia
 from app.services.dath.ServicioInformacionPersonal import *
 import pytest
 from app.schemas.dath import *
-from app.models.dath.modelos import InformacionPersonal, DireccionDomicilio
 from decouple import config
 
 
@@ -62,7 +59,8 @@ async def test_agregar_registro():
         correo_personal=config('EMAIL'),
         telefono_movil='+593985910098',
         direccion_domicilio=direccion,
-        tipo_sangre='O+'
+        tipo_sangre='O+',
+        fecha_ingreso= date(2018,8,15)
 
     )
     params = {'id': data.identificacion,
@@ -73,7 +71,7 @@ async def test_agregar_registro():
     print('exite', persona_existe)
     if persona_existe:
         await ServicioInformacionPersonal.eliminar_registro(
-            data.identificacion
+            id=data.identificacion
         )
     registrado = await ServicioInformacionPersonal.agregar_registro(persona=data)
     assert registrado == True
@@ -98,7 +96,6 @@ async def test_actualizar_registro():
 
     discapacidad = Discapacidad(discapacidad='NINGUNA')
     existe = await ServicioDiscapacidad.existe(discapacidad)
-    print(existe)
     if not existe:
         await ServicioDiscapacidad.agregar_registro(discapacidad)
     d = await Discapacidad.filtarPor(discapacidad='NINGUNA')
@@ -126,7 +123,8 @@ async def test_actualizar_registro():
         correo_personal=config('EMAIL'),
         telefono_movil='+593985910098',
         direccion_domicilio=direccion,
-        tipo_sangre='O+'
+        tipo_sangre='O+',
+        fecha_ingreso= date(2018,8,15)
 
     )
     actualizado = await ServicioInformacionPersonal.actualizar_registro(persona=data, id='1314056407')
