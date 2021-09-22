@@ -103,8 +103,8 @@ class DetalleExpedianteLaboral(Base):
     __tablename__ = "detalles_expedientes_laborales"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
-    id_expediente = Column(ForeignKey('expedientes_laborales.id'))
-    tipo_personal = Column(Enum(TipoPersonal))
+    id_expediente = Column(ForeignKey('expedientes_laborales.id'), nullable=False)
+    tipo_personal = Column(Enum(TipoPersonal), nullable=False)
     id_tipo_documento = Column(ForeignKey('tipos_documento.id'))
     motivo_accion = Column(String(30), default='')
     numero_documento = Column(String(30), nullable=False)
@@ -112,25 +112,25 @@ class DetalleExpedianteLaboral(Base):
     ingreso_concurso = Column(String(2), nullable=False)
     id_relacion_ies = Column(ForeignKey('relaciones_ies.id'), nullable=False)
     id_tipo_escalafon = Column(ForeignKey(
-        'tipos_escalafones_nombramientos.id'), default='')
+        'tipos_escalafones_nombramientos.id'))
     id_categoria_contrato = Column(ForeignKey(
-        'categorias_contratos_profesores.id'), default='')
+        'categorias_contratos_profesores.id') )
     id_tiempo_dedicacion = Column(ForeignKey(
-        'tiempo_dedicacion_profesores.id'), default='')
+        'tiempo_dedicacion_profesores.id'))
     remuneracion_mensual = Column(Numeric(4, 2), nullable=False)
     remuneracion_hora = Column(Numeric(4, 2), default=0)
     fecha_inicio = Column(Date, nullable=False)
     fecha_fin = Column(Date)
     id_tipo_funcionario = Column(ForeignKey(
         'tipo_funcionarios.id'), default='')
-    cargo = Column(String(80), nullable=False)
+    cargo = Column(String(80), nullable=False, default='')
     id_tipo_docente = Column(ForeignKey('tipos_docente_loes.id'))
     id_categoria_docente = Column(ForeignKey(
-        "categorias_docentes_losep.id"), default='')
-    puesto_jerarquico = Column(String(2), nullable=False)
+        "categorias_docentes_losep.id"))
+    puesto_jerarquico = Column(String(2), nullable=False, default='NO')
     horas_laborables_semanales = Column(Integer, default=0)
     id_area = Column(Integer, ForeignKey(
         'areas_institucionales.id'), nullable=False)
     id_sub_area = Column(Integer, ForeignKey(
         'areas_institucionales.id'), default=0)
-    id_nivel = Column(ForeignKey('nivel_educativo.id'), default='')
+    id_nivel = Column(ForeignKey('nivel_educativo.id'))

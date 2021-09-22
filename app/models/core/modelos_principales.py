@@ -1,5 +1,4 @@
 from sqlalchemy.dialects.postgresql.base import TIMESTAMP
-from sqlalchemy.sql.operators import is_distinct_from
 from sqlalchemy.sql.schema import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import DATE, Date, Integer
@@ -213,3 +212,21 @@ class Organigrama(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincro
     id_estructura_institucional = Column(Integer, ForeignKey('estructura_organica_institucional.id'), primary_key=True)
     id_area_institucional = Column(Integer, ForeignKey('areas_institucionales.id'), primary_key=True)
     id_sub_area = Column(Integer, ForeignKey('areas_institucionales.id'), default=0, primary_key=True)
+
+class Grado(Base):
+    __tablename__ = "Grados"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    grado = Column(String(80), nullable=False)
+
+class TipoBeca(Base):
+    __tablename__ = "tipo_beca"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    tipo_beca = Column(String(30), nullable=False)
+
+class FinanciamientoBeca(Base):
+    __tablename__ = "finaciamiento_beca"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    financiamiento = Column(String(30), nullable=False)
