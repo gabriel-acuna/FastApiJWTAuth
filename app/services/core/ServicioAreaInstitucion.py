@@ -1,3 +1,4 @@
+import logging
 from app.schemas.core.OrganigramaSchema import AreaOrganigrama
 from typing import List
 
@@ -17,7 +18,7 @@ class ServicioAreaInstitucion():
             for fila in filas:
                 areas.append(AreaInstitucionSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return areas
 
     @classmethod
@@ -25,7 +26,7 @@ class ServicioAreaInstitucion():
         try:
             return await AreaInstitucion.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def agregar_registro(cls, area: AreaInstitucionalPostSchema):
@@ -35,7 +36,7 @@ class ServicioAreaInstitucion():
                 codigo=area.codigo
             )
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def actualizar_registro(cls, area: AreaInstitucionalPutSchema):
@@ -46,14 +47,14 @@ class ServicioAreaInstitucion():
                 codigo=area.codigo
             )
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def eliminar_registro(cls, id: int):
         try:
             return await AreaInstitucion.eliminar(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def obtener_subareas(cls, parms: dict) -> AreaOrganigrama:
@@ -88,7 +89,7 @@ class ServicioAreaInstitucion():
 
             )
         except Exception as ex:
-                print(f"Ha ocurrido una excepción {ex}")
+                logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
            await async_db_session.close()
 
@@ -101,4 +102,4 @@ class ServicioAreaInstitucion():
                 return True
             return False
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)

@@ -1,3 +1,4 @@
+import logging
 from typing import List
 from app.models.core.modelos_principales import TipoDocenteLOES
 from app.schemas.core.TipoDocenteLOESSchema import *
@@ -13,7 +14,7 @@ class ServicioTipoDocenteLOES():
             for fila in filas:
                 tipos_docentes.append(TipoDocenteLOESSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return tipos_docentes
 
     @classmethod
@@ -21,28 +22,28 @@ class ServicioTipoDocenteLOES():
         try:
             return await TipoDocenteLOES.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def agregar_registro(cls, tipo_docente: TipoDocenteLOESPostSchema):
         try:
             return await TipoDocenteLOES.crear(tipo_docente=tipo_docente.tipo_docente)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def actualizar_registro(cls, tipo_docente: TipoDocenteLOESPutSchema):
         try:
             return await TipoDocenteLOES.actualizar(id=str(tipo_docente.id), tipo_docente=tipo_docente.tipo_docente)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def eliminar_registro(cls, id: str):
         try:
             return await TipoDocenteLOES.eliminar(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def existe(cls, tipo_docente: TipoDocenteLOES) -> bool:
@@ -52,4 +53,4 @@ class ServicioTipoDocenteLOES():
                 return True
             return False
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)

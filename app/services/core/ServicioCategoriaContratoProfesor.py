@@ -1,3 +1,4 @@
+import logging
 from app.models.core.modelos_principales import CategoriaContratoProfesor
 from app.schemas.core import CategoriaContratoProfesorSchema
 from app.schemas.core.CategoriaContratoProfesorSchema import *
@@ -15,7 +16,7 @@ class ServicioCategoriaContratoProfesor():
                 categorias.append(
                     CategoriaContratoProfesorSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return categorias
 
     @classmethod
@@ -23,28 +24,28 @@ class ServicioCategoriaContratoProfesor():
         try:
             return await CategoriaContratoProfesor.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def agregar_registro(cls, categoria: CategoriaContratoProfesorPostSchema):
         try:
             return await CategoriaContratoProfesor.crear(categoria_contrato=categoria.categoria_contrato)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def actualizar_registro(cls, categoria: CategoriaContratoProfesorPutSchema):
         try:
             return await CategoriaContratoProfesor.actualizar(id=str(categoria.id), categoria_contrato=categoria.categoria_contrato)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def eliminar_registro(cls, id: str):
         try:
             return await CategoriaContratoProfesor.eliminar(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def existe(cls, categoria: CategoriaContratoProfesor) -> bool:
@@ -54,4 +55,4 @@ class ServicioCategoriaContratoProfesor():
                 return True
             return False
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)

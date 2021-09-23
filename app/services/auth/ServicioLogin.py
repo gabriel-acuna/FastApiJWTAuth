@@ -4,7 +4,7 @@ from app.models.auth.cuentas_usuarios import CuentaUsuario, Rol, TipoToken, rol_
 from app.schemas.auth.UserLoginSchema import UserLoginSchema
 import bcrypt
 from app.database.conf import async_db_session
-
+import logging
 
 class ServicioLogin():
 
@@ -34,6 +34,6 @@ class ServicioLogin():
                 roles.append(fila[0])
             return roles
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
            await async_db_session.close()

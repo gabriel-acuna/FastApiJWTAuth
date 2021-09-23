@@ -1,3 +1,4 @@
+import logging
 from app.models.auth.cuentas_usuarios import TokenAutorizacion
 from datetime import datetime
 import time
@@ -25,7 +26,7 @@ class ServicioToken():
 
             )
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def actualizar_registro(cls, token_id: str) -> bool:
@@ -33,7 +34,7 @@ class ServicioToken():
             return await TokenAutorizacion.actualizar(
                 id=token_id, estado=False, usado_hasta=datetime.now())
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     def firmar_token(cls, user:  Dict[str, Any]) -> Dict[str, str]:

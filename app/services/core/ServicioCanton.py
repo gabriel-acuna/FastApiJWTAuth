@@ -1,3 +1,4 @@
+import logging
 from app.schemas.core.CantonSchema import CantonSchema
 
 from typing import List
@@ -15,7 +16,7 @@ class ServicioCanton():
                 cantones.append(CantonSchema(**fila[0].__dict__))
 
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return cantones
 
     @classmethod
@@ -23,4 +24,4 @@ class ServicioCanton():
         try:
             return await Canton.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)

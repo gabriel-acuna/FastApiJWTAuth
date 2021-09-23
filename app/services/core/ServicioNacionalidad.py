@@ -1,3 +1,4 @@
+import logging
 from typing import List
 from app.models.core.modelos_principales import Nacionalidad
 from app.schemas.core.NacionalidadSchema import NacionalidadSchema, NacionalidadPostSchema, NacionalidadPutSchema
@@ -13,7 +14,7 @@ class ServicioNacionalidad():
             for fila in filas:
                 nacionalidades.append(NacionalidadSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return nacionalidades
 
     @classmethod

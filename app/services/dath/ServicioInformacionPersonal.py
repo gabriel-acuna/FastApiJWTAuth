@@ -1,4 +1,4 @@
-from sqlalchemy.orm import session
+import logging
 from app.services.dath.ServicioDireccionDomicilio import ServicioDireccionDomicilio
 from app.models.core.modelos_principales import Nacionalidad
 from app.services.core.ServicioDiscapacidad import ServicioDiscapacidad
@@ -14,7 +14,6 @@ from app.services.core.ServicioNacionalidad import ServicioNacionalidad
 from app.database.conf import async_db_session
 from app.services.core.ServicioEstadoCivil import ServicioEstadoCivil
 from app.schemas.dath.DireccionSchema import *
-import uuid
 
 
 class ServicioInformacionPersonal():
@@ -78,7 +77,7 @@ class ServicioInformacionPersonal():
                 )
 
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return personal_ies
 
     @classmethod
@@ -140,7 +139,7 @@ class ServicioInformacionPersonal():
 
                 )
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return informacion_personal
 
     @classmethod
@@ -193,7 +192,7 @@ class ServicioInformacionPersonal():
             await async_db_session.commit()
             regsitrado = True
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
             await async_db_session.close()
         return regsitrado
@@ -257,7 +256,7 @@ class ServicioInformacionPersonal():
             resp = True
 
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
             await async_db_session.close()
         return resp
@@ -281,7 +280,7 @@ class ServicioInformacionPersonal():
             await async_db_session.commit()
             elminado = True
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
             await async_db_session.close()
 
@@ -300,6 +299,6 @@ class ServicioInformacionPersonal():
                 return True
             return False
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
             await async_db_session.close()

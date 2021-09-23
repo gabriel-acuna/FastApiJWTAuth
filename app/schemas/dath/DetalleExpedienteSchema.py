@@ -2,6 +2,8 @@ from datetime import date
 from typing import Optional
 from pydantic import BaseModel
 import enum
+
+from pydantic.fields import Field
 from app.schemas.core.TipoDocumentoSchema import TipoDocumentoSchema
 from app.schemas.core.RelacionIESSchema import RelacionIESSchema
 from app.schemas.core.TipoEscalafonNombramientoSchema import TipoEscalafonNombramientoSchema
@@ -13,17 +15,20 @@ from app.schemas.core.TipoDocenteLOESSchema import TipoDocenteLOESSchema
 from app.schemas.core.CategoriaDocenteLOSEPSchema import CategoriaDocenteLOSEPSchema
 from app.schemas.core.NivelEducativoSchema import NivelEducativoSchema
 
+
 class TipoPersonal(str, enum.Enum):
     FUNCIONARIIO = "FUNCIONARIO"
     PROFESOR = "PROFESOR"
+
 
 class Opciones(str, enum.Enum):
     SI = "SI"
     NO = "NO"
 
+
 class DetalleExpedienteSchema(BaseModel):
-    id:str
-    id_expediente:str
+    id: str
+    id_expediente: str
     tipo_personal: TipoPersonal
     tipo_documento: TipoDocumentoSchema
     motivo_accion: Optional[str]
@@ -33,7 +38,7 @@ class DetalleExpedienteSchema(BaseModel):
     relacion_ies: RelacionIESSchema
     escalafon_nombramiento: Optional[TipoEscalafonNombramientoSchema]
     categoria_contrato: Optional[CategoriaContratoProfesorSchema]
-    tiempo_dedicacion:Optional[TiempoDedicacionProfesorSchema]
+    tiempo_dedicacion: Optional[TiempoDedicacionProfesorSchema]
     remuneracion_mensual: float
     remuneracion_hora: Optional[float]
     fecha_inicio: date
@@ -49,3 +54,82 @@ class DetalleExpedienteSchema(BaseModel):
     nivel: NivelEducativoSchema
 
 
+class DetalleExpedianteFuncionarioPost(BaseModel):
+    tipo_personal: TipoPersonal
+    tipo_documento: str = Field(...)
+    motivo_accion: Optional[str] = Field()
+    numero_documento: str = Field(...)
+    relacion_ies: str = Field(...)
+    fecha_inicio: date = Field(...)
+    fecha_fin: Optional[date] = Field()
+    ingreso_concurso: Opciones
+    remuneracion_mensual: float = Field(...)
+    tipo_funcionario: str = Field(...)
+    cargo: str = Field(...)
+    tipo_docente: str = Field(...)
+    categoria_docente = str = Field(...)
+    puesto_jerarquico = Opciones
+    horas_laborables_semanales: int = Field(...)
+    area: int = Field(...)
+    sub_area: Optional[int] = Field()
+
+
+class DetalleExpedianteFuncionarioPut(BaseModel):
+    id: str = Field(...)
+    tipo_personal: TipoPersonal
+    tipo_documento: str = Field(...)
+    motivo_accion: Optional[str] = Field()
+    numero_documento: str = Field(...)
+    relacion_ies: str = Field(...)
+    fecha_inicio: date = Field(...)
+    fecha_fin: Optional[date] = Field()
+    ingreso_concurso: Opciones
+    remuneracion_mensual: float = Field(...)
+    tipo_funcionario: str = Field(...)
+    cargo: str = Field(...)
+    tipo_docente: str = Field(...)
+    categoria_docente = str = Field(...)
+    puesto_jerarquico = Opciones
+    horas_laborables_semanales: int = Field(...)
+    area: int = Field(...)
+    sub_area: Optional[int] = Field()
+
+
+class DetalleExpedienteDocentePost(BaseModel):
+    tipo_personal: TipoPersonal
+    tipo_documento: int = Field(...)
+    motivo_accion: Optional[str] = Field()
+    numero_documento: str = Field(...)
+    contrato_relacionado: Optional[str] = Field()
+    ingreso_concurso: Opciones
+    relacion_ies: str = Field(...)
+    escalafon_nombramiento: Optional[TipoEscalafonNombramientoSchema]
+    categoria_contrato: Optional[CategoriaContratoProfesorSchema]
+    tiempo_dedicacion: Optional[TiempoDedicacionProfesorSchema]
+    remuneracion_mensual: float = Field(...)
+    remuneracion_hora: Optional[float] = Field()
+    fecha_inicio: date = Field(...)
+    fecha_fin: Optional[date] = Field()
+    area: int = Field(...)
+    sub_area: Optional[int] = Field()
+    nivel: int = Field(...)
+
+class DetalleExpedienteDocentePut(BaseModel):
+    id: str = Field()
+    tipo_personal: TipoPersonal
+    tipo_documento: int = Field(...)
+    motivo_accion: Optional[str] = Field()
+    numero_documento: str = Field(...)
+    contrato_relacionado: Optional[str] = Field()
+    ingreso_concurso: Opciones
+    relacion_ies: str = Field(...)
+    escalafon_nombramiento: Optional[TipoEscalafonNombramientoSchema]
+    categoria_contrato: Optional[CategoriaContratoProfesorSchema]
+    tiempo_dedicacion: Optional[TiempoDedicacionProfesorSchema]
+    remuneracion_mensual: float = Field(...)
+    remuneracion_hora: Optional[float] = Field()
+    fecha_inicio: date = Field(...)
+    fecha_fin: Optional[date] = Field()
+    area: int = Field(...)
+    sub_area: Optional[int] = Field()
+    nivel: int = Field(...)

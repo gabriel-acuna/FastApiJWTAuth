@@ -1,3 +1,4 @@
+import logging
 from app.schemas.core.CantonSchema import CantonSchema
 from typing import List
 from app.models.core.modelos_principales import Canton, Provincia
@@ -14,7 +15,7 @@ class ServicioProvincia():
             for fila in filas:
                 provincias.append(ProvinciaSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return provincias
 
     @classmethod
@@ -22,7 +23,7 @@ class ServicioProvincia():
         try:
             return await Provincia.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
     async def listar_cantones_por_provincia(cls, id_provincia: int):
@@ -32,5 +33,5 @@ class ServicioProvincia():
             for fila in filas:
                 cantones.append(CantonSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return cantones

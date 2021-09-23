@@ -1,8 +1,11 @@
+import logging
 from app.schemas.core.CantonSchema import CantonSchema
 from app.schemas.core.ProvinciaSchema import ProvinciaSchema
 from app.schemas.dath.DireccionSchema import DireccionSchema
 from app.models.dath.modelos import DireccionDomicilio
 from app.models.core.modelos_principales import  Provincia, Canton
+
+
 class ServicioDireccionDomicilio():
 
     @classmethod
@@ -24,6 +27,5 @@ class ServicioDireccionDomicilio():
 
                 )
         except Exception as ex:
-            print(f"Ha ocurrido una excepción{ex}")
-
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return direccion

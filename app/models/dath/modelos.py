@@ -83,7 +83,7 @@ class DireccionDomicilio(Base, OperacionesLecturaAsincronas):
     calle2 = Column(String(30))
     referencia = Column(String(120))
 
-class ExpedienteLaboral(Base):
+class ExpedienteLaboral(Base, OperacionesLecturaAsincronas):
     __tablename__ = "expedientes_laborales"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -99,7 +99,9 @@ class TipoPersonal(enum.Enum):
     PROFESOR = "PROFESOR"
 
 
-class DetalleExpedianteLaboral(Base):
+class DetalleExpedianteLaboral(Base,
+    OperacionesLecturaAsincronas,
+    EliminacionAsincrona):
     __tablename__ = "detalles_expedientes_laborales"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))

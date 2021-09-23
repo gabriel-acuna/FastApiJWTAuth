@@ -1,3 +1,4 @@
+import logging
 from typing import List
 from app.models.core.modelos_principales import Pais
 from app.schemas.core.PaisSchema import PaisSchema
@@ -13,7 +14,7 @@ class ServicioPais:
             for fila in filas:
                 paises.append(PaisSchema(**fila[0].__dict__))
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return paises
 
     @classmethod
@@ -21,4 +22,4 @@ class ServicioPais:
         try:
             return await Pais.obtener(id)
         except Exception as ex:
-            print(f"Ha ocurrido una excepción {ex}")
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)

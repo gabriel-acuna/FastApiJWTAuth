@@ -68,7 +68,6 @@ async def test_agregar_registro():
     persona_existe = await ServicioInformacionPersonal.existe(**params
                                                               )
     # elimina el registro en caso que exista para evitar que falle el test
-    print('exite', persona_existe)
     if persona_existe:
         await ServicioInformacionPersonal.eliminar_registro(
             id=data.identificacion
