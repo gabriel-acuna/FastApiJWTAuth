@@ -48,7 +48,7 @@ class Referencia(
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     id_persona = Column(ForeignKey("datos_personales.identificacion"), nullable=False)
-    refeencia = Column(Enum(TipoReferencia))
+    referencia = Column(Enum(TipoReferencia))
     apelidos = Column(String(80), nullable=False)
     nombres = Column(String(80), nullable=False)
     direccion = Column(String(120), nullable=False)

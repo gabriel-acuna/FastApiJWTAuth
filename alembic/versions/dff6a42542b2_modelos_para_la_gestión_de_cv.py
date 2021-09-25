@@ -54,7 +54,7 @@ def upgrade():
     op.create_table('referencias',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('uuid_generate_v4()'), nullable=False),
     sa.Column('id_persona', sa.String(length=10), nullable=False),
-    sa.Column('refeencia', sa.Enum('PERSONAL', 'LABORAL', name='tipoReferencia'), nullable=True),
+    sa.Column('referencia', sa.Enum('PERSONAL', 'LABORAL', name='tipoReferencia'), nullable=True),
     sa.Column('apelidos', sa.String(length=80), nullable=False),
     sa.Column('nombres', sa.String(length=80), nullable=False),
     sa.Column('direccion', sa.String(length=120), nullable=False),

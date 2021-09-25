@@ -95,7 +95,7 @@ class ServicioExpedienteLaboral():
                 detalle_expediente = DetalleExpedienteSchema(
                     id=detalle[0].id,
                     id_expediente=detalle[0].id_expediente,
-                    tipo_personal=detalle[0].tipo_personal,
+                    tipo_personal=TipoPersonal[detalle[0].tipo_personal.value],
                     tipo_documento=tipo_documento,
                     motivo_accion=detalle[0].motivo_accion,
                     numero_documento=detalle[0].numero_documento,
