@@ -48,6 +48,11 @@ api_router.include_router(
     dath.informacion_personal.router, tags=["Información personal"]
 )
 
+api_router.include_router(
+    dath.expediente_laboral.router, tags=["Expediente laboral"]
+)
+
+
 app = FastAPI(title="SIGAC UNESUM API",
               description='''REST APi para el Sistema de Gestión de Aseguramiento
                     de la Calidad de la Universidad Estatal del Sur de Manabí''')

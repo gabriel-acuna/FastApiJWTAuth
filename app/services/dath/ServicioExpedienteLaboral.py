@@ -1,19 +1,16 @@
-import re
 from typing import List, Union
-
-from sqlalchemy.sql.elements import False_
 from app.models.dath.modelos import ExpedienteLaboral, DetalleExpedianteLaboral
 from app.models.core.modelos_principales import TipoDocumento, RelacionIES, TipoEscalafonNombramiento, TiempoDedicacionProfesor
 from app.models.core.modelos_principales import CategoriaContratoProfesor, TipoFuncionario, TipoDocenteLOES
 from app.models.core.modelos_principales import CategoriaDocenteLOSEP, NivelEducativo, AreaInstitucion
 from app.schemas.dath.DetalleExpedienteSchema import *
-from app.schemas.dath.ExpedianteLaboralSachema import ExpedienteLaboralSchema
+from app.schemas.dath.ExpedienteLaboralSchema import ExpedienteLaboralSchema
 from app.database.conf import async_db_session
 import logging
 
 
 class ServicioExpedienteLaboral():
-
+    
     @classmethod
     async def listar(cls, id_persona: str) -> ExpedienteLaboralSchema:
         expediente: ExpedienteLaboralSchema = None
@@ -54,69 +51,73 @@ class ServicioExpedienteLaboral():
         area: AreaInstitucionSchema = None
         sub_area: AreaInstitucionSchema = None
 
-
         try:
             detalle = DetalleExpedianteLaboral.obtener(id=id)
             if detalle:
-                t_doc = await TipoDocumento.obtener(id= detalle[0].id_tipo_documento)
+                t_doc = await TipoDocumento.obtener(id=detalle[0].id_tipo_documento)
                 tipo_documento = TipoDocumentoSchema(**t_doc[0].__dict__)
                 r_ies = await RelacionIES.obtener(id=detalle[0].id_relacion_ies)
                 relacion_ies = RelacionIESSchema(**r_ies[0].__dict__)
                 if detalle[0].id_tipo__escalafon:
                     t_es = await TipoEscalafonNombramiento.obtener(id=detalle[0].id_tipo_esclafon)
-                    escalafon_nombramiento = TipoEscalafonNombramientoSchema(**t_es[0].__dict__)
+                    escalafon_nombramiento = TipoEscalafonNombramientoSchema(
+                        **t_es[0].__dict__)
                 if detalle[0].id_categoria_contrato:
                     t_ccp = await CategoriaContratoProfesor.obtener(id=detalle[0].id_categoria_contrato)
-                    categoria_contrato = CategoriaContratoProfesorSchema(**t_ccp.__dict__)
+                    categoria_contrato = CategoriaContratoProfesorSchema(
+                        **t_ccp.__dict__)
                 if detalle[0].id_tiempo_dedicacion:
                     t_d = await TiempoDedicacionProfesor.obtener(id=detalle[0].id_tiempo_dedicacion)
-                    tiempo_dedicacion = TiempoDedicacionProfesorSchema(**t_d.__dict__)
+                    tiempo_dedicacion = TiempoDedicacionProfesorSchema(
+                        **t_d.__dict__)
                 if detalle[0].id_tipo_funcionario:
                     t_f = await TipoFuncionario.obtener(id=detalle[0].id_tipo_funcionario)
                     tipo_funcionario = TipoFuncionarioSchema(**t_f[0].__dict__)
                 if detalle[0].id_tipo_docente:
-                    t_d = TipoDocenteLOES.obtener(id=detalle[0].id_tipo_docente)
+                    t_d = TipoDocenteLOES.obtener(
+                        id=detalle[0].id_tipo_docente)
                     tipo_docente = TipoDocenteLOESSchema(**t_d[0].__dict__)
                 if detalle[0].id_categoria_docente:
                     c_d = await CategoriaDocenteLOSEP.obtener(id=detalle[0].id_categoria_docente)
-                    categoria_docente = CategoriaDocenteLOSEPSchema(**c_d[0].__dict__)
-                a_ins = await AreaInstitucion.obtener(id= detalle[0].id_area)
+                    categoria_docente = CategoriaDocenteLOSEPSchema(
+                        **c_d[0].__dict__)
+                a_ins = await AreaInstitucion.obtener(id=detalle[0].id_area)
                 area = AreaInstitucionSchema(**a_ins[0].__dict__)
                 if detalle[0].id_sub_area:
-                    sa_ins = await AreaInstitucion.obtener(id = detalle[0].id_sub_area)
+                    sa_ins = await AreaInstitucion.obtener(id=detalle[0].id_sub_area)
                     sub_area = AreaInstitucionSchema(**sa_ins.__dict__)
                 if detalle[0].id_nivel:
                     niv = await NivelEducativo.obtener(
-                        id= detalle[0].id_nivel
+                        id=detalle[0].id_nivel
                     )
                     nivel = NivelEducativoSchema(**niv[0].__dict__)
 
                 detalle_expediente = DetalleExpedienteSchema(
                     id=detalle[0].id,
-                    id_expediente = detalle[0].id_expediente,
-                    tipo_personal = detalle[0].tipo_personal,
-                    tipo_documento = tipo_documento,
-                    motivo_accion = detalle[0].motivo_accion,
-                    numero_documento = detalle[0].numero_documento,
-                    contrato_relacionado = detalle[0].contrato_relacionado,
-                    ingreso_concurso = detalle[0].ingreso_concurso,
-                    relacion_ies = relacion_ies,
-                    escalafon_nombramiento = escalafon_nombramiento,
-                    categoria_contrato = categoria_contrato,
-                    tiempo_dedicacion = tiempo_dedicacion,
-                    remuneracion_mensual = detalle[0].remuneracion_mensual,
-                    remunerracion_hora = detalle[0].remuneracion_hora,
-                    fecha_inicio = detalle[0].fecha_inicio,
-                    fecha_fin = detalle[0].fecha_fin,
-                    tipo_funcionario = tipo_funcionario,
-                    cargo = detalle[0].cargo,
-                    tipo_docente = tipo_docente,
-                    categoria_docente = categoria_docente,
-                    puesto_jerarquico = detalle[0].puesto_jerarquico,
-                    horas_laborables_semanales = detalle[0].horas_laborables_semanales,
-                    area = area,
-                    sub_area = sub_area,
-                    nivel = nivel
+                    id_expediente=detalle[0].id_expediente,
+                    tipo_personal=detalle[0].tipo_personal,
+                    tipo_documento=tipo_documento,
+                    motivo_accion=detalle[0].motivo_accion,
+                    numero_documento=detalle[0].numero_documento,
+                    contrato_relacionado=detalle[0].contrato_relacionado,
+                    ingreso_concurso=detalle[0].ingreso_concurso,
+                    relacion_ies=relacion_ies,
+                    escalafon_nombramiento=escalafon_nombramiento,
+                    categoria_contrato=categoria_contrato,
+                    tiempo_dedicacion=tiempo_dedicacion,
+                    remuneracion_mensual=detalle[0].remuneracion_mensual,
+                    remunerracion_hora=detalle[0].remuneracion_hora,
+                    fecha_inicio=detalle[0].fecha_inicio,
+                    fecha_fin=detalle[0].fecha_fin,
+                    tipo_funcionario=tipo_funcionario,
+                    cargo=detalle[0].cargo,
+                    tipo_docente=tipo_docente,
+                    categoria_docente=categoria_docente,
+                    puesto_jerarquico=detalle[0].puesto_jerarquico,
+                    horas_laborables_semanales=detalle[0].horas_laborables_semanales,
+                    area=area,
+                    sub_area=sub_area,
+                    nivel=nivel
 
 
 
@@ -128,7 +129,7 @@ class ServicioExpedienteLaboral():
 
     @classmethod
     async def agregar_registro(cls, id_persona: str,
-                               detalle_expediente: Union[DetalleExpedienteDocentePost, DetalleExpedianteFuncionarioPost]) -> bool:
+                               detalle_expediente: Union[DetalleExpedienteProfesorPostSchema, DetalleExpedienteFuncionarioPostSchema]) -> bool:
         registrado: bool = False
         try:
             expediente = await ExpedienteLaboral.filtarPor(id_persona=id_persona)
@@ -188,7 +189,7 @@ class ServicioExpedienteLaboral():
 
     @classmethod
     async def actualizar_registro(
-            detalle_expediente=Union(DetalleExpedienteDocentePut, DetalleExpedianteFuncionarioPut)):
+            detalle_expediente=Union[DetalleExpedienteProfesorPutSchema, DetalleExpedienteFuncionarioPutSchema]):
         try:
             result = await DetalleExpedianteLaboral.obtener(id=detalle_expediente.id)
             if result:
@@ -240,3 +241,11 @@ class ServicioExpedienteLaboral():
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
             await async_db_session.close()
+
+
+    async def eliminar_registro(id:str) -> bool:
+        try:
+            return await ServicioExpedienteLaboral.eliminar_registro(id=id)
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+

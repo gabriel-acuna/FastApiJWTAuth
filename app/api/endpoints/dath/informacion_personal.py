@@ -20,7 +20,6 @@ async def listar_personal():
     dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_persona(id:str):
     persona = await ServicioInformacionPersonal.buscar_por_id(id=id)
-    print(persona)
     if not persona:
         raise HTTPException(
             status_code=404, detail="Información personal no encontrada")

@@ -2,7 +2,6 @@ from datetime import date
 from typing import Optional
 from pydantic import BaseModel
 import enum
-
 from pydantic.fields import Field
 from app.schemas.core.TipoDocumentoSchema import TipoDocumentoSchema
 from app.schemas.core.RelacionIESSchema import RelacionIESSchema
@@ -46,15 +45,15 @@ class DetalleExpedienteSchema(BaseModel):
     tipo_funcionario: Optional[TipoFuncionarioSchema]
     cargo: Optional[str]
     tipo_docente: Optional[TipoDocenteLOESSchema]
-    categoria_docente = Optional[CategoriaDocenteLOSEPSchema]
-    puesto_jerarquico = Optional[Opciones]
-    horas_laborables_semanales = Optional[int]
+    categoria_docente: Optional[CategoriaDocenteLOSEPSchema]
+    puesto_jerarquico: Optional[Opciones]
+    horas_laborables_semanales: Optional[int]
     area: AreaInstitucionSchema
     sub_area: Optional[AreaInstitucionSchema]
-    nivel: NivelEducativoSchema
+    nivel: Optional[NivelEducativoSchema]
 
 
-class DetalleExpedianteFuncionarioPost(BaseModel):
+class DetalleExpedienteFuncionarioPostSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
     motivo_accion: Optional[str] = Field()
@@ -67,14 +66,14 @@ class DetalleExpedianteFuncionarioPost(BaseModel):
     tipo_funcionario: str = Field(...)
     cargo: str = Field(...)
     tipo_docente: str = Field(...)
-    categoria_docente = str = Field(...)
+    categoria_docenter: str = Field(...)
     puesto_jerarquico = Opciones
     horas_laborables_semanales: int = Field(...)
     area: int = Field(...)
     sub_area: Optional[int] = Field()
 
 
-class DetalleExpedianteFuncionarioPut(BaseModel):
+class DetalleExpedienteFuncionarioPutSchema(BaseModel):
     id: str = Field(...)
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
@@ -88,14 +87,14 @@ class DetalleExpedianteFuncionarioPut(BaseModel):
     tipo_funcionario: str = Field(...)
     cargo: str = Field(...)
     tipo_docente: str = Field(...)
-    categoria_docente = str = Field(...)
+    categoria_docente: str = Field(...)
     puesto_jerarquico = Opciones
     horas_laborables_semanales: int = Field(...)
     area: int = Field(...)
     sub_area: Optional[int] = Field()
 
 
-class DetalleExpedienteDocentePost(BaseModel):
+class DetalleExpedienteProfesorPostSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: int = Field(...)
     motivo_accion: Optional[str] = Field()
@@ -103,9 +102,9 @@ class DetalleExpedienteDocentePost(BaseModel):
     contrato_relacionado: Optional[str] = Field()
     ingreso_concurso: Opciones
     relacion_ies: str = Field(...)
-    escalafon_nombramiento: Optional[TipoEscalafonNombramientoSchema]
-    categoria_contrato: Optional[CategoriaContratoProfesorSchema]
-    tiempo_dedicacion: Optional[TiempoDedicacionProfesorSchema]
+    escalafon_nombramiento: Optional[str]
+    categoria_contrato: Optional[str]
+    tiempo_dedicacion: Optional[str]
     remuneracion_mensual: float = Field(...)
     remuneracion_hora: Optional[float] = Field()
     fecha_inicio: date = Field(...)
@@ -114,7 +113,8 @@ class DetalleExpedienteDocentePost(BaseModel):
     sub_area: Optional[int] = Field()
     nivel: int = Field(...)
 
-class DetalleExpedienteDocentePut(BaseModel):
+
+class DetalleExpedienteProfesorPutSchema(BaseModel):
     id: str = Field()
     tipo_personal: TipoPersonal
     tipo_documento: int = Field(...)
