@@ -5,6 +5,7 @@ from fastapi import APIRouter, FastAPI
 from app.api.endpoints.auth import auth
 import app.api.endpoints.core as core
 import app.api.endpoints.dath as dath
+import app.api.endpoints.cv as cv
 from starlette.middleware.cors import CORSMiddleware
 
 
@@ -51,6 +52,15 @@ api_router.include_router(
 api_router.include_router(
     dath.expediente_laboral.router, tags=["Expediente laboral"]
 )
+
+api_router.include_router(
+    cv.capacitacion.router, tags=["Capacitaciones"]
+)
+
+api_router.include_router(
+    cv.referencia.router, tags=["Referencias"]
+)
+
 
 
 app = FastAPI(title="SIGAC UNESUM API",

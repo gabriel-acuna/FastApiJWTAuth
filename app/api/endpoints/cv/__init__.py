@@ -1,0 +1,1 @@
+from app.api.endpoints.cv import capacitacion, referencia
