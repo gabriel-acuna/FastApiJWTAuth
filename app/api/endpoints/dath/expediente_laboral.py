@@ -18,7 +18,7 @@ async def obtener_expediente_persona(id_persona:str):
     return await ServicioExpedienteLaboral.listar(id_persona=id_persona)
 
 
-@router.get("detalle/{id}",
+@router.get("/detalle/{id}",
     response_model=DetalleExpedienteSchema,
     dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_expediente_persona(id:str):
@@ -28,8 +28,9 @@ async def obtener_expediente_persona(id:str):
             status_code=404, detail="Información laboral no encontrada")
     return expediente
 
-@router.post("profesor/{id_persona}",
+@router.post("/profesor/{id_persona}",
     response_model=MessageSchema,
+    status_code=201,
     dependencies=[Depends(ServicioToken.JWTBearer())])
 async def resgitrar_detalle_expediente_profesor(id_persona:str, expediente: DetalleExpedienteProfesorPostSchema, response: Response, status_code=201, ):
     
@@ -40,9 +41,10 @@ async def resgitrar_detalle_expediente_profesor(id_persona:str, expediente: Deta
     return MessageSchema(type="error", content=ERROR_MSG)
     
 
-@router.post("funcionario/{id_persona}",
-response_model=MessageSchema,
-dependencies=[Depends(ServicioToken.JWTBearer())])
+@router.post("/funcionario/{id_persona}",
+    response_model=MessageSchema,
+    status_code=201,
+    dependencies=[Depends(ServicioToken.JWTBearer())])
 async def resgitrar_detalle_expediente_funcionario(id_persona:str, expediente: DetalleExpedienteFuncionarioPostSchema, response: Response, status_code=201, ):
     
     registrado = await ServicioExpedienteLaboral.agregar_registro(id_persona=id_persona, detalle_expediente=expediente)

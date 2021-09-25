@@ -3,7 +3,7 @@ from typing import List
 from app.schemas.cv.CapacitacitaonSchema import *
 from app.models.cv.modelos import Capacitacion
 
-class ServicioCapaitacion():
+class ServicioCapacitacion():
     
     @classmethod
     async def listar(cls, id_persona: str) -> List[CapacitacionSchema]:

@@ -27,6 +27,7 @@ async def obtener_persona(id:str):
 
 @router.post("/",
     response_model=MessageSchema,
+    status_code=201,
     dependencies=[Depends(ServicioToken.JWTBearer())])
 async def resgitrar_informacion_personal(persona: InformacionPersonalPostSchema, response: Response, status_code=201, ):
     existe = await ServicioInformacionPersonal.existe(**{
