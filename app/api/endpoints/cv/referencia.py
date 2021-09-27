@@ -8,7 +8,7 @@ from app.api.messages import *
 
 
 router = APIRouter(
-    prefix="/capacitaciones"
+    prefix="/referencias"
 )
 
 
@@ -24,7 +24,7 @@ async def listar_referncias(id_persona: str):
             response_model=ReferenciaSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )
-async def obtener_capacitacion(id: str):
+async def obtener_referencia(id: str):
     capacitacion = await ServicioReferencia.buscar_por_id(id=id)
     if not capacitacion:
         raise HTTPException(
@@ -36,7 +36,7 @@ async def obtener_capacitacion(id: str):
 @router.post("/", response_model=MessageSchema,
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
-async def registar_capacitacion(response: Response, capacitacion: ReferenciaPostSchema = Body(...)):
+async def registar_referencia(response: Response, capacitacion: ReferenciaPostSchema = Body(...)):
     registrado = await ServicioReferencia.agregar_registro(capacitacion)
     if registrado:
         return MessageSchema(type="success", content=POST_SUCCESS_MSG)
@@ -47,7 +47,7 @@ async def registar_capacitacion(response: Response, capacitacion: ReferenciaPost
 @router.put("/{id}", response_model=MessageSchema,
             status_code=201,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def registar_capacitacion(id: str, response: Response, capacitacion: ReferenciaPutSchema = Body(...)):
+async def actualizar_referncia(id: str, response: Response, capacitacion: ReferenciaPutSchema = Body(...)):
     actualizado = await ServicioReferencia.actualizar_registro(capacitacion)
     if actualizado:
         return MessageSchema(type="success", content=POST_SUCCESS_MSG)
@@ -59,7 +59,7 @@ async def registar_capacitacion(id: str, response: Response, capacitacion: Refer
                response_model=MessageSchema,
                dependencies=[Depends(ServicioToken.JWTBearer())]
                )
-async def eliminar_capacitacion(id: str, response: Response):
+async def eliminar_referencia(id: str, response: Response):
     capacitacion = await ServicioReferencia.buscar_por_id(id)
     if capacitacion:
         eliminado = await ServicioReferencia.eliminar_registro(id)

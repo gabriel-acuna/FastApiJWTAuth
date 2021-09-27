@@ -47,7 +47,7 @@ async def registar_capacitacion(response: Response, capacitacion: CapacitacionPo
 @router.put("/{id}", response_model=MessageSchema,
             status_code=201,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def registar_capacitacion(id: str, response: Response, capacitacion: CapacitacionPutSchema = Body(...)):
+async def actualizar_capacitacion(id: str, response: Response, capacitacion: CapacitacionPutSchema = Body(...)):
     actualizado = await ServicioCapacitacion.actualizar_registro(capacitacion)
     if actualizado:
         return MessageSchema(type="success", content=POST_SUCCESS_MSG)
