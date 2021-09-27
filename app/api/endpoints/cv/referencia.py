@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get("/",
+@router.get("/persona/{id_persona}",
             response_model=List[ReferenciaSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )
@@ -20,7 +20,7 @@ async def listar_referncias(id_persona: str):
     return await ServicioReferencia.listar(id_persona=id_persona)
 
 
-@router.get("/id",
+@router.get("/{id}",
             response_model=ReferenciaSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )

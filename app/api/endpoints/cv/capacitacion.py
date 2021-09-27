@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get("/",
+@router.get("/persona/{id_persona}",
             response_model=List[CapacitacionSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )
@@ -20,7 +20,7 @@ async def listar_capacitaciones(id_persona: str):
     return await ServicioCapacitacion.listar(id_persona=id_persona)
 
 
-@router.get("/id",
+@router.get("/{id}",
             response_model=CapacitacionSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )

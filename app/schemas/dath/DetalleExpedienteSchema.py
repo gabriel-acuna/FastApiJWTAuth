@@ -123,9 +123,9 @@ class DetalleExpedienteProfesorPutSchema(BaseModel):
     contrato_relacionado: Optional[str] = Field()
     ingreso_concurso: Opciones
     relacion_ies: str = Field(...)
-    escalafon_nombramiento: Optional[TipoEscalafonNombramientoSchema]
-    categoria_contrato: Optional[CategoriaContratoProfesorSchema]
-    tiempo_dedicacion: Optional[TiempoDedicacionProfesorSchema]
+    escalafon_nombramiento: str = Field(...)
+    categoria_contrato: str = Field(...)
+    tiempo_dedicacion: str = Field(...)
     remuneracion_mensual: float = Field(...)
     remuneracion_hora: Optional[float] = Field()
     fecha_inicio: date = Field(...)
