@@ -12,7 +12,8 @@ class ServicioPais:
         try:
             filas = await Pais.listar()
             for fila in filas:
-                paises.append(PaisSchema(**fila[0].__dict__))
+                pais = PaisSchema(**fila[0].__dict__)
+                paises.append(pais)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return paises

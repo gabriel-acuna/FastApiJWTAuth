@@ -18,7 +18,7 @@ class OperacionesEscrituraAsinconas:
             raise
 
         finally:
-            await async_db_session.close()
+            await async_db_session._engine.dispose()
         return ok
 
     @classmethod
@@ -39,7 +39,7 @@ class OperacionesEscrituraAsinconas:
         except Exception as ex:
             raise
         finally:
-            await async_db_session.close()
+            await async_db_session._engine.dispose()
         return ok
 
 class OperacionesLecturaAsincronas:
@@ -53,7 +53,7 @@ class OperacionesLecturaAsincronas:
         except Exception as ex:
             raise
         finally:
-            await async_db_session.close()
+            await async_db_session._engine.dispose()
 
     @classmethod
     async def filtarPor(cls, **kwargs):
@@ -65,7 +65,7 @@ class OperacionesLecturaAsincronas:
         except Exception as ex:
             raise
         finally:
-            await async_db_session.close()
+            await async_db_session._engine.dispose()
 
     @classmethod
     async def obtener(cls, id):
@@ -79,7 +79,7 @@ class OperacionesLecturaAsincronas:
         except Exception as ex:
             raise
         finally:
-            await async_db_session.close()
+            await async_db_session._engine.dispose()
 
 
 class EliminacionAsincrona():
@@ -95,5 +95,5 @@ class EliminacionAsincrona():
         except Exception as ex:
             raise
         finally:
-            await async_db_session.close()
+            await async_db_session._engine.dispose()
         return ok

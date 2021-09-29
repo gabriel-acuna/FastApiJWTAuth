@@ -42,7 +42,7 @@ class ServicioInformacionPersonal():
                     )
                 )
                 expediente = results.scalar_one()
-                await async_db_session.close()
+               
                 personal_ies.append(
                     InformacionPersonalSchema(
                         tipo_identificacion=TipoIdentificacion[persona.tipo_identificacion.value],
@@ -78,6 +78,8 @@ class ServicioInformacionPersonal():
 
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        finally:
+             await async_db_session.close()
         return personal_ies
 
     @classmethod

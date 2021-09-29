@@ -28,7 +28,8 @@ class AsyncDatabaseSession:
             await conn.run_sync(Base.metadata.create_all)
 
     async def close(self):
-        await self._session.close()
+        if self._session is not None:
+            await self._session.close()
 
 
 async_db_session = AsyncDatabaseSession()
