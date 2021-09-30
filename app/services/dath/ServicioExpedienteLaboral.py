@@ -5,7 +5,7 @@ from app.models.core.modelos_principales import CategoriaContratoProfesor, TipoF
 from app.models.core.modelos_principales import CategoriaDocenteLOSEP, NivelEducativo, AreaInstitucion
 from app.schemas.dath.DetalleExpedienteSchema import *
 from app.schemas.dath.ExpedienteLaboralSchema import ExpedienteLaboralSchema
-from app.database.conf import async_db_session
+from app.database.conf import AsyncDatabaseSession
 import logging
 
 
@@ -134,7 +134,8 @@ class ServicioExpedienteLaboral():
         try:
             expediente = await ExpedienteLaboral.filtarPor(id_persona=id_persona)
             if expediente:
-                async_db_session.init()
+                async_db_session = AsyncDatabaseSession()
+                await async_db_session.init()
                 detalle = DetalleExpedianteLaboral()
                 detalle.id_expediente = expediente[0][0].id
                 detalle.id_tipo_documento = detalle_expediente.tipo_documento
@@ -194,6 +195,7 @@ class ServicioExpedienteLaboral():
             result = await DetalleExpedianteLaboral.obtener(id=detalle_expediente.id)
             if result:
                 detalle = result[0]
+                async_db_session = AsyncDatabaseSession()
                 await async_db_session.init()
                 detalle.id_tipo_documento = detalle_expediente.tipo_documento
                 if detalle_expediente.motivo_accion is not None:

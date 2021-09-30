@@ -5,7 +5,7 @@ from typing import List
 from sqlalchemy.sql.functions import mode
 from app.models.core.modelos_principales import AreaInstitucion
 from app.schemas.core.AreaInstitucionalSchema import *
-from app.database.conf import async_db_session
+from app.database.conf import AsyncDatabaseSession
 
 
 class ServicioAreaInstitucion():
@@ -62,6 +62,7 @@ class ServicioAreaInstitucion():
         sub_areas: List[AreaInstitucionSchema] = []
         try:
             area = await AreaInstitucion.obtener(parms['id_area'])
+            async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
             if area:
                 area_institucion = AreaInstitucion(

@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import select
 from app.models.auth.cuentas_usuarios import CuentaUsuario, Rol, TipoToken, rol_usuario
 from app.schemas.auth.UserLoginSchema import UserLoginSchema
 import bcrypt
-from app.database.conf import async_db_session
+from app.database.conf import AsyncDatabaseSession
 import logging
 
 class ServicioLogin():
@@ -26,6 +26,7 @@ class ServicioLogin():
     async def obtener_roles(cls, id:str):
         roles = []
         try:
+            async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
             result = await async_db_session.execute(
                 '''SELECT r.rol FROM roles_usuarios ru INNER JOIN roles

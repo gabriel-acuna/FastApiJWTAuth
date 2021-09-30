@@ -11,7 +11,7 @@ from sqlalchemy.sql.expression import delete, select
 from app.schemas.dath.InformacionPersonalSchema import *
 from app.models.dath.modelos import ExpedienteLaboral, InformacionPersonal, DireccionDomicilio
 from app.services.core.ServicioNacionalidad import ServicioNacionalidad
-from app.database.conf import async_db_session
+from app.database.conf import AsyncDatabaseSession
 from app.services.core.ServicioEstadoCivil import ServicioEstadoCivil
 from app.schemas.dath.DireccionSchema import *
 
@@ -35,6 +35,7 @@ class ServicioInformacionPersonal():
                         persona.id_nacionalidad)
                     nacionalidad = NacionalidadSchema(**nac[0].__dict__)
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
+                async_db_session = AsyncDatabaseSession()
                 await async_db_session.init()
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
@@ -42,7 +43,7 @@ class ServicioInformacionPersonal():
                     )
                 )
                 expediente = results.scalar_one()
-               
+                await async_db_session.close()
                 personal_ies.append(
                     InformacionPersonalSchema(
                         tipo_identificacion=TipoIdentificacion[persona.tipo_identificacion.value],
@@ -78,8 +79,7 @@ class ServicioInformacionPersonal():
 
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-        finally:
-             await async_db_session.close()
+             
         return personal_ies
 
     @classmethod
@@ -102,6 +102,7 @@ class ServicioInformacionPersonal():
                         persona.id_nacionalidad)
                     nacionalidad = NacionalidadSchema(**nac[0].__dict__)
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
+                async_db_session = AsyncDatabaseSession()
                 await async_db_session.init()
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
@@ -148,6 +149,7 @@ class ServicioInformacionPersonal():
     async def agregar_registro(cls, persona: InformacionPersonalPostSchema) -> bool:
         regsitrado = False
         try:
+            async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
 
             informacion_personal = InformacionPersonal()
@@ -203,6 +205,7 @@ class ServicioInformacionPersonal():
     async def actualizar_registro(cls, persona: InformacionPersonalPutSchema, id: str):
         resp = False
         try:
+            async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
 
             results = await async_db_session.execute(
@@ -267,6 +270,7 @@ class ServicioInformacionPersonal():
     async def eliminar_registro(cls, id: str) -> bool:
         elminado = False
         try:
+            async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
             query = delete(DireccionDomicilio).where(
                 DireccionDomicilio.id_persona == id)
@@ -291,6 +295,7 @@ class ServicioInformacionPersonal():
     @classmethod
     async def existe(cls, **kwargs) -> bool:
         try:
+            async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
             query = select(InformacionPersonal).filter(or_(
                 InformacionPersonal.identificacion == kwargs['id'],
