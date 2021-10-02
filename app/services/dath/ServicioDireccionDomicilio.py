@@ -1,31 +1,54 @@
 import logging
+
+from sqlalchemy.sql.expression import select
 from app.schemas.core.CantonSchema import CantonSchema
 from app.schemas.core.ProvinciaSchema import ProvinciaSchema
 from app.schemas.dath.DireccionSchema import DireccionSchema
 from app.models.dath.modelos import DireccionDomicilio
-from app.models.core.modelos_principales import  Provincia, Canton
+from app.models.core.modelos_principales import Provincia, Canton
+from app.database.conf import AsyncDatabaseSession
 
 
 class ServicioDireccionDomicilio():
 
     @classmethod
-    async def buscar_por_id_persona(cls, id_perona: str) -> DireccionSchema:
+    async def buscar_por_id_persona(cls, id_persona: str) -> DireccionSchema:
         direccion: DireccionSchema = None
         try:
-            dir = await DireccionDomicilio.filtarPor(id_persona=id_perona)
+            async_db_session = AsyncDatabaseSession()
+            await async_db_session.init()
+            res = await async_db_session.execute(
+                select(DireccionDomicilio).where(
+                    DireccionDomicilio.id_persona == id_persona
+                )
+            )
+            dir = res.scalar_one()
             if dir:
-                provincia = await Provincia.obtener(dir[0][0].id_provincia)
-                canton =  await Canton.obtener(dir[0][0].id_canton)
+                res = await async_db_session.execute(
+                    select(
+                        Provincia
+                    ).where(Provincia.id == dir.id_provincia)
+                )
+                provincia = res.scalar_one()
+                res = await async_db_session.execute(
+                    select(
+                        Canton
+                    ).where(Canton.id == dir.id_canton)
+                )
+                canton = res.scalar_one()
                 direccion = DireccionSchema(
-                    id = dir[0][0].id,
-                    provincia = ProvinciaSchema(**provincia[0].__dict__),
-                    canton = CantonSchema(**canton[0].__dict__),
-                    parroquia = dir[0][0].parroquia,
-                    calle1 = dir[0][0].calle1,
-                    calle2 = dir[0][0].calle2,
-                    referencia = dir[0][0].referencia
+                    id=dir.id,
+                    provincia=ProvinciaSchema(**provincia.__dict__),
+                    canton=CantonSchema(**canton.__dict__),
+                    parroquia=dir.parroquia,
+                    calle1=dir.calle1,
+                    calle2=dir.calle2,
+                    referencia=dir.referencia
 
                 )
+
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        finally:
+            await async_db_session.close()
         return direccion

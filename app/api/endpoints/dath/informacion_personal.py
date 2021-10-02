@@ -42,7 +42,7 @@ async def resgitrar_informacion_personal(persona: InformacionPersonalPostSchema,
     response.status_code = status.HTTP_202_ACCEPTED
     return MessageSchema(type="warning", content=f"La identificación {persona.identificacion} o el correo {persona.correo_institucional} ya está resgistrado")
 
-@router.put("/",
+@router.put("/{id}",
     response_model=MessageSchema,
     dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_informacion_personal(id:str, persona: InformacionPersonalPutSchema, response: Response):

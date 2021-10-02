@@ -1,6 +1,6 @@
 import logging
 from app.services.dath.ServicioDireccionDomicilio import ServicioDireccionDomicilio
-from app.models.core.modelos_principales import Nacionalidad
+from app.models.core.modelos_principales import Discapacidad, EstadoCivil, Etnia, Nacionalidad, Pais
 from app.services.core.ServicioDiscapacidad import ServicioDiscapacidad
 from app.schemas.core.PaisSchema import PaisSchema
 from app.services.core.ServicioEtnia import ServicioEtnia
@@ -24,59 +24,10 @@ class ServicioInformacionPersonal():
         try:
             filas = await InformacionPersonal.listar()
             for fila in filas:
-                nacionalidad: NacionalidadSchema = None
+                
                 persona = fila[0]
-                etnia = await ServicioEtnia.buscar_por_id(persona.id_etnia)
-                discapacidad = await ServicioDiscapacidad.buscar_por_id(persona.id_discapacidad)
-                pais = await ServicioPais.buscar_por_id(persona.id_pais_origen)
-                estado_civil = await ServicioEstadoCivil.buscar_por_id(persona.id_estado_civil)
-                if persona.id_nacionalidad is not None:
-                    nac = ServicioNacionalidad.buscar_por_id(
-                        persona.id_nacionalidad)
-                    nacionalidad = NacionalidadSchema(**nac[0].__dict__)
-                direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
-                async_db_session = AsyncDatabaseSession()
-                await async_db_session.init()
-                results = await async_db_session.execute(
-                    select(ExpedienteLaboral).filter_by(
-                            id_persona=persona.identificacion
-                    )
-                )
-                expediente = results.scalar_one()
-                await async_db_session.close()
-                personal_ies.append(
-                    InformacionPersonalSchema(
-                        tipo_identificacion=TipoIdentificacion[persona.tipo_identificacion.value],
-                        identificacion=persona.identificacion,
-                        primer_nombre=persona.primer_nombre,
-                        segundo_nombre=persona.segundo_nombre,
-                        primer_apellido=persona.primer_apellido,
-                        segundo_apellido=persona.segundo_apellido,
-                        sexo=Sexo[persona.sexo.value],
-                        fecha_nacimiento=persona.fecha_nacimiento,
-                        edad=persona.calcular_edad(),
-                        pais_origen=PaisSchema(**pais[0].__dict__),
-                        estado_civil=EstadoCivilSchema(
-                            **estado_civil[0].__dict__),
-                        discapacidad=DiscapacidadSchema(
-                            **discapacidad[0].__dict__),
-                        carnet_conadis=persona.carnet_conadis,
-                        porcentaje_discapacidad=persona.porcentaje_discapacidad,
-                        etnia=EtniaSchema(**etnia[0].__dict__),
-                        nacionalidad=nacionalidad,
-                        correo_institucional=persona.correo_institucional,
-                        correo_personal=persona.correo_institucional,
-                        telefono_domicilio=persona.telefono_domicilio,
-                        telefono_movil=persona.telefono_movil,
-                        direccion_domicilio=direccion,
-                        tipo_sangre=persona.tipo_sangre,
-                        licencia_conduccion=persona.lincencia_conduccion,
-                        fecha_ingreso = expediente.registrado_en
-
-
-                    )
-                )
-
+                personal = await ServicioInformacionPersonal.buscar_por_id(id=persona.identificacion)
+                personal_ies.append(personal) 
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
              
@@ -90,20 +41,44 @@ class ServicioInformacionPersonal():
             persona: InformacionPersonal = None
             nacionalidad: NacionalidadSchema = None
             direccion: DireccionSchema = None
+            persona: InformacionPersonal
             if respuesta:
-
-                persona = respuesta[0][0]
-                etnia = await ServicioEtnia.buscar_por_id(persona.id_etnia)
-                discapacidad = await ServicioDiscapacidad.buscar_por_id(persona.id_discapacidad)
-                pais = await ServicioPais.buscar_por_id(persona.id_pais_origen)
-                estado_civil = await ServicioEstadoCivil.buscar_por_id(persona.id_estado_civil)
-                if persona.id_nacionalidad is not None:
-                    nac = ServicioNacionalidad.buscar_por_id(
-                        persona.id_nacionalidad)
-                    nacionalidad = NacionalidadSchema(**nac[0].__dict__)
-                direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
                 async_db_session = AsyncDatabaseSession()
                 await async_db_session.init()
+                persona = respuesta[0][0]
+                res =   await async_db_session.execute(
+                        select(Etnia).where(
+                        Etnia.id==persona.id_etnia
+                    ))
+                etnia = res.scalar_one()
+                res = await async_db_session.execute(
+                    select(Discapacidad).where(
+                        Discapacidad.id == persona.id_discapacidad
+                    )
+                )
+                discapacidad = res.scalar_one()
+                res = await async_db_session.execute(
+                    select(Pais).where(
+                        Pais.id == persona.id_pais_origen
+                    )
+                )
+                pais = res.scalar_one()
+                res = await async_db_session.execute(
+                    select(EstadoCivil).where(
+                        EstadoCivil.id == persona.id_estado_civil
+                    )
+                )
+                estado_civil = res.scalar_one()
+                res = await async_db_session.execute(
+                    select(Nacionalidad).where(
+                        Nacionalidad.id == persona.id_nacionalidad
+                    )
+                )
+                nac = res.scalar_one()
+                nacionalidad = NacionalidadSchema(**nac.__dict__)
+
+                direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
+                print(direccion)
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=id
@@ -122,13 +97,13 @@ class ServicioInformacionPersonal():
                     sexo=Sexo[persona.sexo.value],
                     fecha_nacimiento=persona.fecha_nacimiento,
                     edad=persona.calcular_edad(),
-                    pais_origen=PaisSchema(**pais[0].__dict__),
-                    estado_civil=EstadoCivilSchema(**estado_civil[0].__dict__),
+                    pais_origen=PaisSchema(**pais.__dict__),
+                    estado_civil=EstadoCivilSchema(**estado_civil.__dict__),
                     discapacidad=DiscapacidadSchema(
-                        **discapacidad[0].__dict__),
+                        **discapacidad.__dict__),
                     carnet_conadis=persona.carnet_conadis,
                     porcentaje_discapacidad=persona.porcentaje_discapacidad,
-                    etnia=EtniaSchema(**etnia[0].__dict__),
+                    etnia=EtniaSchema(**etnia.__dict__),
                     nacionalidad=nacionalidad,
                     correo_institucional=persona.correo_institucional,
                     correo_personal=persona.correo_institucional,
