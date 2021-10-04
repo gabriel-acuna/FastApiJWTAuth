@@ -28,11 +28,11 @@ def upgrade():
         file_path = ".\\app\\utils\\areas.json"
         with open(file_path, encoding='utf8') as f:
             areas = json.load(f)
-            for area in areas:
-                a = AreaInstitucion()
-                a.nombre = area['nombre']
-                a.codigo = area['codigo']
-                listadoAreas.append(a)
+        for area in areas:
+            a = AreaInstitucion()
+            a.nombre = area['nombre']
+            a.codigo = area['codigo']
+            listadoAreas.append(a)
         session.add_all(listadoAreas)
         session.commit()
     except Exception as ex:
