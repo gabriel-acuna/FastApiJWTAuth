@@ -47,7 +47,7 @@ async def resgitrar_informacion_personal(persona: InformacionPersonalPostSchema,
     dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_informacion_personal(id:str, persona: InformacionPersonalPutSchema, response: Response):
     existe = await ServicioInformacionPersonal.existe(**{
-        'id':persona.identificacion,
+        'id':id,
         'correo_institucional':persona.correo_institucional })
     if existe:
         actualizado = await ServicioInformacionPersonal.actualizar_registro(

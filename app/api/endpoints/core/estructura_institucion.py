@@ -11,9 +11,9 @@ router = APIRouter(prefix="/estructura-institucional")
 
 
 @router.get("/",
-            response_model=EstructuraInstitucionalSchema,
+            response_model=List[EstructuraInstitucionalSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def listar_estados_civiles():
+async def listar_estructura_institucional():
     return await ServicioEstructuraInstitucional.listar()
 
 
@@ -22,6 +22,7 @@ async def listar_estados_civiles():
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_estructura_institucional(id:int):
     estructura_institucional = await ServicioEstructuraInstitucional.buscar_por_id(id)
+    print(estructura_institucional)
     if not estructura_institucional:
         raise HTTPException(
             status_code=404, detail="Estructura institucional no encontrado")

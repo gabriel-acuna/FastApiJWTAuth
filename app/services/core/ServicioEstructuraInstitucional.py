@@ -8,14 +8,15 @@ class ServicioEstructuraInstitucional():
 
     @classmethod
     async def listar(cls) -> List[EstructuraInstitucionalSchema]:
-        etnias: List[EstructuraInstitucionalSchema] = []
+        estructuras: List[EstructuraInstitucionalSchema] = []
         try:
             filas = await EstructuraInstitucional.listar()
             for fila in filas:
-                etnias.append(EstructuraInstitucionalSchema(**fila[0].__dict__))
+                print(fila)
+                estructuras.append(EstructuraInstitucionalSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-        return etnias
+        return estructuras
 
     @classmethod
     async def buscar_por_id(cls, id: int):
