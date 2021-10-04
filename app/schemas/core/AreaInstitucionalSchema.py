@@ -14,7 +14,7 @@ class AreaInstitucionalPostSchema(BaseModel):
     codigo: Optional[str] = None
 
     @validator('nombre')
-    def documento_aprobacion_validaciones(cls, value):
+    def nombre_validaciones(cls, value):
         r = longitud_maxima(80, value, 3)
         if r and es_no_numerico(value):
             return value
@@ -22,8 +22,8 @@ class AreaInstitucionalPostSchema(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "id_estructura": 1,
-                "nombre": "OCS"
+                "nombre": "OCS",
+                "codigo": ""
 
             }
         }

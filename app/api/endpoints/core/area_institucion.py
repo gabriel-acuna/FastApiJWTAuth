@@ -70,9 +70,10 @@ async def actualizar_area(response: Response, area: AreaInstitucionalPutSchema):
 
 
 @router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
-async def eliminar_area(id: str, response: Response):
-    etnia = await ServicioAreaInstitucion.buscar_por_id(id)
-    if etnia:
+async def eliminar_area(id: int, response: Response):
+    area = await ServicioAreaInstitucion.buscar_por_id(id)
+    print(area)
+    if area:
         eliminado = await ServicioAreaInstitucion.eliminar_registro(id)
         if eliminado:
             return MessageSchema(type="success", content=DELETE_SUCCESS_MSG)
