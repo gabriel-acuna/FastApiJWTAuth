@@ -25,19 +25,19 @@ async def listar_referncias(id_persona: str):
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )
 async def obtener_referencia(id: str):
-    capacitacion = await ServicioReferencia.buscar_por_id(id=id)
-    if not capacitacion:
+    referencia = await ServicioReferencia.buscar_por_id(id=id)
+    if not referencia:
         raise HTTPException(
             status_code=404, detail="Referencia no encontrada"
         )
-    return capacitacion
+    return referencia
 
 
 @router.post("/", response_model=MessageSchema,
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
-async def registar_referencia(response: Response, capacitacion: ReferenciaPostSchema = Body(...)):
-    registrado = await ServicioReferencia.agregar_registro(capacitacion)
+async def registar_referencia(response: Response, referencia: ReferenciaPostSchema = Body(...)):
+    registrado = await ServicioReferencia.agregar_registro(referencia)
     if registrado:
         return MessageSchema(type="success", content=POST_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT
@@ -47,10 +47,10 @@ async def registar_referencia(response: Response, capacitacion: ReferenciaPostSc
 @router.put("/{id}", response_model=MessageSchema,
             status_code=201,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_referncia(id: str, response: Response, capacitacion: ReferenciaPutSchema = Body(...)):
-    actualizado = await ServicioReferencia.actualizar_registro(capacitacion)
+async def actualizar_referncia(id: str, response: Response, referencia: ReferenciaPutSchema = Body(...)):
+    actualizado = await ServicioReferencia.actualizar_registro(id, referencia)
     if actualizado:
-        return MessageSchema(type="success", content=POST_SUCCESS_MSG)
+        return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT
     return MessageSchema(type="error", content=ERROR_MSG)
 
@@ -60,8 +60,8 @@ async def actualizar_referncia(id: str, response: Response, capacitacion: Refere
                dependencies=[Depends(ServicioToken.JWTBearer())]
                )
 async def eliminar_referencia(id: str, response: Response):
-    capacitacion = await ServicioReferencia.buscar_por_id(id)
-    if capacitacion:
+    referencia = await ServicioReferencia.buscar_por_id(id)
+    if referencia:
         eliminado = await ServicioReferencia.eliminar_registro(id)
         if eliminado:
             return MessageSchema(type="success", content=DELETE_SUCCESS_MSG)

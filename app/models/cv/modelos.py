@@ -49,7 +49,7 @@ class Referencia(
                 server_default=text("uuid_generate_v4()"))
     id_persona = Column(ForeignKey("datos_personales.identificacion"), nullable=False)
     referencia = Column(Enum(TipoReferencia))
-    apelidos = Column(String(80), nullable=False)
+    apellidos = Column(String(80), nullable=False)
     nombres = Column(String(80), nullable=False)
     direccion = Column(String(120), nullable=False)
     correo_electronico = Column(String(80) )

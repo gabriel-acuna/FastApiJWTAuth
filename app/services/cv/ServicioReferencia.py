@@ -19,7 +19,7 @@ class ServicioReferencia():
                         ReferenciaSchema(
                             id = fila[0].id,
                             id_persona = fila[0].id_persona,
-                            referencia= TipoReferencia[fila[0].tipo_referencia.value],
+                            referencia= TipoReferencia[fila[0].referencia.value],
                             apellidos = fila[0].apellidos,
                             nombres = fila[0].nombres,
                             direccion = fila[0].direccion,
@@ -36,13 +36,13 @@ class ServicioReferencia():
     async def buscar_por_id(cls, id:str)->ReferenciaSchema:
         referencia: ReferenciaSchema = None
         try:
-            ref = Referencia.obtener(
+            ref =  await Referencia.obtener(
                 id = id
             )
             referencia = ReferenciaSchema(
                             id = ref[0].id,
                             id_persona = ref[0].id_persona,
-                            referencia= TipoReferencia[ref[0].tipo_referencia.value],
+                            referencia= TipoReferencia[ref[0].referencia.value],
                             apellidos = ref[0].apellidos,
                             nombres = ref[0].nombres,
                             direccion = ref[0].direccion,
