@@ -25,6 +25,17 @@ async def obtener_persona(id:str):
             status_code=404, detail="Información personal no encontrada")
     return persona
 
+@router.get("/correo/{email}",
+    response_model=InformacionPersonalSchema,
+    dependencies=[Depends(ServicioToken.JWTBearer())])
+async def obtener_persona_por_correo(email:str):
+    print(email)
+    persona = await ServicioInformacionPersonal.buscar_por_correo_institucional(correo_institucional=email)
+    if not persona:
+        raise HTTPException(
+            status_code=404, detail="Información personal no encontrada")
+    return persona
+
 @router.post("/",
     response_model=MessageSchema,
     status_code=201,
