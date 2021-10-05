@@ -19,7 +19,7 @@ def es_alafanumerico(value:str):
 
     return res
 def es_no_numerico(value:str):
-    res = re.search(r'^[A-Z]*[] +[A-Z]*$', value)
+    res = re.search(r'^[A-Z]*([A-Z /?]+)$', value)
     print(res)
     if not res:
         raise ValueError(f"No debe contener números")

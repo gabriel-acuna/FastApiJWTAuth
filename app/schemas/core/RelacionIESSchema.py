@@ -15,7 +15,7 @@ class RelacionIESPostSchema(BaseModel):
 
     @validator('relacion')
     def relacion_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value, 8)
+        r = longitud_maxima(50, value, 8)
         if r and es_no_numerico(value):
             return value
 
@@ -33,6 +33,6 @@ class RelacionIESPutSchema(BaseModel):
 
     @validator('relacion')
     def relacion_longitud_maxima(cls, value):
-        r = longitud_maxima(30, value, 8)
+        r = longitud_maxima(50, value, 8)
         if r and es_no_numerico(value):
             return value
