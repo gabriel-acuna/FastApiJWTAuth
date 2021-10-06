@@ -45,12 +45,11 @@ async def registar_capacitacion(response: Response, capacitacion: CapacitacionPo
 
 
 @router.put("/{id}", response_model=MessageSchema,
-            status_code=201,
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_capacitacion(id: str, response: Response, capacitacion: CapacitacionPutSchema = Body(...)):
-    actualizado = await ServicioCapacitacion.actualizar_registro(capacitacion)
+    actualizado = await ServicioCapacitacion.actualizar_registro(id, capacitacion)
     if actualizado:
-        return MessageSchema(type="success", content=POST_SUCCESS_MSG)
+        return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT
     return MessageSchema(type="error", content=ERROR_MSG)
 

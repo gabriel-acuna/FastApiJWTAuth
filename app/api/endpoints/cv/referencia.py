@@ -45,7 +45,6 @@ async def registar_referencia(response: Response, referencia: ReferenciaPostSche
 
 
 @router.put("/{id}", response_model=MessageSchema,
-            status_code=201,
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_referncia(id: str, response: Response, referencia: ReferenciaPutSchema = Body(...)):
     actualizado = await ServicioReferencia.actualizar_registro(id, referencia)
