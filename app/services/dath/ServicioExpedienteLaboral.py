@@ -18,16 +18,16 @@ class ServicioExpedienteLaboral():
         try:
             expediente_laboral = await ExpedienteLaboral.filtarPor(id_persona=id_persona)
             if expediente_laboral:
-                filas = DetalleExpedianteLaboral.filtarPor(
+                filas = await DetalleExpedianteLaboral.filtarPor(
                     id_expediente=expediente_laboral[0][0].id)
                 for fila in filas:
                     detalle = await ServicioExpedienteLaboral.buscar_por_id(fila[0].id)
                     if detalle:
                         lista_expediente.add(detalle)
-                expediente = ExpedienteLaboral(
-                    id=expediente[0][0].id,
-                    id_persona=expediente[0][0].id_persona,
-                    fecha_ingreso=expediente[0][0].registrado_en,
+                expediente = ExpedienteLaboralSchema(
+                    id=expediente_laboral[0][0].id,
+                    id_persona=expediente_laboral[0][0].id_persona,
+                    fecha_ingreso=expediente_laboral[0][0].registrado_en,
                     detalle=lista_expediente
 
                 )
