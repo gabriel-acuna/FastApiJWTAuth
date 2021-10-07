@@ -25,7 +25,8 @@ def upgrade():
         'TECNICO DOCENTE',
         'TECNICO LABORATORIO',
         'TECNICO INVESTIGACION',
-        'TECNICO ARTES'
+        'TECNICO ARTES',
+        'NO APLICA'
     ]
 
     session = Session(bind=op.get_bind())

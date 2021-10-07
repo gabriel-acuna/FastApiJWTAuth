@@ -11,7 +11,7 @@ def longitud_maxima(longitud:int, value:str, longitud_minima:int=3 ):
     return value
 
 def es_alafanumerico(value:str):
-    res = re.search(r'^[A-Z]*\b.\d$', value)
+    res = re.search(r'^[A-Z]*([A-Z d?]+)$', value)
     print(res)
     if not res:
         raise ValueError(f"Debe tener el siguiente formato ASDFGGH 2")

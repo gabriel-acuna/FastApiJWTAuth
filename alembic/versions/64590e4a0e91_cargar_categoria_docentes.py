@@ -27,7 +27,8 @@ def upgrade():
         'CATEGORIA 2',
         'CATEGORIA 3',
         'CATEGORIA 4',
-        'CATEGORIA 5'
+        'CATEGORIA 5',
+        'NO APLICA'
     ]
 
     session = Session(bind=op.get_bind())

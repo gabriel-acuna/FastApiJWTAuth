@@ -66,7 +66,7 @@ class DetalleExpedienteFuncionarioPostSchema(BaseModel):
     tipo_funcionario: str = Field(...)
     cargo: str = Field(...)
     tipo_docente: str = Field(...)
-    categoria_docenter: str = Field(...)
+    categoria_docente: str = Field(...)
     puesto_jerarquico = Opciones
     horas_laborables_semanales: int = Field(...)
     area: int = Field(...)

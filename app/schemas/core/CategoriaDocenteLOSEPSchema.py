@@ -16,7 +16,7 @@ class CategoriaDocenteLOSEPPostSchema(BaseModel):
 
     @validator("categoria_docente")
     def categoria_docente_validaciones(cls, value):
-        r = longitud_maxima(50, value,11)
+        r = longitud_maxima(50, value,9)
         if r and es_alafanumerico(value):
             return value
 
@@ -34,7 +34,7 @@ class CategoriaDocenteLOSEPPutSchema(BaseModel):
 
     @validator("categoria_docente")
     def categoria_docente_validaciones(cls, value):
-        r = longitud_maxima(50, value,11)
+        r = longitud_maxima(50, value,9)
         if r and es_alafanumerico(value):
             return r
 
