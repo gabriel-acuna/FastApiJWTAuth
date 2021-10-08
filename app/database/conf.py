@@ -29,4 +29,4 @@ class AsyncDatabaseSession:
 
     async def close(self):     
         await self._session.close()
-        self._engine.dispose()
+        await self._engine.dispose()

@@ -101,13 +101,14 @@ class TipoPersonal(enum.Enum):
 
 class DetalleExpedianteLaboral(Base,
     OperacionesLecturaAsincronas,
-    EliminacionAsincrona):
+    EliminacionAsincrona,
+    OperacionesEscrituraAsinconas):
     __tablename__ = "detalles_expedientes_laborales"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     id_expediente = Column(ForeignKey('expedientes_laborales.id'), nullable=False)
     tipo_personal = Column(Enum(TipoPersonal), nullable=False)
-    id_tipo_documento = Column(ForeignKey('tipos_documento.id'))
+    id_tipo_documento = Column(ForeignKey('tipos_documento.id'), nullable=False)
     motivo_accion = Column(String(30), default='')
     numero_documento = Column(String(30), nullable=False)
     contrato_relacionado = Column(String(30), nullable=False, default='')
@@ -119,17 +120,17 @@ class DetalleExpedianteLaboral(Base,
         'categorias_contratos_profesores.id') )
     id_tiempo_dedicacion = Column(ForeignKey(
         'tiempo_dedicacion_profesores.id'))
-    remuneracion_mensual = Column(Numeric(4, 2), nullable=False)
-    remuneracion_hora = Column(Numeric(4, 2), default=0)
+    remuneracion_mensual = Column(Numeric(7, 2), nullable=False)
+    remuneracion_hora = Column(Numeric(6, 2), default=0)
     fecha_inicio = Column(Date, nullable=False)
     fecha_fin = Column(Date)
     id_tipo_funcionario = Column(ForeignKey(
-        'tipo_funcionarios.id'), default='')
+        'tipo_funcionarios.id'))
     cargo = Column(String(80), nullable=False, default='')
     id_tipo_docente = Column(ForeignKey('tipos_docente_loes.id'))
     id_categoria_docente = Column(ForeignKey(
         "categorias_docentes_losep.id"))
-    puesto_jerarquico = Column(String(2), nullable=False, default='NO')
+    puesto_jerarquico = Column(String(2), default='NO')
     horas_laborables_semanales = Column(Integer, default=0)
     id_area = Column(Integer, ForeignKey(
         'areas_institucionales.id'), nullable=False)

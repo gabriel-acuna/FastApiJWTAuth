@@ -16,7 +16,7 @@ from app.schemas.core.NivelEducativoSchema import NivelEducativoSchema
 
 
 class TipoPersonal(str, enum.Enum):
-    FUNCIONARIIO = "FUNCIONARIO"
+    FUNCIONARIO = "FUNCIONARIO"
     PROFESOR = "PROFESOR"
 
 
