@@ -118,7 +118,7 @@ class ServicioExpedienteLaboral():
                 a_ins = result.scalar_one()
                 area = AreaInstitucionSchema(**a_ins.__dict__)
                 if detalle.id_sub_area:
-                    sa_ins = await async_db_session.execute(select(AreaInstitucion).where(
+                    result = await async_db_session.execute(select(AreaInstitucion).where(
                         AreaInstitucion.id==detalle.id_sub_area))
                     sa_ins  = result.scalar_one()
                     sub_area = AreaInstitucionSchema(**sa_ins.__dict__)
@@ -299,6 +299,6 @@ class ServicioExpedienteLaboral():
 
     async def eliminar_registro(id: str) -> bool:
         try:
-            return await ServicioExpedienteLaboral.eliminar_registro(id=id)
+            return await DetalleExpedianteLaboral.eliminar(id=id)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
