@@ -1,6 +1,6 @@
 from typing import List, Union
 from sqlalchemy.orm.session import DEACTIVE
-from sqlalchemy.sql.expression import select
+from sqlalchemy.sql.expression import false, select
 from app.models.dath.modelos import ExpedienteLaboral, DetalleExpedianteLaboral, TipoPersonal as TP
 from app.models.core.modelos_principales import TipoDocumento, RelacionIES, TipoEscalafonNombramiento, TiempoDedicacionProfesor
 from app.models.core.modelos_principales import CategoriaContratoProfesor, TipoFuncionario, TipoDocenteLOES
@@ -19,7 +19,7 @@ class ServicioExpedienteLaboral():
         lista_expediente: List[DetalleExpedienteSchema] = []
         try:
             expediente_laboral = await ExpedienteLaboral.filtarPor(id_persona=id_persona)
-          
+
             if expediente_laboral:
                 filas = await DetalleExpedianteLaboral.filtarPor(
                     id_expediente=expediente_laboral[0][0].id)
@@ -42,7 +42,7 @@ class ServicioExpedienteLaboral():
 
     @classmethod
     async def buscar_por_id(cls, id: str) -> DetalleExpedienteSchema:
-       
+
         detalle_expediente: ExpedienteLaboralSchema = None
         tipo_documento: TipoDocumentoSchema = None
         relacion_ies: RelacionIESSchema = None
@@ -63,7 +63,7 @@ class ServicioExpedienteLaboral():
             results = await async_db_session.execute(select(DetalleExpedianteLaboral).where(
                 DetalleExpedianteLaboral.id == id
             ))
-            
+
             detalle = results.scalar_one()
             print(detalle.__dict__)
             if detalle:
@@ -73,58 +73,58 @@ class ServicioExpedienteLaboral():
                     jerarquico = 'SI'
                 if Opciones.SI == detalle.ingreso_concurso:
                     concurso = 'SI'
-                result = await async_db_session.execute(select(TipoDocumento).where(TipoDocumento.id==detalle.id_tipo_documento))
+                result = await async_db_session.execute(select(TipoDocumento).where(TipoDocumento.id == detalle.id_tipo_documento))
                 t_doc = result.scalar_one()
                 tipo_documento = TipoDocumentoSchema(**t_doc.__dict__)
-                result = await async_db_session.execute(select(RelacionIES).where(RelacionIES.id==detalle.id_relacion_ies))
+                result = await async_db_session.execute(select(RelacionIES).where(RelacionIES.id == detalle.id_relacion_ies))
                 r_ies = result.scalar_one()
                 relacion_ies = RelacionIESSchema(**r_ies.__dict__)
                 if detalle.id_tipo_escalafon:
                     result = await async_db_session.execute(select(TipoEscalafonNombramiento).where(
-                        TipoEscalafonNombramiento.id==detalle.id_tipo_esclafon))
+                        TipoEscalafonNombramiento.id == detalle.id_tipo_esclafon))
                     t_es = result.scalar_one()
                     escalafon_nombramiento = TipoEscalafonNombramientoSchema(
                         **t_es.__dict__)
                 if detalle.id_categoria_contrato:
                     result = await async_db_session.execute(select(CategoriaContratoProfesor).where(
-                        CategoriaContratoProfesor.id==detalle.id_categoria_contrato))
+                        CategoriaContratoProfesor.id == detalle.id_categoria_contrato))
                     t_ccp = result.scalar_one()
                     categoria_contrato = CategoriaContratoProfesorSchema(
                         **t_ccp.__dict__)
                 if detalle.id_tiempo_dedicacion:
                     result = await async_db_session.execute(select(TiempoDedicacionProfesor).where(
-                        TiempoDedicacionProfesor.id==detalle.id_tiempo_dedicacion))
+                        TiempoDedicacionProfesor.id == detalle.id_tiempo_dedicacion))
                     t_d = result.scalar_one()
                     tiempo_dedicacion = TiempoDedicacionProfesorSchema(
                         **t_d.__dict__)
                 if detalle.id_tipo_funcionario:
                     result = await async_db_session.execute(select(TipoFuncionario).where(
-                        TipoFuncionario.id==detalle.id_tipo_funcionario))
+                        TipoFuncionario.id == detalle.id_tipo_funcionario))
                     t_f = result.scalar_one()
                     tipo_funcionario = TipoFuncionarioSchema(**t_f.__dict__)
                 if detalle.id_tipo_docente:
                     result = await async_db_session.execute(select(TipoDocenteLOES).where(
-                       TipoDocenteLOES.id==detalle.id_tipo_docente))
+                        TipoDocenteLOES.id == detalle.id_tipo_docente))
                     t_d = result.scalar_one()
                     tipo_docente = TipoDocenteLOESSchema(**t_d.__dict__)
                 if detalle.id_categoria_docente:
                     result = await async_db_session.execute(select(CategoriaDocenteLOSEP).where(
-                        CategoriaDocenteLOSEP.id==detalle.id_categoria_docente))
+                        CategoriaDocenteLOSEP.id == detalle.id_categoria_docente))
                     c_d = result.scalar_one()
                     categoria_docente = CategoriaDocenteLOSEPSchema(
                         **c_d.__dict__)
                 result = await async_db_session.execute(select(AreaInstitucion).where(
-                    AreaInstitucion.id==detalle.id_area))
+                    AreaInstitucion.id == detalle.id_area))
                 a_ins = result.scalar_one()
                 area = AreaInstitucionSchema(**a_ins.__dict__)
                 if detalle.id_sub_area:
                     result = await async_db_session.execute(select(AreaInstitucion).where(
-                        AreaInstitucion.id==detalle.id_sub_area))
-                    sa_ins  = result.scalar_one()
+                        AreaInstitucion.id == detalle.id_sub_area))
+                    sa_ins = result.scalar_one()
                     sub_area = AreaInstitucionSchema(**sa_ins.__dict__)
                 if detalle.id_nivel:
                     result = await async_db_session.execute(select(NivelEducativo).where(
-                        NivelEducativoid=detalle.id_nivel
+                        NivelEducativo.id==detalle.id_nivel
                     ))
                     niv = result.scalar_one()
                     nivel = NivelEducativoSchema(**niv.__dict__)
@@ -174,14 +174,15 @@ class ServicioExpedienteLaboral():
             expediente = await ExpedienteLaboral.filtarPor(id_persona=id_persona)
 
             if expediente:
-                jerarquico = 'NO'
+                
                 concurso = 'NO'
-                if Opciones.SI == detalle_expediente.puesto_jerarquico:
-                    jerarquico = 'SI'
+               
                 if Opciones.SI == detalle_expediente.ingreso_concurso:
                     concurso = 'SI'
                 if isinstance(detalle_expediente, DetalleExpedienteFuncionarioPostSchema):
-
+                    jerarquico = 'NO'
+                    if Opciones.SI == detalle_expediente.puesto_jerarquico:
+                        jerarquico = 'SI'
                     registrado = await DetalleExpedianteLaboral.crear(
                         id_expediente=expediente[0][0].id,
                         tipo_personal=TP.FUNCIONARIIO,
@@ -204,9 +205,85 @@ class ServicioExpedienteLaboral():
                     )
 
                 elif isinstance(detalle_expediente, DetalleExpedienteProfesorPostSchema):
-
-                    registro = await DetalleExpedianteLaboral.crear(
+                    rem_hora = 0
+                    if detalle_expediente.remuneracion_hora is not None:
+                        rem_hora = detalle_expediente.remuneracion_hora
+                    registrado = await DetalleExpedianteLaboral.crear(
                         id_expediente=expediente[0][0].id,
+                        id_tipo_documento=detalle_expediente.tipo_documento,
+                        tipo_personal=TP.PROFESOR,
+                        motivo_accion=detalle_expediente.motivo_accion,
+                        numero_documento=detalle_expediente.numero_documento,
+                        ingreso_concurso=concurso,
+                        id_relacion_ies=detalle_expediente.relacion_ies,
+                        fecha_inicio=detalle_expediente.fecha_inicio,
+
+                        fecha_fin=detalle_expediente.fecha_fin,
+                        id_area=detalle_expediente.area,
+                        remuneracion_mensual=detalle_expediente.remuneracion_mensual,
+                        id_sub_area=detalle_expediente.sub_area,
+                        contrato_relacionado=detalle_expediente.contrato_relacionado,
+                        id_tipo_escalafon=detalle_expediente.escalafon_nombramiento,
+                        id_categoria_contrato=detalle_expediente.categoria_contrato,
+                        id_tiempo_dedicacion=detalle_expediente.tiempo_dedicacion,
+                        remuneracion_hora=rem_hora,
+                        id_nivel=detalle_expediente.nivel)
+
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        return registrado
+
+    @classmethod
+    async def actualizar_registro(cls,
+                                  detalle_expediente=Union[DetalleExpedienteProfesorPutSchema, DetalleExpedienteFuncionarioPutSchema]):
+        actualizado: bool = false
+        try:
+
+            result = await DetalleExpedianteLaboral.obtener(id=detalle_expediente.id)
+
+            if result:
+                jerarquico = 'NO'
+                concurso = 'NO'
+                if Opciones.SI == detalle_expediente.puesto_jerarquico:
+                    jerarquico = 'SI'
+                if Opciones.SI == detalle_expediente.ingreso_concurso:
+                    concurso = 'SI'
+                detalle: DetalleExpedianteLaboral = result[0]
+
+                if isinstance(detalle_expediente, DetalleExpedienteFuncionarioPostSchema):
+
+                    registrado = await DetalleExpedianteLaboral.actualizar(
+                        id=detalle.id,
+                        tipo_personal=TP.FUNCIONARIIO,
+                        id_tipo_documento=detalle_expediente.tipo_documento,
+                        motivo_accion=detalle_expediente.motivo_accion,
+                        numero_documento=detalle_expediente.numero_documento,
+                        ingreso_concurso=concurso,
+                        id_relacion_ies=detalle_expediente.relacion_ies,
+                        fecha_inicio=detalle_expediente.fecha_inicio,
+                        fecha_fin=detalle_expediente.fecha_fin,
+                        id_area=detalle_expediente.area,
+                        remuneracion_mensual=detalle_expediente.remuneracion_mensual,
+                        id_sub_area=detalle_expediente.sub_area,
+                        id_tipo_funcionario=detalle_expediente.tipo_funcionario,
+                        cargo=detalle_expediente.cargo,
+                        id_tipo_docente=detalle_expediente.tipo_docente,
+                        id_categoria_docente=detalle_expediente.categoria_docente,
+                        puesto_jerarquico=jerarquico,
+                        horas_laborables_semanales=detalle_expediente.horas_laborables_semanales,
+                        contrato_relacionado=None,
+                        id_tipo_escalafon=None,
+                        id_categoria_contrato=None,
+                        id_tiempo_dedicacion=None,
+                        remuneracion_hora=0
+                    )
+
+                elif isinstance(detalle_expediente, DetalleExpedienteProfesorPostSchema):
+                    rem_hora = 0
+                    if detalle_expediente.remuneracion_hora is not None:
+                        rem_hora = detalle_expediente.remuneracion_hora
+                    registro = await DetalleExpedianteLaboral.crear(
+                        id=detalle_expediente.id,
                         id_tipo_documento=detalle_expediente.tipo_documento,
                         tipo_personal=TP.PROFESOR,
                         motivo_accion=detalle_expediente.motivo_accion,
@@ -223,81 +300,23 @@ class ServicioExpedienteLaboral():
                         id_tipo_escalafon=detalle_expediente.escalafon_nombramiento,
                         id_categoria_contrato=detalle_expediente.categoria_contrato,
                         id_tiempo_dedicacion=detalle_expediente.tiempo_dedicacion,
-                        remuneracion_hora=detalle_expediente.remuneracion_hora,
-                        id_nivel=detalle_expediente.nivel)
+                        remuneracion_hora=rem_hora,
+                        id_nivel=detalle_expediente.nivel,
+
+                        id_tipo_funcionario=None,
+                        cargo='',
+                        id_tipo_docente=None,
+                        id_categoria_docente=None,
+                        puesto_jerarquico=None,
+                        horas_laborables_semanales=0)
+                
 
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-        return registrado
+        return actualizado
 
     @classmethod
-    async def actualizar_registro(
-            detalle_expediente=Union[DetalleExpedienteProfesorPutSchema, DetalleExpedienteFuncionarioPutSchema]):
-        try:
-            result = await DetalleExpedianteLaboral.obtener(id=detalle_expediente.id)
-
-            if result:
-                jerarquico = 'NO'
-                concurso = 'NO'
-                if Opciones.SI == detalle_expediente.puesto_jerarquico:
-                    jerarquico = 'SI'
-                if Opciones.SI == detalle_expediente.ingreso_concurso:
-                    concurso = 'SI'
-                detalle: DetalleExpedianteLaboral = result[0]
-                async_db_session = AsyncDatabaseSession()
-                await async_db_session.init()
-
-                detalle.id_tipo_documento = detalle_expediente.tipo_documento
-                if detalle_expediente.motivo_accion is not None:
-                    detalle.motivo_accion = detalle_expediente.motivo_accion
-                detalle.numero_documento = detalle_expediente.numero_documento
-                detalle.ingreso_concurso = concurso
-                detalle.id_relacion_ies = detalle_expediente.relacion_ies
-                detalle.fecha_inicio = detalle_expediente.fecha_inicio
-                if detalle_expediente.fecha_fin is not None:
-                    detalle.fecha_fin = detalle_expediente.fecha_fin
-                detalle.id_area = detalle_expediente.area
-                detalle.remuneracion_mensual = detalle_expediente.remuneracion_mensual
-                if detalle_expediente.sub_area is not None:
-                    detalle.id_sub_area = detalle_expediente.sub_area
-                if isinstance(detalle_expediente, DetalleExpedienteFuncionarioPostSchema):
-                    detalle.tipo_personal = TP.FUNCIONARIIO
-                    detalle.id_tipo_funcionario = detalle_expediente.tipo_funcionario
-                    detalle.cargo = detalle_expediente.cargo
-                    detalle.id_tipo_docente = detalle_expediente.tipo_docente
-                    detalle.id_categoria_docente = detalle_expediente.categoria_docente
-                    detalle.puesto_jerarquico = jerarquico
-                    detalle.horas_laborables_semanales = detalle_expediente.horas_laborables_semanales
-
-                    detalle.contrato_relacionado = None
-                    detalle.id_tipo_escalafon = None
-                    detalle.id_categoria_contrato = None
-                    detalle.id_tiempo_dedicacion = None
-                    detalle.remuneracion_hora = 0
-
-                elif isinstance(detalle_expediente, DetalleExpedienteProfesorPostSchema):
-                    detalle.tipo_personal = TP.PROFESOR
-                    detalle.contrato_relacionado = detalle_expediente.contrato_relacionado
-                    detalle.id_tipo_escalafon = detalle_expediente.escalafon_nombramiento
-                    detalle.id_categoria_contrato = detalle_expediente.categoria_contrato
-                    detalle.id_tiempo_dedicacion = detalle_expediente.tiempo_dedicacion
-                    detalle.remuneracion_hora = detalle_expediente.remuneracion_hora
-
-                    detalle.id_tipo_funcionario = None
-                    detalle.cargo = ''
-                    detalle.id_tipo_docente = None
-                    detalle.id_categoria_docente = None
-                    detalle.puesto_jerarquico = None
-                    detalle.horas_laborables_semanales = 0
-                await async_db_session.add(detalle)
-                await async_db_session.commit()
-
-        except Exception as ex:
-            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-        finally:
-            await async_db_session.close()
-
-    async def eliminar_registro(id: str) -> bool:
+    async def eliminar_registro(cls, id: str) -> bool:
         try:
             return await DetalleExpedianteLaboral.eliminar(id=id)
         except Exception as ex:
