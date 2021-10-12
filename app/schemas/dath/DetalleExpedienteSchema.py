@@ -117,7 +117,7 @@ class DetalleExpedienteProfesorPostSchema(BaseModel):
 class DetalleExpedienteProfesorPutSchema(BaseModel):
     id: str = Field()
     tipo_personal: TipoPersonal
-    tipo_documento: int = Field(...)
+    tipo_documento: str = Field(...)
     motivo_accion: Optional[str] = Field()
     numero_documento: str = Field(...)
     contrato_relacionado: Optional[str] = Field()
@@ -132,4 +132,4 @@ class DetalleExpedienteProfesorPutSchema(BaseModel):
     fecha_fin: Optional[date] = Field()
     area: int = Field(...)
     sub_area: Optional[int] = Field()
-    nivel: int = Field(...)
+    nivel: str = Field(...)

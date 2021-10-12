@@ -71,3 +71,17 @@ async def actualizar_informacion_personal(id:str, persona: InformacionPersonalPu
         return MessageSchema(type="error", content=ERROR_MSG)
     response.status_code = status.HTTP_202_ACCEPTED
     return MessageSchema(type="warning", content=PUT_WARNING_MSG)
+
+@router.delete("/{id}",
+    response_model=MessageSchema, 
+    dependencies=[Depends(ServicioToken.JWTBearer())])
+async def eliminar_informacion_personal(id:str, response: Response ):
+    existe = await ServicioInformacionPersonal.buscar_por_id(id)
+    if existe:
+        eliminado = await ServicioInformacionPersonal.eliminar_registro(id)
+        if eliminado:
+            return MessageSchema(type="success", content=DELETE_SUCCESS_MSG)
+
+        response.status_code = status.HTTP_409_CONFLICT
+        return MessageSchema(type="error", content=ERROR_MSG)
+    return MessageSchema(type="warning", content=DELETE_WARNING_MSG)

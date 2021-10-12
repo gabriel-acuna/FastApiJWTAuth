@@ -3,12 +3,14 @@ from pydantic.networks import EmailStr
 from app.schemas.core.EstadoCivilSchema import EstadoCivilSchema
 from datetime import date
 from app.schemas.core.PaisSchema import PaisSchema
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from app.schemas.dath.DireccionSchema import *
 from app.schemas.core.DiscapacidadSchema import DiscapacidadSchema
 from app.schemas.core.EtniaSchema import EtniaSchema
 from app.schemas.core.NacionalidadSchema import NacionalidadSchema
 import enum
+from app.schemas.validaciones import longitud_maxima, validar_cedula
+from datetime import date
 
 
 class TipoIdentificacion(str, enum.Enum):
@@ -72,6 +74,24 @@ class InformacionPersonalPostSchema(BaseModel):
     licencia_conduccion: Optional[str]
     fecha_ingreso: date
 
+    @validator("identificacion")
+    def identificacion_validaciones(cls, value):
+        r =  longitud_maxima(10)
+        if cls.tipo_identificacion == TipoIdentificacion.CEDULA and validar_cedula(value):
+            return value
+        elif cls.tipo_identificacion == TipoIdentificacion.PASAPORTE and r:
+            return value
+    
+    @validator("fecha_ingreso")
+    def fecha_ingreso_valicaiones(cls, value):
+        hoy = date.today()
+        if value > hoy:
+            raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
+        return value
+        
+
+
+
 
 class InformacionPersonalPutSchema(BaseModel):
     tipo_identificacion: TipoIdentificacion
@@ -96,3 +116,18 @@ class InformacionPersonalPutSchema(BaseModel):
     tipo_sangre: str = Field(...)
     licencia_conduccion: Optional[str]
     fecha_ingreso:date
+
+    @validator("identificacion")
+    def identificacion_validaciones(cls, value):
+        r =  longitud_maxima(10)
+        if cls.tipo_identificacion == TipoIdentificacion.CEDULA and validar_cedula(value):
+            return value
+        elif cls.tipo_identificacion == TipoIdentificacion.PASAPORTE and r:
+            return value
+    
+    @validator("fecha_ingreso")
+    def fecha_ingreso_valicaiones(cls, value):
+        hoy = date.today()
+        if value > hoy:
+            raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
+        return value
