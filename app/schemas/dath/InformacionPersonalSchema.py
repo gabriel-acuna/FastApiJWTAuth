@@ -76,7 +76,7 @@ class InformacionPersonalPostSchema(BaseModel):
     
     @validator("identificacion")
     def identificacion_validaciones(cls, value):
-        r =  longitud_maxima(10)
+        r =  longitud_maxima(10,value)
         if cls.tipo_identificacion == TipoIdentificacion.CEDULA and validar_cedula(value):
             return value
         elif cls.tipo_identificacion == TipoIdentificacion.PASAPORTE and r:
@@ -118,7 +118,7 @@ class InformacionPersonalPutSchema(BaseModel):
     fecha_ingreso:date
     
     @validator("fecha_ingreso")
-    def fecha_ingreso_valicaiones(cls, value):
+    def fecha_ingreso_validaciones(cls, value):
         hoy = date.today()
         if value > hoy:
             raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
