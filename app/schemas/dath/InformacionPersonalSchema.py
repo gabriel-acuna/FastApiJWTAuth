@@ -73,7 +73,7 @@ class InformacionPersonalPostSchema(BaseModel):
     tipo_sangre: str = Field(...)
     licencia_conduccion: Optional[str]
     fecha_ingreso: date
-
+    
     @validator("identificacion")
     def identificacion_validaciones(cls, value):
         r =  longitud_maxima(10)
@@ -83,7 +83,7 @@ class InformacionPersonalPostSchema(BaseModel):
             return value
     
     @validator("fecha_ingreso")
-    def fecha_ingreso_valicaiones(cls, value):
+    def fecha_ingreso_validaciones(cls, value):
         hoy = date.today()
         if value > hoy:
             raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
@@ -116,14 +116,6 @@ class InformacionPersonalPutSchema(BaseModel):
     tipo_sangre: str = Field(...)
     licencia_conduccion: Optional[str]
     fecha_ingreso:date
-
-    @validator("identificacion")
-    def identificacion_validaciones(cls, value):
-        r =  longitud_maxima(10)
-        if cls.tipo_identificacion == TipoIdentificacion.CEDULA and validar_cedula(value):
-            return value
-        elif cls.tipo_identificacion == TipoIdentificacion.PASAPORTE and r:
-            return value
     
     @validator("fecha_ingreso")
     def fecha_ingreso_valicaiones(cls, value):

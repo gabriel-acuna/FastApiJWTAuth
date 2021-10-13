@@ -19,13 +19,13 @@ class EstructuraInstitucionalPostSchema(BaseModel):
         if r:
             return value
 
-        @validator('fecha_aprobacion')
-        def fecha_aprobacion_validaciones(cls, value):
-            today = date.today()
-            if value > today:
-                raise ValueError(
-                    'La fecha de aprobación no debe ser mayor a la fecha actual')
-            return value
+    @validator('fecha_aprobacion')
+    def fecha_aprobacion_validaciones(cls, value):
+        today = date.today()
+        if value > today:
+            raise ValueError(
+                'La fecha de aprobación no debe ser mayor a la fecha actual')
+        return value
 
     class Config:
         schema_extra = {

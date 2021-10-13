@@ -28,6 +28,6 @@ def es_no_numerico(value:str):
 def validar_cedula(value:str):
     res = re.search(r'([0-9]){10}')
     if not res:
-        raise ValueError(f"No. Identificiación no es válido")
+        raise ValueError(f"No. Identificicación {value} no es válido")
 
 
