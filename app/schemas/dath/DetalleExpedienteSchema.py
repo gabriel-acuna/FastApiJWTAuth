@@ -1,8 +1,7 @@
 from datetime import date
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, validator
 import enum
-from pydantic.fields import Field
 from app.schemas.core.TipoDocumentoSchema import TipoDocumentoSchema
 from app.schemas.core.RelacionIESSchema import RelacionIESSchema
 from app.schemas.core.TipoEscalafonNombramientoSchema import TipoEscalafonNombramientoSchema
@@ -71,6 +70,20 @@ class DetalleExpedienteFuncionarioPostSchema(BaseModel):
     horas_laborables_semanales: int = Field(...)
     area: int = Field(...)
     sub_area: Optional[int] = Field()
+
+    @validator("fecha_inicio")
+    def fecha_ingreso_validaciones(cls, value):
+        hoy = date.today()
+        if value > hoy:
+            raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
+        return value
+    
+    #@validator("fecha_fin")
+    #def fecha_fin_validaciones(cls, field_value, values, field, config):
+        #print(values)
+        #if field_value < values['fecha_inicio']:
+           #raise ValueError('La fecha fin debe ser mayor a la fecha_inico')
+        #return field_value
 
 
 class DetalleExpedienteFuncionarioPutSchema(BaseModel):

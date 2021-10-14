@@ -17,7 +17,6 @@ def es_alafanumerico(value:str):
         raise ValueError(f"Debe tener el siguiente formato ASDFGGH 2")
     return res
 
-    return res
 def es_no_numerico(value:str):
     res = re.search(r'^[A-Z]*([A-Z /?]+)$', value)
     print(res)
@@ -26,8 +25,9 @@ def es_no_numerico(value:str):
     return res
 
 def validar_cedula(value:str):
-    res = re.search(r'([0-9]){10}')
+    res = re.search(r'([0-9]){10}', value)
     if not res:
         raise ValueError(f"No. Identificicación {value} no es válido")
+    return res
 
 

@@ -75,12 +75,15 @@ class InformacionPersonalPostSchema(BaseModel):
     fecha_ingreso: date
     
     @validator("identificacion")
-    def identificacion_validaciones(cls, value):
-        r =  longitud_maxima(10,value)
-        if cls.tipo_identificacion == TipoIdentificacion.CEDULA and validar_cedula(value):
-            return value
-        elif cls.tipo_identificacion == TipoIdentificacion.PASAPORTE and r:
-            return value
+    def identificacion_validaciones(cls, field_value, values, field, config):
+        print( "test",validar_cedula(field_value))
+        r =  longitud_maxima(10, field_value)
+       
+        
+        if values['tipo_identificacion'] == TipoIdentificacion.CEDULA and validar_cedula(field_value):
+            return field_value
+        elif values['tipo_identificacion'] == TipoIdentificacion.PASAPORTE and r:
+            return field_value
     
     @validator("fecha_ingreso")
     def fecha_ingreso_validaciones(cls, value):
