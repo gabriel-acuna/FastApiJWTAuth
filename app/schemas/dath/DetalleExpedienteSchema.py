@@ -78,6 +78,7 @@ class DetalleExpedienteFuncionarioPostSchema(BaseModel):
             raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
         return value
     
+    
     #@validator("fecha_fin")
     #def fecha_fin_validaciones(cls, field_value, values, field, config):
         #print(values)
