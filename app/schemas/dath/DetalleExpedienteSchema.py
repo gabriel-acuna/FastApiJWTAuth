@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, validator
 import enum
 from app.schemas.core.TipoDocumentoSchema import TipoDocumentoSchema
@@ -78,13 +78,6 @@ class DetalleExpedienteFuncionarioPostSchema(BaseModel):
             raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
         return value
     
-    
-    #@validator("fecha_fin")
-    #def fecha_fin_validaciones(cls, field_value, values, field, config):
-        #print(values)
-        #if field_value < values['fecha_inicio']:
-           #raise ValueError('La fecha fin debe ser mayor a la fecha_inico')
-        #return field_value
 
 
 class DetalleExpedienteFuncionarioPutSchema(BaseModel):

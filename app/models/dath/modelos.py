@@ -99,7 +99,7 @@ class TipoPersonal(enum.Enum):
     PROFESOR = "PROFESOR"
 
 
-class DetalleExpedianteLaboral(Base,
+class DetalleExpedienteLaboral(Base,
     OperacionesLecturaAsincronas,
     EliminacionAsincrona,
     OperacionesEscrituraAsinconas):
