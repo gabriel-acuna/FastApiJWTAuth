@@ -60,6 +60,7 @@ async def resgitrar_detalle_expediente_funcionario(id_persona:str, expediente: D
 async def actualiazar_detalle_expediente(
     response: Response,
     detalle_expediente:Union[DetalleExpedienteProfesorPutSchema, DetalleExpedienteFuncionarioPutSchema]):
+    print(type(detalle_expediente))
     actualizado = await ServicioExpedienteLaboral.actualizar_registro(detalle_expediente= detalle_expediente)
     if actualizado:
          return MessageSchema(type="success", content=PUT_SUCCESS_MSG)

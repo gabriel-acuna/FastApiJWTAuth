@@ -1,6 +1,6 @@
 from typing import List, Union
 from sqlalchemy.orm.session import DEACTIVE
-from sqlalchemy.sql.expression import false, select
+from sqlalchemy.sql.expression import desc, false, select
 from app.models.dath.modelos import ExpedienteLaboral, DetalleExpedienteLaboral, TipoPersonal as TP
 from app.models.core.modelos_principales import TipoDocumento, RelacionIES, TipoEscalafonNombramiento, TiempoDedicacionProfesor
 from app.models.core.modelos_principales import CategoriaContratoProfesor, TipoFuncionario, TipoDocenteLOES
@@ -47,6 +47,8 @@ class ServicioExpedienteLaboral():
 
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        finally:
+            await async_db_session.close()
         return expediente
 
     @classmethod
@@ -68,7 +70,7 @@ class ServicioExpedienteLaboral():
         try:
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
-            print(async_db_session._session == None)
+            detalle: DetalleExpedienteLaboral = None
             results = await async_db_session.execute(select(DetalleExpedienteLaboral).where(
                 DetalleExpedienteLaboral.id == id
             ))
@@ -143,6 +145,7 @@ class ServicioExpedienteLaboral():
                     tipo_personal=TipoPersonal[detalle.tipo_personal.value],
                     tipo_documento=tipo_documento,
                     motivo_accion=detalle.motivo_accion,
+                    descripcion = detalle.descripcion,
                     numero_documento=detalle.numero_documento,
                     contrato_relacionado=detalle.contrato_relacionado,
                     ingreso_concurso=concurso,
@@ -190,7 +193,7 @@ class ServicioExpedienteLaboral():
         sub_area: AreaInstitucionSchema = None
 
         try:
-
+            detalle: DetalleExpedienteLaboral = None
             results = await async_db_session.execute(select(DetalleExpedienteLaboral).where(
                 DetalleExpedienteLaboral.id == id
             ))
@@ -211,7 +214,7 @@ class ServicioExpedienteLaboral():
                 relacion_ies = RelacionIESSchema(**r_ies.__dict__)
                 if detalle.id_tipo_escalafon:
                     result = await async_db_session.execute(select(TipoEscalafonNombramiento).where(
-                        TipoEscalafonNombramiento.id == detalle.id_tipo_esclafon))
+                        TipoEscalafonNombramiento.id == detalle.id_tipo_escalafon))
                     t_es = result.scalar_one()
                     escalafon_nombramiento = TipoEscalafonNombramientoSchema(
                         **t_es.__dict__)
@@ -265,6 +268,7 @@ class ServicioExpedienteLaboral():
                     tipo_personal=TipoPersonal[detalle.tipo_personal.value],
                     tipo_documento=tipo_documento,
                     motivo_accion=detalle.motivo_accion,
+                    descripcion = detalle.descripcion,
                     numero_documento=detalle.numero_documento,
                     contrato_relacionado=detalle.contrato_relacionado,
                     ingreso_concurso=concurso,
@@ -317,6 +321,7 @@ class ServicioExpedienteLaboral():
                         tipo_personal=TP.FUNCIONARIIO,
                         id_tipo_documento=detalle_expediente.tipo_documento,
                         motivo_accion=detalle_expediente.motivo_accion,
+                        descripcion = detalle_expediente.descripcion,
                         numero_documento=detalle_expediente.numero_documento,
                         ingreso_concurso=concurso,
                         id_relacion_ies=detalle_expediente.relacion_ies,
@@ -342,6 +347,7 @@ class ServicioExpedienteLaboral():
                         id_tipo_documento=detalle_expediente.tipo_documento,
                         tipo_personal=TP.PROFESOR,
                         motivo_accion=detalle_expediente.motivo_accion,
+                        descripcion = detalle_expediente.descripcion,
                         numero_documento=detalle_expediente.numero_documento,
                         ingreso_concurso=concurso,
                         id_relacion_ies=detalle_expediente.relacion_ies,
@@ -367,24 +373,25 @@ class ServicioExpedienteLaboral():
                                   detalle_expediente=Union[DetalleExpedienteProfesorPutSchema, DetalleExpedienteFuncionarioPutSchema]):
         actualizado: bool = false
         try:
-
             result = await DetalleExpedienteLaboral.obtener(id=detalle_expediente.id)
 
             if result:
                 jerarquico = 'NO'
                 concurso = 'NO'
-                if Opciones.SI == detalle_expediente.puesto_jerarquico:
-                    jerarquico = 'SI'
+               
                 if Opciones.SI == detalle_expediente.ingreso_concurso:
                     concurso = 'SI'
 
                 if isinstance(detalle_expediente, DetalleExpedienteFuncionarioPutSchema):
+                    if Opciones.SI == detalle_expediente.puesto_jerarquico:
+                        jerarquico = 'SI'
 
                     actualizado = await DetalleExpedienteLaboral.actualizar(
                         id=detalle_expediente.id,
                         tipo_personal=TP.FUNCIONARIIO,
                         id_tipo_documento=detalle_expediente.tipo_documento,
                         motivo_accion=detalle_expediente.motivo_accion,
+                        descripcion = detalle_expediente.descripcion,
                         numero_documento=detalle_expediente.numero_documento,
                         ingreso_concurso=concurso,
                         id_relacion_ies=detalle_expediente.relacion_ies,
@@ -415,6 +422,8 @@ class ServicioExpedienteLaboral():
                         id_tipo_documento=detalle_expediente.tipo_documento,
                         tipo_personal=TP.PROFESOR,
                         motivo_accion=detalle_expediente.motivo_accion,
+                        descripcion = detalle_expediente.descripcion,
+
                         numero_documento=detalle_expediente.numero_documento,
                         ingreso_concurso=detalle_expediente.ingreso_concurso,
                         id_relacion_ies=detalle_expediente.relacion_ies,

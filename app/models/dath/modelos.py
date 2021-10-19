@@ -110,6 +110,7 @@ class DetalleExpedienteLaboral(Base,
     tipo_personal = Column(Enum(TipoPersonal), nullable=False)
     id_tipo_documento = Column(ForeignKey('tipos_documento.id'), nullable=False)
     motivo_accion = Column(String(30), default='')
+    descripcion = Column(String(100), default='')
     numero_documento = Column(String(30), nullable=False)
     contrato_relacionado = Column(String(30), nullable=False, default='')
     ingreso_concurso = Column(String(2), nullable=False)

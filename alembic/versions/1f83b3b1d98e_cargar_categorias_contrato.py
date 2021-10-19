@@ -37,7 +37,7 @@ def upgrade():
         'AGREGADO2',
         'AGREGADO3',
         'AUXILIAR1',
-        'AUXILIAR2'
+        'AUXILIAR2',
         'TITULAR NO ESCALAFONADO'
     ]
     session = Session(bind=op.get_bind())

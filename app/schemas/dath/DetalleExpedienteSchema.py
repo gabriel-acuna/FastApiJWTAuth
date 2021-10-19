@@ -30,6 +30,7 @@ class DetalleExpedienteSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: TipoDocumentoSchema
     motivo_accion: Optional[str]
+    descripcion: Optional[str]
     numero_documento: str
     contrato_relacionado: Optional[str]
     ingreso_concurso: Opciones
@@ -56,6 +57,7 @@ class DetalleExpedienteFuncionarioPostSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
     motivo_accion: Optional[str] = Field()
+    descripcion: Optional[str] = Field()
     numero_documento: str = Field(...)
     relacion_ies: str = Field(...)
     fecha_inicio: date = Field(...)
@@ -85,6 +87,7 @@ class DetalleExpedienteFuncionarioPutSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
     motivo_accion: Optional[str] = Field()
+    descripcion: Optional[str] = Field()
     numero_documento: str = Field(...)
     relacion_ies: str = Field(...)
     fecha_inicio: date = Field(...)
@@ -105,6 +108,7 @@ class DetalleExpedienteProfesorPostSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
     motivo_accion: Optional[str] = Field()
+    descripcion: Optional[str] = Field()
     numero_documento: str = Field(...)
     contrato_relacionado: Optional[str] = Field()
     ingreso_concurso: Opciones
@@ -122,11 +126,12 @@ class DetalleExpedienteProfesorPostSchema(BaseModel):
 
 
 class DetalleExpedienteProfesorPutSchema(BaseModel):
-    id: str = Field()
+    id: str = Field(...)
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
     motivo_accion: Optional[str] = Field()
     numero_documento: str = Field(...)
+    descripcion: Optional[str] = Field()
     contrato_relacionado: Optional[str] = Field()
     ingreso_concurso: Opciones
     relacion_ies: str = Field(...)
