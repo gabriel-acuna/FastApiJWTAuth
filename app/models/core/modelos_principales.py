@@ -230,3 +230,29 @@ class FinanciamientoBeca(Base):
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     financiamiento = Column(String(30), nullable=False)
+
+class CampoEducativoAmplio(Base):
+    __tablename__ = "campo_educativo_amplio"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    codigo = Column(String(8), nullable=False)
+    descripcion = Column(String(60), nullable=False)
+    campos_especificos = relationship('CampoEducativoEspecifico', cascade='save-update')
+    
+class CampoEducativoEspecifico(Base):
+    __tablename__ = "campo_educativo_especifico"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    id_campo_amplio = Column(ForeignKey('campo_educativo_amplio.id'), nullable=False)
+    codigo = Column(String(8), nullable=False)
+    descripcion = Column(String(60), nullable=False)
+    campos_detallados = relationship('CampoEducativoDetallado', cascade='save-update')
+
+class CampoEducativoDetallado(Base):
+    __tablename__ = "campo_educativo_detallado"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    id_campo_especifico = Column(ForeignKey('campo_educativo_especifico.id'), nullable=False)
+    codigo = Column(String(8), nullable=False)
+    descripcion = Column(String(60), nullable=False)
+

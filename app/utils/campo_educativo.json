@@ -1,0 +1,598 @@
+[
+    {
+        "codigo": "01-A",
+        "descripcion": "Educación",
+        "especificos": [
+            {
+                "codigo": "1-1A",
+                "descripcion": "Educación",
+                "detallados": [
+                    {
+                        "codigo": "1-11A",
+                        "descripcion": "Educación"
+                    },
+                    {
+                        "codigo": "81-11A",
+                        "descripcion": "Psicopedagogía"
+                    },
+                    {
+                        "codigo": "2-11A",
+                        "descripcion": "Formación para docentes de educación preprimaria"
+                    },
+                    {
+                        "codigo": "3-11A",
+                        "descripcion": "Formación para docentes sin asignaturas de especialización"
+                    },
+                    {
+                        "codigo": "4-11A",
+                        "descripcion": "Formación para docentes con asignaturas de especialización"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "02-A",
+        "descripcion": "Artes y humanidades",
+        "especificos": [
+            {
+                "codigo": "1-2A",
+                "descripcion": "Artes",
+                "detallados": [
+                    {
+                        "codigo": "1-12A",
+                        "descripcion": "Técnicas audiovisuales y producción para medios de comunicación"
+                    },
+                    {
+                        "codigo": "2-12A",
+                        "descripcion": "Diseño"
+                    },
+                    {
+                        "codigo": "3-12A",
+                        "descripcion": "Artes"
+                    },
+                    {
+                        "codigo": "5-12A",
+                        "descripcion": "Música y artes escénicas"
+                    }
+                ]
+            },
+            {
+                "codigo": "2-2A",
+                "descripcion": "Humanidades",
+                "detallados": [
+                    {
+                        "codigo": "1-22A",
+                        "descripcion": "Religión y Teología"
+                    },
+                    {
+                        "codigo": "2-22A",
+                        "descripcion": "Historia y Arqueología"
+                    },
+                    {
+                        "codigo": "3-22A",
+                        "descripcion": "Filosofía"
+                    }
+                ]
+            },
+            {
+                "codigo": "3-2A",
+                "descripcion": "Idiomas",
+                "detallados": [
+                    {
+                        "codigo": "1-32A",
+                        "descripcion": "Idiomas"
+                    },
+                    {
+                        "codigo": "2-32A",
+                        "descripcion": "Literatura y lingüística"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "03-A",
+        "descripcion": "Ciencias sociales, periodismo, información y derecho",
+        "especificos": [
+            {
+                "codigo": "1-3A",
+                "descripcion": "Ciencias sociales y del comportamiento",
+                "detallados": [
+                    {
+                        "codigo": "1-13A",
+                        "descripcion": "Economía"
+                    },
+                    {
+                        "codigo": "81-13A",
+                        "descripcion": "Economía Matemática"
+                    },
+                    {
+                        "codigo": "2-13A",
+                        "descripcion": "Ciencias políticas"
+                    },
+                    {
+                        "codigo": "3-13A",
+                        "descripcion": "Psicología"
+                    },
+                    {
+                        "codigo": "4-13A",
+                        "descripcion": "Estudios Sociales y Culturales"
+                    },
+                    {
+                        "codigo": "82-13A",
+                        "descripcion": "Estudios de Género"
+                    },
+                    {
+                        "codigo": "83-13A",
+                        "descripcion": "Geografía y territorio"
+                    }
+                ]
+            },
+            {
+                "codigo": "2-3A",
+                "descripcion": "Periodismo e información",
+                "detallados": [
+                    {
+                        "codigo": "1-23A",
+                        "descripcion": "Periodismo y comunicación"
+                    },
+                    {
+                        "codigo": "2-23A",
+                        "descripcion": "Bibliotecología, documentación y archivología"
+                    }
+                ]
+            },
+            {
+                "codigo": "3-3A",
+                "descripcion": "Derecho",
+                "detallados": [
+                    {
+                        "codigo": "1-33",
+                        "descripcion": "Derecho"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "04-A",
+        "descripcion": "Administración",
+        "especificos": [
+            {
+                "codigo": "1-4A",
+                "descripcion": "Educación comercial y administración",
+                "detallados": [
+                    {
+                        "codigo": "1-14A",
+                        "descripcion": "Contabilidad y auditoría"
+                    },
+                    {
+                        "codigo": "2-14A",
+                        "descripcion": "Gestión financiera"
+                    },
+                    {
+                        "codigo": "3-14A",
+                        "descripcion": "Administración"
+                    },
+                    {
+                        "codigo": "4-14A",
+                        "descripcion": "Mercadotecnia y publicidad"
+                    },
+                    {
+                        "codigo": "5-14A",
+                        "descripcion": "Información gerencial"
+                    },
+                    {
+                        "codigo": "6-14A",
+                        "descripcion": "Comercio"
+                    },
+                    {
+                        "codigo": "7-14A",
+                        "descripcion": "Competencias laborales"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "05-A",
+        "descripcion": "Ciencias naturales, matemáticas y estadísticas",
+        "especificos": [
+            {
+                "codigo": "1-5A",
+                "descripcion": "Ciencias biológicas y afines",
+                "detallados": [
+                    {
+                        "codigo": "1-15A",
+                        "descripcion": "Biología"
+                    },
+                    {
+                        "codigo": "81-15A",
+                        "descripcion": "Biofísica"
+                    },
+                    {
+                        "codigo": "82-15A",
+                        "descripcion": "Biofarmacéutica"
+                    },
+                    {
+                        "codigo": "83-15A",
+                        "descripcion": "Biomedicina"
+                    },
+                    {
+                        "codigo": "2-15A",
+                        "descripcion": "Bioquímica"
+                    },
+                    {
+                        "codigo": "84-15A",
+                        "descripcion": "Genética"
+                    },
+                    {
+                        "codigo": "85-15A",
+                        "descripcion": "Biodiversidad"
+                    },
+                    {
+                        "codigo": "86-15A",
+                        "descripcion": "Neurociencias"
+                    }
+                ]
+            },
+            {
+                "codigo": "2-5A",
+                "descripcion": "Medio ambiente",
+                "detallados": [
+                    {
+                        "codigo": "1-25A",
+                        "descripcion": "Medio ambiente"
+                    },
+                    {
+                        "codigo": "2-25A",
+                        "descripcion": "Recursos Naturales Renovables"
+                    }
+                ]
+            },
+            {
+                "codigo": "3-5A",
+                "descripcion": "Ciencias físicas",
+                "detallados": [
+                    {
+                        "codigo": "1-35A",
+                        "descripcion": "Química"
+                    },
+                    {
+                        "codigo": "2-35A",
+                        "descripcion": "Ciencias de la Tierra"
+                    },
+                    {
+                        "codigo": "3-35A",
+                        "descripcion": "Física"
+                    }
+                ]
+            },
+            {
+                "codigo": "4-5A",
+                "descripcion": "Matemáticas y estadística",
+                "detallados": [
+                    {
+                        "codigo": "1-45A",
+                        "descripcion": "Matemáticas"
+                    },
+                    {
+                        "codigo": "2-45A",
+                        "descripcion": "Estadísticas"
+                    },
+                    {
+                        "codigo": "81-45A",
+                        "descripcion": "Logística y transporte"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "06-A",
+        "descripcion": "Tecnologías de la información y la comunicación (TIC)",
+        "especificos": [
+            {
+                "codigo": "1-6A",
+                "descripcion": "Tecnologías de la información y la comunicación (TIC)",
+                "detallados": [
+                    {
+                        "codigo": "1-16A",
+                        "descripcion": "Computación"
+                    },
+                    {
+                        "codigo": "2-16A",
+                        "descripcion": "Diseño y administración de redes y bases de datos"
+                    },
+                    {
+                        "codigo": "3-16A",
+                        "descripcion": "Desarrollo y análisis de software y aplicaciones"
+                    },
+                    {
+                        "codigo": "81-16A",
+                        "descripcion": "Sistemas de Información"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "07-A",
+        "descripcion": "Ingeniería, industria y construcción",
+        "especificos": [
+            {
+                "codigo": "1-7A",
+                "descripcion": "Ingeniaría y profesiones afines",
+                "detallados": [
+                    {
+                        "codigo": "1-17A",
+                        "descripcion": "Química aplicada"
+                    },
+                    {
+                        "codigo": "2-17A",
+                        "descripcion": "Tecnología de protección del medio ambiente"
+                    },
+                    {
+                        "codigo": "3-17A",
+                        "descripcion": "Electricidad y energía"
+                    },
+                    {
+                        "codigo": "4-17A",
+                        "descripcion": "Electrónica, automatización y sonido"
+                    },
+                    {
+                        "codigo": "5-17A",
+                        "descripcion": "Mecánica y profesiones afines a la metalistería"
+                    },
+                    {
+                        "codigo": "6-17A",
+                        "descripcion": "Diseño y construcción de vehículos, barcos y aeronaves motorizadas"
+                    },
+                    {
+                        "codigo": "81-17A",
+                        "descripcion": "Tecnologías Nucleares y Energéticas"
+                    },
+                    {
+                        "codigo": "82-17A",
+                        "descripcion": "Mecatrónica"
+                    },
+                    {
+                        "codigo": "83-17A",
+                        "descripcion": "Hidráulica"
+                    },
+                    {
+                        "codigo": "84-17A",
+                        "descripcion": "Telecomunicaciones"
+                    },
+                    {
+                        "codigo": "85-17A",
+                        "descripcion": "Nanotecnología"
+                    }
+                ]
+            },
+            {
+                "codigo": "2-7A",
+                "descripcion": "Industria y producción",
+                "detallados": [
+                    {
+                        "codigo": "1-27A",
+                        "descripcion": "Procesamiento de alimentos"
+                    },
+                    {
+                        "codigo": "2-27A",
+                        "descripcion": "Materiales"
+                    },
+                    {
+                        "codigo": "3-27A",
+                        "descripcion": "Productos textiles"
+                    },
+                    {
+                        "codigo": "4-27A",
+                        "descripcion": "Minería y extracción"
+                    },
+                    {
+                        "codigo": "5-27A",
+                        "descripcion": "Producción industrial"
+                    },
+                    {
+                        "codigo": "6-27A",
+                        "descripcion": "Seguridad industrial"
+                    },
+                    {
+                        "codigo": "7-27A",
+                        "descripcion": "Diseño industrial y de procesos"
+                    },
+                    {
+                        "codigo": "82-7A",
+                        "descripcion": "Mantenimiento industrial"
+                    }
+                ]
+            },
+            {
+                "codigo": "3-7A",
+                "descripcion": "Arquitectura y construcción",
+                "detallados": [
+                    {
+                        "codigo": "1-37A",
+                        "descripcion": "Arquitectura, urbanismo y restauración"
+                    },
+                    {
+                        "codigo": "2-37A",
+                        "descripcion": "Construcción e ingeniería civil"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "08-A",
+        "descripcion": "Agricultura, silvicultura, pesca y veterinaria",
+        "especificos": [
+            {
+                "codigo": "1-8A",
+                "descripcion": "Agricultura",
+                "detallados": [
+                    {
+                        "codigo": "1-18A",
+                        "descripcion": "Producción agrícola y ganadera"
+                    }
+                ]
+            },
+            {
+                "codigo": "2-8A",
+                "descripcion": "Silvicultura",
+                "detallados": [
+                    {
+                        "codigo": "1-28A",
+                        "descripcion": "Silvicultura"
+                    }
+                ]
+            },
+            {
+                "codigo": "3-8A",
+                "descripcion": "Pesca",
+                "detallados": [
+                    {
+                        "codigo": "1-38A",
+                        "descripcion": "Pesca"
+                    }
+                ]
+            },
+            {
+                "codigo": "4-8A",
+                "descripcion": "Veterinaria",
+                "detallados": [
+                    {
+                        "codigo": "1-48A",
+                        "descripcion": "Veterinaria"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "09-A",
+        "descripcion": "Salud y Bienestar",
+        "especificos": [
+            {
+                "codigo": "1-9A",
+                "descripcion": "Salud",
+                "detallados": [
+                    {
+                        "codigo": "1-19A",
+                        "descripcion": "Odontología"
+                    },
+                    {
+                        "codigo": "2-19A",
+                        "descripcion": "Medicina"
+                    },
+                    {
+                        "codigo": "3-19A",
+                        "descripcion": "Enfermería y obstetricia"
+                    },
+                    {
+                        "codigo": "4-19A",
+                        "descripcion": "Tecnología de diagnóstico y tratamiento médico"
+                    },
+                    {
+                        "codigo": "5-19A",
+                        "descripcion": "Terapia y rehabilitación"
+                    },
+                    {
+                        "codigo": "6-19A",
+                        "descripcion": "Farmacia"
+                    },
+                    {
+                        "codigo": "7-19A",
+                        "descripcion": "Terapias alternativas y complementarias"
+                    },
+                    {
+                        "codigo": "8-19A",
+                        "descripcion": "Salud Pública"
+                    }
+                ]
+            },
+            {
+                "codigo": "2-9A",
+                "descripcion": "Bienestar",
+                "detallados": [
+                    {
+                        "codigo": "1-29A",
+                        "descripcion": "Asistencia a adultos mayores ydiscapacitados"
+                    },
+                    {
+                        "codigo": "2-29A",
+                        "descripcion": "Asistencia a la infancia y servicios para jóvenes"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "codigo": "10-A",
+        "descripcion": "Servicios",
+        "especificos": [
+            {
+                "codigo": "1-10A",
+                "descripcion": "Servicios personales",
+                "detallados": [
+                    {
+                        "codigo": "2-110A",
+                        "descripcion": "Peluquería y tratamiento debelleza"
+                    },
+                    {
+                        "codigo": "3-110A",
+                        "descripcion": "Hotelería y gastronomía"
+                    },
+                    {
+                        "codigo": "4-110A",
+                        "descripcion": "Actividad física"
+                    },
+                    {
+                        "codigo": "5-110A",
+                        "descripcion": "Turismo"
+                    }
+                ]
+            },
+            {
+                "codigo": "2-10A",
+                "descripcion": "Servicios de protección",
+                "detallados": [
+                    {
+                        "codigo": "1-210A",
+                        "descripcion": "Prevención y gestión de riesgos"
+                    },
+                    {
+                        "codigo": "2-210A",
+                        "descripcion": "Salud y seguridad ocupacional"
+                    }
+                ]
+            },
+            {
+                "codigo": "3-10A",
+                "descripcion": "Servicios de seguridad",
+                "detallados": [
+                    {
+                        "codigo": "1-310A",
+                        "descripcion": "Educación policial, militar y defensa"
+                    },
+                    {
+                        "codigo": "2-310A",
+                        "descripcion": "Seguridad ciudadana"
+                    }
+                ]
+            },
+            {
+                "codigo": "4-10A",
+                "descripcion": "Servicio de transporte",
+                "detallados": [
+                    {
+                        "codigo": "1-410A",
+                        "descripcion": "Gestión del transporte"
+                    }
+                ]
+            }
+        ]
+    }
+]
