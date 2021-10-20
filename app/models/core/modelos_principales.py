@@ -214,7 +214,7 @@ class Organigrama(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincro
     id_sub_area = Column(Integer, ForeignKey('areas_institucionales.id'), default=0, primary_key=True)
 
 class Grado(Base):
-    __tablename__ = "Grados"
+    __tablename__ = "grados"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     grado = Column(String(80), nullable=False)
@@ -226,7 +226,7 @@ class TipoBeca(Base):
     tipo_beca = Column(String(30), nullable=False)
 
 class FinanciamientoBeca(Base):
-    __tablename__ = "finaciamiento_beca"
+    __tablename__ = "financiamiento_beca"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     financiamiento = Column(String(30), nullable=False)
