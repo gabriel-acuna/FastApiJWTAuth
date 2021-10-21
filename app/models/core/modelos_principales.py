@@ -261,5 +261,5 @@ class IESNacional(Base):
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     codigo = Column(String(4), nullable=False)
-    institucion = Column(String(120), nullable=False)
+    institucion = Column(String(130), nullable=False)
 

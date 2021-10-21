@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('ies_nacionales',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('uuid_generate_v4()'), nullable=False),
     sa.Column('codigo', sa.String(length=4), nullable=False),
-    sa.Column('institucion', sa.String(length=120), nullable=False),
+    sa.Column('institucion', sa.String(length=130), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_ies_nacionales_id'), 'ies_nacionales', ['id'], unique=False)
