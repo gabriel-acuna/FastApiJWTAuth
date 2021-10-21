@@ -236,7 +236,7 @@ class CampoEducativoAmplio(Base):
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     codigo = Column(String(8), nullable=False)
-    descripcion = Column(String(60), nullable=False)
+    descripcion = Column(String(120), nullable=False)
     campos_especificos = relationship('CampoEducativoEspecifico', cascade='save-update')
     
 class CampoEducativoEspecifico(Base):
@@ -245,7 +245,7 @@ class CampoEducativoEspecifico(Base):
                 server_default=text("uuid_generate_v4()"))
     id_campo_amplio = Column(ForeignKey('campo_educativo_amplio.id'), nullable=False)
     codigo = Column(String(8), nullable=False)
-    descripcion = Column(String(60), nullable=False)
+    descripcion = Column(String(120), nullable=False)
     campos_detallados = relationship('CampoEducativoDetallado', cascade='save-update')
 
 class CampoEducativoDetallado(Base):
@@ -254,5 +254,12 @@ class CampoEducativoDetallado(Base):
                 server_default=text("uuid_generate_v4()"))
     id_campo_especifico = Column(ForeignKey('campo_educativo_especifico.id'), nullable=False)
     codigo = Column(String(8), nullable=False)
-    descripcion = Column(String(60), nullable=False)
+    descripcion = Column(String(120), nullable=False)
+
+class IESNacional(Base):
+    __tablename__ = "ies_nacionales"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    codigo = Column(String(4), nullable=False)
+    institucion = Column(String(120), nullable=False)
 

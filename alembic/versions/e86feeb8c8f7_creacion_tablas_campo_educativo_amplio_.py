@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('campo_educativo_amplio',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('uuid_generate_v4()'), nullable=False),
     sa.Column('codigo', sa.String(length=8), nullable=False),
-    sa.Column('descripcion', sa.String(length=60), nullable=False),
+    sa.Column('descripcion', sa.String(length=120), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_campo_educativo_amplio_id'), 'campo_educativo_amplio', ['id'], unique=False)
@@ -29,7 +29,7 @@ def upgrade():
     sa.Column('id', postgresql.UUID(), server_default=sa.text('uuid_generate_v4()'), nullable=False),
     sa.Column('id_campo_amplio', postgresql.UUID(), nullable=False),
     sa.Column('codigo', sa.String(length=8), nullable=False),
-    sa.Column('descripcion', sa.String(length=60), nullable=False),
+    sa.Column('descripcion', sa.String(length=120), nullable=False),
     sa.ForeignKeyConstraint(['id_campo_amplio'], ['campo_educativo_amplio.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -38,7 +38,7 @@ def upgrade():
     sa.Column('id', postgresql.UUID(), server_default=sa.text('uuid_generate_v4()'), nullable=False),
     sa.Column('id_campo_especifico', postgresql.UUID(), nullable=False),
     sa.Column('codigo', sa.String(length=8), nullable=False),
-    sa.Column('descripcion', sa.String(length=60), nullable=False),
+    sa.Column('descripcion', sa.String(length=120), nullable=False),
     sa.ForeignKeyConstraint(['id_campo_especifico'], ['campo_educativo_especifico.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -5,6 +5,7 @@ Revises: e86feeb8c8f7
 Create Date: 2021-10-20 15:37:50.356750
 
 """
+from typing import List
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.orm import session
@@ -27,14 +28,14 @@ def upgrade():
         file_path = '.\\app\\utils\\campo_educativo.json'
         with open(file_path, encoding='utf8') as f:
             campos_educativos = json.load(f)
-            print("test",campos_educativos)
-        '''for campo_educativo in campos_educativos:
-            especificos = []
+        print('insertando datos ...')
+        for campo_educativo in campos_educativos:
+            especificos:List[CampoEducativoEspecifico] = []
             campo = CampoEducativoAmplio()
             campo.codigo = campo_educativo['codigo']
             campo.descripcion = campo_educativo['descripcion']
             for especifico in campo_educativo['especificos']:
-                detallados = []
+                detallados:List[CampoEducativoDetallado] = []
                 campo_especifico = CampoEducativoEspecifico()
                 campo_especifico.codigo = especifico['codigo']
                 campo_especifico.descripcion = especifico['descripcion']
@@ -46,8 +47,10 @@ def upgrade():
                 campo_especifico.campos_detallados = detallados
                 especificos.append(campo_especifico)
             campo.campos_especificos = especificos
-            session.add(especifico)
-        session.commit()'''
+            
+            session.add(campo)
+        session.commit()
+        print('datos insertados')
     except  Exception as ex:
         print(ex)
     finally:
