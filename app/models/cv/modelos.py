@@ -80,6 +80,8 @@ class CapacitacionFacilitardor(Base):
     institucion_organizadora = Column(String(80), nullable=False)
     lugar = Column(String(120), nullable=False)
     horas = Column(Integer, nullable=False)
+    inicio = Column(Date, nullable=False)
+    fin = Column(Date, nullable=False)
     certificado = Column(String(120))
 
 
