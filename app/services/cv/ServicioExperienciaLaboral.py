@@ -4,7 +4,7 @@ from typing import List
 import logging
 
 
-class ServicoExperienciaLoboral():
+class ServicioExperienciaLaboral():
 
     @classmethod
     async def listar(cls, id_persona: str) -> List[ExperienciaLaboralSchema]:

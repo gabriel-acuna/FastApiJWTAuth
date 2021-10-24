@@ -129,7 +129,7 @@ class ServicioFormacionAcademica():
             await async_db_session.close()
 
     @classmethod
-    async def buscar_id(cls, id: str) -> FormacionAcademicaSchema:
+    async def buscar_por_id(cls, id: str) -> FormacionAcademicaSchema:
         pais_or: PaisSchema = None
         nivel: NivelEducativoSchema = None
         ies: IESNacionalSchema = None

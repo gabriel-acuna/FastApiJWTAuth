@@ -61,7 +61,12 @@ api_router.include_router(
     cv.referencia.router, tags=["Referencias"]
 )
 
-
+api_router.include_router(cv.formacion_academica.router, tags=["Formación académica"])
+api_router.include_router(cv.capacitacion_facilitador.router, tags= ["Capacitaciones como facilitador"])
+api_router.include_router(cv.ponencia.router, tags=["Participación en ponencias"])
+api_router.include_router(cv.experiencia_laboral.router, tags=["Experiencia laboral"])
+api_router.include_router(cv.merito.router, tags=["Méritos y disticiones"])
+api_router.include_router(cv.compresion_idioma.router, tags=["Compresión de idiomas"])
 
 app = FastAPI(title="SIGAC UNESUM API",
               description='''REST APi para el Sistema de Gestión de Aseguramiento
