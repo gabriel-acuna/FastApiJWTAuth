@@ -19,7 +19,7 @@ class ExperienciaLaboralPostSchema(BaseModel):
     inicio: date = Field(...)
     fin: Optional[date] = Field()
 
-class ExperienciaLaboralPostSchema(BaseModel):
+class ExperienciaLaboralPutSchema(BaseModel):
     id: str = Field(...)
     empresa: str = Field(...)
     lugar: str = Field(...)

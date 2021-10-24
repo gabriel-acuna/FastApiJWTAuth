@@ -132,7 +132,7 @@ def upgrade():
                     sa.Column('fecha_obtencion_titulo',
                               sa.Date(), nullable=True),
                     sa.Column('lugar', sa.String(length=120), nullable=False),
-                    sa.Column('posse_beca', sa.String(
+                    sa.Column('posee_beca', sa.String(
                         length=2), nullable=True),
                     sa.Column('id_tipo_beca',
                               postgresql.UUID(), nullable=True),

@@ -19,7 +19,7 @@ class EstadoFormacion(enum.Enum):
     CURSANDO = "EN CURSO"
 
 
-class FormacionAcademica(Base):
+class FormacionAcademica(Base, OperacionesEscrituraAsinconas, EliminacionAsincrona):
     __tablename__ = "formacion_academica_personal"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -39,7 +39,7 @@ class FormacionAcademica(Base):
     registro_senescyt = Column(String(20))
     fecha_obtencion_titulo = Column(Date)
     lugar = Column(String(120), nullable=False)
-    posse_beca = Column(String(2))
+    posee_beca = Column(String(2))
     id_tipo_beca = Column(ForeignKey('tipo_beca.id'))
     monto_beca = Column(Numeric(8, 2), default=0)
     id_financiamiento = Column(ForeignKey('financiamiento_beca.id'))
@@ -70,7 +70,9 @@ class Capacitacion(Base,
     url_certificado = Column(String)
 
 
-class CapacitacionFacilitardor(Base):
+class CapacitacionFacilitador(Base,
+    OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "capacitaciones_facilitadores"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -85,7 +87,11 @@ class CapacitacionFacilitardor(Base):
     certificado = Column(String(120))
 
 
-class Ponencia(Base):
+class Ponencia(Base,
+    OperacionesLecturaAsincronas,
+    OperacionesEscrituraAsinconas,
+    EliminacionAsincrona
+    ):
     __tablename__ = "ponencias_exposiciones"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -99,7 +105,10 @@ class Ponencia(Base):
     fecha = Column(Date, nullable=False)
 
 
-class ExperienciaLaboral(Base):
+class ExperienciaLaboral(Base,
+    OperacionesLecturaAsincronas,
+    OperacionesEscrituraAsinconas,
+    EliminacionAsincrona):
     __tablename__ = "experiencia_laboral_personal"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text('uuid_generate_v4()'))
@@ -112,7 +121,10 @@ class ExperienciaLaboral(Base):
     fin = Column(Date)
 
 
-class MeritoDistincion(Base):
+class MeritoDistincion(Base,
+    OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas,
+    EliminacionAsincrona):
     __tablename__ = 'meritos_distinciones'
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -132,7 +144,10 @@ class NivelCompresion(enum.Enum):
     Ninguna = 'Ninguna'
 
 
-class ComprensionIdioma(Base):
+class ComprensionIdioma(Base,
+    OperacionesLecturaAsincronas,
+    OperacionesEscrituraAsinconas,
+    EliminacionAsincrona):
     __tablename__ = 'comprension_idiomas'
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))

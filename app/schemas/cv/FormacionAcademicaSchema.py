@@ -21,6 +21,7 @@ class FormacionAcademicaSchema(BaseModel):
     id_persona: str
     pais_estudio: PaisSchema
     ies: Optional[IESNacionalSchema]
+    nombre_ies: Optional[str]
     nivel_educativo: NivelEducativoSchema
     grado: Optional[GradoSchema]
     nombre_titulo: str
@@ -42,6 +43,7 @@ class FormacionAcademicaPostSchema(BaseModel):
     id_persona: str = Field(...)
     pais_estudio: str = Field(...)
     ies: str = Field(...)
+    nombre_ies: Optional[str] = Field()
     nivel_educativo: str = Field(...)
     grado: Optional[str] = Field()
     nombre_titulo: str = Field(...)
@@ -59,10 +61,11 @@ class FormacionAcademicaPostSchema(BaseModel):
     descripcion: Optional[str] = Field()
 
 
-class FormacionAcademicaPostSchema(BaseModel):
+class FormacionAcademicaPutSchema(BaseModel):
     id: str = Field(...)
     pais_estudio: str = Field(...)
     ies: str = Field(...)
+    nombre_ies: Optional[str] = Field()
     nivel_educativo: str = Field(...)
     grado: Optional[str] = Field()
     nombre_titulo: str = Field(...)

@@ -1,18 +1,13 @@
 import logging
 from app.services.dath.ServicioDireccionDomicilio import ServicioDireccionDomicilio
 from app.models.core.modelos_principales import Discapacidad, EstadoCivil, Etnia, Nacionalidad, Pais
-from app.services.core.ServicioDiscapacidad import ServicioDiscapacidad
 from app.schemas.core.PaisSchema import PaisSchema
-from app.services.core.ServicioEtnia import ServicioEtnia
-from app.services.core.ServicioPais import ServicioPais
 from typing import List
 from sqlalchemy.sql.elements import or_
 from sqlalchemy.sql.expression import delete, select
 from app.schemas.dath.InformacionPersonalSchema import *
 from app.models.dath.modelos import ExpedienteLaboral, InformacionPersonal, DireccionDomicilio
-from app.services.core.ServicioNacionalidad import ServicioNacionalidad
 from app.database.conf import AsyncDatabaseSession
-from app.services.core.ServicioEstadoCivil import ServicioEstadoCivil
 from app.schemas.dath.DireccionSchema import *
 
 
@@ -78,7 +73,7 @@ class ServicioInformacionPersonal():
                 nacionalidad = NacionalidadSchema(**nac.__dict__)
 
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
-                print(direccion)
+
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=id
@@ -209,7 +204,7 @@ class ServicioInformacionPersonal():
 
     @classmethod
     async def agregar_registro(cls, persona: InformacionPersonalPostSchema) -> bool:
-        regsitrado = False
+        regsitrado:bool = False
         try:
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
@@ -264,8 +259,8 @@ class ServicioInformacionPersonal():
         return regsitrado
 
     @classmethod
-    async def actualizar_registro(cls, persona: InformacionPersonalPutSchema, id: str):
-        resp = False
+    async def actualizar_registro(cls, persona: InformacionPersonalPutSchema, id: str)->bool:
+        resp:bool = False
         try:
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()

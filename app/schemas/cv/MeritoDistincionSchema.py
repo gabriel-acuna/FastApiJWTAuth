@@ -18,7 +18,7 @@ class MeritoDistincionPostSchema(BaseModel):
     fecha_inicio: date = Field(...)
     fecha_fin: date = Field(...)
 
-class MeritoDistincionPustSchema(BaseModel):
+class MeritoDistincionPutSchema(BaseModel):
     id:str = Field(...)
     titulo: str = Field(...)
     institucion_asupiciante: str  = Field(...)
