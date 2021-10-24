@@ -63,7 +63,7 @@ async def actualizar_ponencia(id: str, response: Response, ponencia: PonenciaPut
                response_model=MessageSchema,
                dependencies=[Depends(ServicioToken.JWTBearer())]
                )
-async def eliminar_capacitacion(id: str, response: Response):
+async def eliminar_ponencia(id: str, response: Response):
     ponencia = await ServicioCapacitacionFacilitador.buscar_por_id(id)
     if ponencia:
         eliminado = await ServicioCapacitacionFacilitador.eliminar_registro(id)
