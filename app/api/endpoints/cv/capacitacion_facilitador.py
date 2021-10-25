@@ -38,7 +38,7 @@ async def obtener_capacitacion(id: str):
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registar_capacitacion(response: Response, capacitacion: CapacitacionFacilitadorPostSchema = Body(...)):
-    existe = ServicioCapacitacionFacilitador.existe(capacitacion)
+    existe = await ServicioCapacitacionFacilitador.existe(capacitacion)
     if not existe:
         registrado = await ServicioCapacitacionFacilitador.agregar_registro(capacitacion)
         if registrado:
@@ -49,10 +49,10 @@ async def registar_capacitacion(response: Response, capacitacion: CapacitacionFa
     return MessageSchema(type="warning", content=f"La capacitación ya está resgistrada")
 
 
-@router.put("/{id}", response_model=MessageSchema,
+@router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_capacitacion(id: str, response: Response, capacitacion: CapacitacionFacilitadorPutSchema = Body(...)):
-    actualizado = await ServicioCapacitacionFacilitador.actualizar_registro(id, capacitacion)
+async def actualizar_capacitacion(response: Response, capacitacion: CapacitacionFacilitadorPutSchema = Body(...)):
+    actualizado = await ServicioCapacitacionFacilitador.actualizar_registro(capacitacion)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT
@@ -64,6 +64,7 @@ async def actualizar_capacitacion(id: str, response: Response, capacitacion: Cap
                dependencies=[Depends(ServicioToken.JWTBearer())]
                )
 async def eliminar_capacitacion(id: str, response: Response):
+    print(id)
     capacitacion = await ServicioCapacitacionFacilitador.buscar_por_id(id)
     if capacitacion:
         eliminado = await ServicioCapacitacionFacilitador.eliminar_registro(id)

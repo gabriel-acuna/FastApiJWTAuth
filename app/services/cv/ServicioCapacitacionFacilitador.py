@@ -27,7 +27,7 @@ class ServicioCapacitacionFacilitador():
             respuesta = await CapacitacionFacilitador.obtener(id=id)
             if respuesta:
                 capacitacion = CapacitacionFacilitadorSchema(
-                    respuesta[0].__dict__)
+                    **respuesta[0].__dict__)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 

@@ -9,7 +9,7 @@ from app.services.cv.ServicioExperienciaLaboral import ServicioExperienciaLabora
 
 
 router = APIRouter(
-    prefix="/experiancia-laboral"
+    prefix="/experiencia-laboral"
 )
 
 
