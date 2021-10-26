@@ -48,10 +48,10 @@ async def registar_formacion(response: Response, estudio: FormacionAcademicaPost
     return MessageSchema(type="warning", content=f"La fromación academica como {estudio.nombre_titulo} ya está resgistrada")
 
 
-@router.put("/{id}", response_model=MessageSchema,
+@router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_formacion(id: str, response: Response, estudio: FormacionAcademicaPutSchema = Body(...)):
-    actualizado = await ServicioFormacionAcademica.actualizar_registro(id, estudio)
+    actualizado = await ServicioFormacionAcademica.actualizar_registro(estudio)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT

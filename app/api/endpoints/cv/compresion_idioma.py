@@ -38,7 +38,7 @@ async def obtener_idioma(id: str):
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registar_idioma(response: Response, idioma: ComprensionIdiomaPostSchema = Body(...)):
-    existe = ServicioComprensionIdioma.existe(idioma)
+    existe = await ServicioComprensionIdioma.existe(idioma)
     if not existe:
         registrado = await ServicioComprensionIdioma.agregar_registro(idioma)
         if registrado:
@@ -49,10 +49,10 @@ async def registar_idioma(response: Response, idioma: ComprensionIdiomaPostSchem
     return MessageSchema(type="warning", content=f"La capacitación ya está resgistrada")
 
 
-@router.put("/{id}", response_model=MessageSchema,
+@router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_idioma(id: str, response: Response, idioma: ComprensionIdiomaPutSchema = Body(...)):
-    actualizado = await ServicioComprensionIdioma.actualizar_registro(id, idioma)
+    actualizado = await ServicioComprensionIdioma.actualizar_registro(idioma)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT

@@ -5,7 +5,7 @@ from app.services.auth import ServicioToken
 from app.schemas.Message import MessageSchema
 from typing import List
 from app.api.messages import *
-from app.services.cv.ServicioCapacitacionFacilitador import ServicioCapacitacionFacilitador
+from app.services.cv.ServicioPonencia import ServicioPonencia
 
 
 router = APIRouter(
@@ -18,7 +18,7 @@ router = APIRouter(
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )
 async def listar_ponencias(id_persona: str):
-    return await ServicioCapacitacionFacilitador.listar(id_persona=id_persona)
+    return await ServicioPonencia.listar(id_persona=id_persona)
 
 
 @router.get("/{id}",
@@ -26,7 +26,7 @@ async def listar_ponencias(id_persona: str):
             dependencies=[Depends(ServicioToken.JWTBearer())]
             )
 async def obtener_ponencia(id: str):
-    capacitacion = await ServicioCapacitacionFacilitador.buscar_por_id(id=id)
+    capacitacion = await ServicioPonencia.buscar_por_id(id=id)
     if not capacitacion:
         raise HTTPException(
             status_code=404, detail="Capacitación no encontrada"
@@ -38,9 +38,9 @@ async def obtener_ponencia(id: str):
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registar_ponencia(response: Response, ponencia: PonenciaPostSchema = Body(...)):
-    existe = ServicioCapacitacionFacilitador.existe(ponencia)
+    existe = await ServicioPonencia.existe(ponencia)
     if not existe:
-        registrado = await ServicioCapacitacionFacilitador.agregar_registro(ponencia)
+        registrado = await ServicioPonencia.agregar_registro(ponencia)
         if registrado:
             return MessageSchema(type="success", content=POST_SUCCESS_MSG)
         response.status_code = status.HTTP_409_CONFLICT
@@ -49,10 +49,10 @@ async def registar_ponencia(response: Response, ponencia: PonenciaPostSchema = B
     return MessageSchema(type="warning", content=f"La poencia {ponencia.tema} ya está resgistrada")
 
 
-@router.put("/{id}", response_model=MessageSchema,
+@router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_ponencia(id: str, response: Response, ponencia: PonenciaPutSchema = Body(...)):
-    actualizado = await ServicioCapacitacionFacilitador.actualizar_registro(id, ponencia)
+async def actualizar_ponencia(response: Response, ponencia: PonenciaPutSchema = Body(...)):
+    actualizado = await ServicioPonencia.actualizar_registro(ponencia)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT
@@ -64,9 +64,9 @@ async def actualizar_ponencia(id: str, response: Response, ponencia: PonenciaPut
                dependencies=[Depends(ServicioToken.JWTBearer())]
                )
 async def eliminar_ponencia(id: str, response: Response):
-    ponencia = await ServicioCapacitacionFacilitador.buscar_por_id(id)
+    ponencia = await ServicioPonencia.buscar_por_id(id)
     if ponencia:
-        eliminado = await ServicioCapacitacionFacilitador.eliminar_registro(id)
+        eliminado = await ServicioPonencia.eliminar_registro(id)
         if eliminado:
             return MessageSchema(type="success", content=DELETE_SUCCESS_MSG)
 

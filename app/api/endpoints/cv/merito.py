@@ -38,7 +38,7 @@ async def obtener_merito(id: str):
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registar_merito(response: Response, merito: MeritoDistincionPostSchema = Body(...)):
-    existe = ServicioMerito.existe(merito)
+    existe = await ServicioMerito.existe(merito)
     if not existe:
         registrado = await ServicioMerito.agregar_registro(merito)
         if registrado:
@@ -49,7 +49,7 @@ async def registar_merito(response: Response, merito: MeritoDistincionPostSchema
     return MessageSchema(type="warning", content=f"La capacitación ya está resgistrada")
 
 
-@router.put("/{id}", response_model=MessageSchema,
+@router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_merito(id: str, response: Response, merito: MeritoDistincionPutSchema = Body(...)):
     actualizado = await ServicioMerito.actualizar_registro(id, merito)

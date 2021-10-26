@@ -5,13 +5,15 @@ import logging
 
 
 class ServicioComprensionIdioma():
+
+    @classmethod
     async def listar(cls, id_persona: str) -> List[ComprensionIdiomaSchema]:
         idiomas: List[ComprensionIdiomaSchema] = []
 
         try:
             filas = await ComprensionIdioma.filtarPor(id_persona=id_persona)
             for fila in filas:
-                idiomas.append(fila[0].__dict__)
+                idiomas.append(**fila[0].__dict__)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 

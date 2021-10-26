@@ -18,7 +18,7 @@ class ServicioFormacionAcademica():
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
 
-            results = async_db_session.execute(
+            results = await async_db_session.execute(
                 select(FormacionAcademica).where(
                     FormacionAcademica.id_persona == id_persona
                 )

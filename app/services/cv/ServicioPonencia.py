@@ -4,7 +4,7 @@ import logging
 
 from typing import List
 
-class ServicioCapacitacionFacilitador():
+class ServicioPonencia():
 
     @classmethod
     async def listar(cls, id_persona: str) -> List[PonenciaSchema]:
@@ -13,7 +13,7 @@ class ServicioCapacitacionFacilitador():
         try:
             filas = await Ponencia.filtarPor(id_persona=id_persona)
             for fila in filas:
-                ponencias.append(fila[0].__dict__)
+                ponencias.append(PonenciaSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
@@ -27,7 +27,7 @@ class ServicioCapacitacionFacilitador():
             respuesta = await Ponencia.obtener(id=id)
             if respuesta:
                 ponencia = PonenciaSchema(
-                    respuesta[0].__dict__)
+                    **respuesta[0].__dict__)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 

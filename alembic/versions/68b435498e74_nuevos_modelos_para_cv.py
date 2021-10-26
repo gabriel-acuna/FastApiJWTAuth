@@ -185,8 +185,8 @@ def downgrade():
                   table_name='capacitaciones_facilitadores')
     op.drop_table('capacitaciones_facilitadores')
     sa.Enum(name='nivelCompresion').drop(op.get_bind(), checkfirst=False)
-    sa.Enum(name='nivelcompresion').drop(op.get_bind(), checkfirst=False)
+    #sa.Enum(name='nivelcompresion').drop(op.get_bind(), checkfirst=False)
     sa.Enum(name='estadoFormacion').drop(op.get_bind(), checkfirst=False) 
-    sa.Enum(name='estadoformacion').drop(op.get_bind(), checkfirst=False)
+    #sa.Enum(name='estadoformacion').drop(op.get_bind(), checkfirst=False)
    
     # ### end Alembic commands ###

@@ -11,7 +11,7 @@ class ServicioMerito():
         try:
             filas = await MeritoDistincion.filtarPor(id_persona=id_persona)
             for fila in filas:
-                meritos.append(fila[0].__dict__)
+                meritos.append(MeritoDistincionSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
@@ -25,7 +25,7 @@ class ServicioMerito():
             respuesta = await MeritoDistincion.obtener(id=id)
             if respuesta:
                 merito = MeritoDistincionSchema(
-                    respuesta[0].__dict__)
+                    **respuesta[0].__dict__)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 

@@ -49,10 +49,10 @@ async def registar_experiencia(response: Response, experiencia: ExperienciaLabor
     return MessageSchema(type="warning", content=f"La experiencia laboral como {experiencia.cargo} en {experiencia.empresa} ya está resgistrada")
 
 
-@router.put("/{id}", response_model=MessageSchema,
+@router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actualizar_experiencia(id: str, response: Response, experiencia: ExperienciaLaboralPutSchema = Body(...)):
-    actualizado = await ServicioExperienciaLaboral.actualizar_registro(id, experiencia)
+    actualizado = await ServicioExperienciaLaboral.actualizar_registro(experiencia)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT
