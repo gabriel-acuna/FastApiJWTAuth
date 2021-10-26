@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 import enum
 
-class NivelCompresion(str, enum.Enum):
+class NivelComprension(str, enum.Enum):
     Excelente = 'Excelente'
     Buena = 'Buena'
     Limitada = 'Limitada'
@@ -12,16 +12,16 @@ class ComprensionIdiomaSchema(BaseModel):
     id_persona: str
     idioma: str
     lugar_estudio: str
-    nivel_compresion: NivelCompresion
+    nivel_comprension: NivelComprension
 
 class ComprensionIdiomaPostSchema(BaseModel):
     id_persona: str = Field(...)
     idioma: str = Field(...)
     lugar_estudio: str = Field(...)
-    nivel_compresion: NivelCompresion = Field(...)
+    nivel_comprension: NivelComprension = Field(...)
 
 class ComprensionIdiomaPutSchema(BaseModel):
     id: str = Field(...)
     idioma: str = Field(...)
     lugar_estudio: str = Field(...)
-    nivel_compresion: NivelCompresion = Field(...)
+    nivel_comprension: NivelComprension = Field(...)

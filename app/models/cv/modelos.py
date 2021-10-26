@@ -131,13 +131,13 @@ class MeritoDistincion(Base,
     id_persona = Column(ForeignKey(
         "datos_personales.identificacion"), nullable=False)
     titulo = Column(String(130), nullable=False)
-    institucion_asupiciante = Column(String(130), nullable=False)
+    institucion_auspiciante = Column(String(130), nullable=False)
     funcion = Column(String(80), nullable=False)
     fecha_inicio = Column(Date, nullable=False)
     fecha_fin = Column(Date)
 
 
-class NivelCompresion(enum.Enum):
+class NivelComprension(enum.Enum):
     Excelente = 'Excelente'
     Buena = 'Buena'
     Limitada = 'Limitada'
@@ -155,7 +155,7 @@ class ComprensionIdioma(Base,
         "datos_personales.identificacion"), nullable=False)
     idioma = Column(String(30), nullable=False)
     lugar_estudio = Column(String(120), nullable=False)
-    nivel_compresion = Column(Enum(NivelCompresion), nullable=False)
+    nivel_comprension = Column(Enum(NivelComprension), nullable=False)
 
 
 class TipoReferencia(enum.Enum):

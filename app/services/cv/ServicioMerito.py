@@ -38,7 +38,7 @@ class ServicioMerito():
             return await MeritoDistincion.crear(
                 id_persona=merito.id_persona,
                 titulo = merito.titulo,
-                institucion_asupiciante = merito.institucion_asupiciante,
+                institucion_auspiciante = merito.institucion_auspiciante,
                 funcion = merito.funcion,
                 fecha_inicio = merito.fecha_inicio,
                 fecha_fin = merito.fecha_fin
@@ -53,7 +53,7 @@ class ServicioMerito():
             return await MeritoDistincion.actualizar(
                 id=merito.id,
                 titulo = merito.titulo,
-                institucion_asupiciante = merito.institucion_asupiciante,
+                institucion_auspiciante = merito.institucion_auspiciante,
                 funcion = merito.funcion,
                 fecha_inicio = merito.fecha_inicio,
                 fecha_fin = merito.fecha_fin
@@ -74,7 +74,7 @@ class ServicioMerito():
             existe = await MeritoDistincion.filtarPor(
                 id_persona = merito.id_persona,
                 titulo = merito.titulo,
-                institucion_asupiciante = merito.institucion_asupiciante,
+                institucion_auspiciante = merito.institucion_auspiciante,
                 funcion = merito.funcion,
                 fecha_inicio = merito.fecha_inicio,
 

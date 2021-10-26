@@ -51,7 +51,7 @@ async def registar_idioma(response: Response, idioma: ComprensionIdiomaPostSchem
 
 @router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_idioma(id: str, response: Response, idioma: ComprensionIdiomaPutSchema = Body(...)):
+async def actualizar_idioma(response: Response, idioma: ComprensionIdiomaPutSchema = Body(...)):
     actualizado = await ServicioComprensionIdioma.actualizar_registro(idioma)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)

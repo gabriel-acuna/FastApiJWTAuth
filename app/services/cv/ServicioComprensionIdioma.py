@@ -39,10 +39,9 @@ class ServicioComprensionIdioma():
         try:
             return await ComprensionIdioma.crear(
                 id_persona=idioma.id_persona,
-
                 idioma=idioma.idioma,
                 lugar_estudio=idioma.lugar_estudio,
-                nivel_compresion=idioma.nivel_compresion
+                nivel_comprension=idioma.nivel_comprension
 
             )
         except Exception as ex:
@@ -55,7 +54,7 @@ class ServicioComprensionIdioma():
                 id=idioma.id,
                 idioma=idioma.idioma,
                 lugar_estudio=idioma.lugar_estudio,
-                nivel_compresion=idioma.nivel_compresion
+                nivel_comprension=idioma.nivel_comprension
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)

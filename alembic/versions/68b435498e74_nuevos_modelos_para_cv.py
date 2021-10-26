@@ -47,8 +47,8 @@ def upgrade():
                     sa.Column('idioma', sa.String(length=30), nullable=False),
                     sa.Column('lugar_estudio', sa.String(
                         length=120), nullable=False),
-                    sa.Column('nivel_compresion', sa.Enum('Excelente', 'Buena',
-                                                          'Limitada', 'Ninguna', name='nivelCompresion'), nullable=False),
+                    sa.Column('nivel_comprension', sa.Enum('Excelente', 'Buena',
+                                                          'Limitada', 'Ninguna', name='nivelComprension'), nullable=False),
                     sa.ForeignKeyConstraint(
                         ['id_persona'], ['datos_personales.identificacion'], ),
                     sa.PrimaryKeyConstraint('id')
@@ -78,7 +78,7 @@ def upgrade():
                     sa.Column('id_persona', sa.String(
                         length=10), nullable=False),
                     sa.Column('titulo', sa.String(length=130), nullable=False),
-                    sa.Column('institucion_asupiciante',
+                    sa.Column('institucion_auspiciante',
                               sa.String(length=130), nullable=False),
                     sa.Column('funcion', sa.String(length=80), nullable=False),
                     sa.Column('fecha_inicio', sa.Date(), nullable=False),
@@ -184,7 +184,7 @@ def downgrade():
     op.drop_index(op.f('ix_capacitaciones_facilitadores_id'),
                   table_name='capacitaciones_facilitadores')
     op.drop_table('capacitaciones_facilitadores')
-    sa.Enum(name='nivelCompresion').drop(op.get_bind(), checkfirst=False)
+    sa.Enum(name='nivelComprension').drop(op.get_bind(), checkfirst=False)
     #sa.Enum(name='nivelcompresion').drop(op.get_bind(), checkfirst=False)
     sa.Enum(name='estadoFormacion').drop(op.get_bind(), checkfirst=False) 
     #sa.Enum(name='estadoformacion').drop(op.get_bind(), checkfirst=False)

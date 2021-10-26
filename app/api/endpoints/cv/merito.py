@@ -51,8 +51,8 @@ async def registar_merito(response: Response, merito: MeritoDistincionPostSchema
 
 @router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_merito(id: str, response: Response, merito: MeritoDistincionPutSchema = Body(...)):
-    actualizado = await ServicioMerito.actualizar_registro(id, merito)
+async def actualizar_merito(response: Response, merito: MeritoDistincionPutSchema = Body(...)):
+    actualizado = await ServicioMerito.actualizar_registro(merito)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT

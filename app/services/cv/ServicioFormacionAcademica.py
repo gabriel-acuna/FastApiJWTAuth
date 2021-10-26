@@ -127,6 +127,7 @@ class ServicioFormacionAcademica():
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:
             await async_db_session.close()
+        return estudios
 
     @classmethod
     async def buscar_por_id(cls, id: str) -> FormacionAcademicaSchema:

@@ -38,7 +38,7 @@ async def obtener_experiencia_laboral(id: str):
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registar_experiencia(response: Response, experiencia: ExperienciaLaboralPostSchema = Body(...)):
-    existe = ServicioExperienciaLaboral.existe(experiencia)
+    existe = await ServicioExperienciaLaboral.existe(experiencia)
     if not existe:
         registrado = await ServicioExperienciaLaboral.agregar_registro(experiencia)
         if registrado:
@@ -51,7 +51,7 @@ async def registar_experiencia(response: Response, experiencia: ExperienciaLabor
 
 @router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_experiencia(id: str, response: Response, experiencia: ExperienciaLaboralPutSchema = Body(...)):
+async def actualizar_experiencia(response: Response, experiencia: ExperienciaLaboralPutSchema = Body(...)):
     actualizado = await ServicioExperienciaLaboral.actualizar_registro(experiencia)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
