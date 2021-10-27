@@ -1,4 +1,4 @@
-POST_SUCCESS_MSG = "Registro existoso"
+POST_SUCCESS_MSG = "Registro exitoso"
 PUT_SUCCESS_MSG = "Actualización exitosa"
 PUT_WARNING_MSG = "La actualización no se pudo completar"
 DELETE_SUCCESS_MSG = "Eliminación exitosa"

@@ -13,7 +13,14 @@ class ServicioComprensionIdioma():
         try:
             filas = await ComprensionIdioma.filtarPor(id_persona=id_persona)
             for fila in filas:
-                idiomas.append(**fila[0].__dict__)
+                print(fila[0].__dict__)
+                idiomas.append(ComprensionIdiomaSchema(
+                    id = fila[0].id,
+                    id_persona = fila[0].id_persona,
+                    idioma = fila[0].idioma,
+                    lugar_estudio = fila[0].lugar_estudio,
+                    nivel_comprension = NivelComprension[fila[0].nivel_comprension.value]
+                ))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
@@ -27,7 +34,12 @@ class ServicioComprensionIdioma():
             respuesta = await ComprensionIdioma.obtener(id=id)
             if respuesta:
                 idioma = ComprensionIdiomaSchema(
-                    respuesta[0].__dict__)
+                    id = respuesta[0].id,
+                    id_persona = respuesta[0].id_persona,
+                    idioma = respuesta[0].idioma,
+                    lugar_estudio = respuesta[0].lugar_estudio,
+                    nivel_comprension = NivelComprension[respuesta[0].nivel_comprension.value]
+                )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
