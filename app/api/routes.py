@@ -44,7 +44,11 @@ api_router.include_router(
 api_router.include_router(
     core.area_institucion.router, tags=["Areas institucionales"]
 )
-
+api_router.include_router(core.campo_detallado.router, tags=["Campos de estudios detallados"])
+api_router.include_router(core.tipo_financiamiento.router, tags=["Tipos de financiamiento"])
+api_router.include_router(core.grado.router, tags=["Grados"])
+api_router.include_router(core.tipo_beca.router, tags=["Tipos de becas"])
+api_router.include_router(core.ies_nacional.router, tags=["IES Nacionales"])
 api_router.include_router(
     dath.informacion_personal.router, tags=["Información personal"]
 )

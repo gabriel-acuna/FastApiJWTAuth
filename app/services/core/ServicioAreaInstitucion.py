@@ -98,7 +98,7 @@ class ServicioAreaInstitucion():
     @classmethod
     async def existe(cls, area: AreaInstitucionSchema) -> bool:
         try:
-            existe = await AreaInstitucionSchema.filtarPor(nombre=area.documento_aprobacion)
+            existe = await AreaInstitucion.filtarPor(nombre=area.nombre)
             if existe:
                 return True
             return False

@@ -213,25 +213,29 @@ class Organigrama(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincro
     id_area_institucional = Column(Integer, ForeignKey('areas_institucionales.id'), primary_key=True)
     id_sub_area = Column(Integer, ForeignKey('areas_institucionales.id'), default=0, primary_key=True)
 
-class Grado(Base):
+class Grado(Base, OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "grados"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     grado = Column(String(80), nullable=False)
 
-class TipoBeca(Base):
+class TipoBeca(Base,OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "tipo_beca"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     tipo_beca = Column(String(30), nullable=False)
 
-class FinanciamientoBeca(Base):
+class FinanciamientoBeca(Base, OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "financiamiento_beca"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     financiamiento = Column(String(30), nullable=False)
 
-class CampoEducativoAmplio(Base):
+class CampoEducativoAmplio(Base, OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "campo_educativo_amplio"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -239,7 +243,8 @@ class CampoEducativoAmplio(Base):
     descripcion = Column(String(120), nullable=False)
     campos_especificos = relationship('CampoEducativoEspecifico', cascade='save-update')
     
-class CampoEducativoEspecifico(Base):
+class CampoEducativoEspecifico(Base, OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "campo_educativo_especifico"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -248,7 +253,10 @@ class CampoEducativoEspecifico(Base):
     descripcion = Column(String(120), nullable=False)
     campos_detallados = relationship('CampoEducativoDetallado', cascade='save-update')
 
-class CampoEducativoDetallado(Base):
+class CampoEducativoDetallado(Base,
+    OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas,
+    EliminacionAsincrona):
     __tablename__ = "campo_educativo_detallado"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -256,7 +264,8 @@ class CampoEducativoDetallado(Base):
     codigo = Column(String(8), nullable=False)
     descripcion = Column(String(120), nullable=False)
 
-class IESNacional(Base):
+class IESNacional(Base, OperacionesLecturaAsincronas,
+    OperacionesEscrituraAsinconas, EliminacionAsincrona):
     __tablename__ = "ies_nacionales"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))

@@ -33,17 +33,17 @@ class CampoEducativoEspecificoPutSchema(BaseModel):
 
 class CampoEducativoDetalladoSchema(BaseModel):
     id:str
-    codigo_amplio: str
+    campo_especifico: str
     descripcion: str
     campo:str
 
 class CampoEducativoDetalladoPostSchema(BaseModel):
     codigo: str = Field(...)
-    campo_amplio: str = Field()
+    campo_especifico: str = Field()
     descripcion: str = Field(...)
 
 class CampoEducativoDetalladoPutSchema(BaseModel):
     id:str = Field(...)
-    campo_amplio: str = Field()
+    campo_especifico: str = Field(...)
     codigo: str = Field(...)
     descripcion: str = Field(...)
