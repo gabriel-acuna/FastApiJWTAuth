@@ -13,7 +13,6 @@ class ServicioComprensionIdioma():
         try:
             filas = await ComprensionIdioma.filtarPor(id_persona=id_persona)
             for fila in filas:
-                print(fila[0].__dict__)
                 idiomas.append(ComprensionIdiomaSchema(
                     id = fila[0].id,
                     id_persona = fila[0].id_persona,

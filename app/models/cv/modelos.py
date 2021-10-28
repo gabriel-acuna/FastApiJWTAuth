@@ -31,8 +31,8 @@ class FormacionAcademica(Base, OperacionesEscrituraAsinconas, EliminacionAsincro
     id_nivel = Column(ForeignKey('nivel_educativo.id'), nullable=False)
     id_grado = Column(ForeignKey('grados.id'))
     nombre_titulo = Column(String(150), nullable=False)
-    id_campo_detallado = Column(ForeignKey(
-        'campo_educativo_detallado.id'), nullable=False)
+    id_campo_especifico = Column(ForeignKey(
+        'campo_educativo_especifico.id'), nullable=False)
     estado = Column(Enum(EstadoFormacion), nullable=False)
     fecha_inicio = Column(Date, nullable=False)
     fecha_fin = Column(Date)

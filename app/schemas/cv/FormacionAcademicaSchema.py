@@ -5,7 +5,7 @@ from app.schemas.core.PaisSchema import PaisSchema
 from app.schemas.core.IESNacionalSchema import IESNacionalSchema
 from app.schemas.core.NivelEducativoSchema import NivelEducativoSchema
 from app.schemas.core.GradoSchema import GradoSchema
-from app.schemas.core.CampoEducativoSchema import CampoEducativoDetalladoSchema
+from app.schemas.core.CampoEducativoSchema import CampoEducativoEspecificoSchema, CampoEducativoEspecificoSchema
 from datetime import date
 from app.schemas.core.TipoBecaSchema import TipoBecaSchema
 from app.schemas.core.FinanciamientoBecaSchema import FinanciamientoBecaSchema
@@ -25,7 +25,7 @@ class FormacionAcademicaSchema(BaseModel):
     nivel_educativo: NivelEducativoSchema
     grado: Optional[GradoSchema]
     nombre_titulo: str
-    campo_detallado: CampoEducativoDetalladoSchema
+    campo_especifico: CampoEducativoEspecificoSchema
     estado: EstadoFormacion
     fecha_inicio: date
     fecha_fin: Optional[date]
@@ -41,13 +41,13 @@ class FormacionAcademicaSchema(BaseModel):
 
 class FormacionAcademicaPostSchema(BaseModel):
     id_persona: str = Field(...)
-    pais_estudio: str = Field(...)
+    pais_estudio: int = Field(...)
     ies: Optional[str] = Field()
     nombre_ies: Optional[str] = Field()
     nivel_educativo: str = Field(...)
     grado: Optional[str] = Field()
     nombre_titulo: str = Field(...)
-    campo_detallado: str = Field(...)
+    campo_especifico: str = Field(...)
     estado: EstadoFormacion = Field(...)
     fecha_inicio: date = Field(...)
     fecha_fin: Optional[date] = Field()
@@ -63,13 +63,13 @@ class FormacionAcademicaPostSchema(BaseModel):
 
 class FormacionAcademicaPutSchema(BaseModel):
     id: str = Field(...)
-    pais_estudio: str = Field(...)
+    pais_estudio: int = Field(...)
     ies: Optional[str] = Field()
     nombre_ies: Optional[str] = Field()
     nivel_educativo: str = Field(...)
     grado: Optional[str] = Field()
     nombre_titulo: str = Field(...)
-    campo_detallado: str = Field(...)
+    campo_especifico: str = Field(...)
     estado: EstadoFormacion = Field(...)
     fecha_inicio: date = Field(...)
     fecha_fin: Optional[date] = Field()

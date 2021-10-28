@@ -7,4 +7,4 @@ from app.api.endpoints.core import tiempo_dedicacion_profesor, nivel_educativo, 
 from app.api.endpoints.core import tipo_docente_loes
 from app.api.endpoints.core import estado_civil, estructura_institucion, area_institucion
 from app.api.endpoints.core import campo_detallado, ies_nacional
-from app.api.endpoints.core import grado, tipo_beca, tipo_financiamiento
+from app.api.endpoints.core import grado, tipo_beca, tipo_financiamiento, campo_especifico

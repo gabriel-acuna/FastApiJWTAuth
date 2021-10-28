@@ -2,8 +2,8 @@ from typing import List
 
 from sqlalchemy.sql.expression import select
 from app.schemas.cv.FormacionAcademicaSchema import *
-from app.models.cv.modelos import FormacionAcademica
-from app.models.core.modelos_principales import Pais, NivelEducativo, Grado, CampoEducativoDetallado
+from app.models.cv.modelos import FormacionAcademica,EstadoFormacion as EF
+from app.models.core.modelos_principales import Pais, NivelEducativo, Grado, CampoEducativoEspecifico
 from app.models.core.modelos_principales import TipoBeca, FinanciamientoBeca, IESNacional
 from app.database.conf import AsyncDatabaseSession
 import logging
@@ -30,7 +30,7 @@ class ServicioFormacionAcademica():
                     nivel: NivelEducativoSchema = None
                     ies: IESNacionalSchema = None
                     grado: GradoSchema = None
-                    campo_estudio: CampoEducativoDetallado = None
+                    campo_estudio: CampoEducativoEspecifico = None
                     beca: TipoBecaSchema = None
                     tipo_financioamiento: FinanciamientoBecaSchema = None
 
@@ -41,6 +41,7 @@ class ServicioFormacionAcademica():
                         select(Pais).where(Pais.id == estudio.id_pais_estudio)
                     )
                     pais = result.scalar_one()
+                    pais_or = PaisSchema(**pais.__dict__)
                     result = await async_db_session.execute(
                         select(NivelEducativo).where(
                             NivelEducativo.id == estudio.id_nivel)
@@ -67,14 +68,18 @@ class ServicioFormacionAcademica():
                         grado = GradoSchema(**gr.__dict__)
 
                     result = await async_db_session.execute(
-                        select(CampoEducativoDetallado).where(
-                            CampoEducativoDetallado.id == estudio.id_campo_detalldo
+                        select(CampoEducativoEspecifico).where(
+                            CampoEducativoEspecifico.id == estudio.id_campo_especifico
 
                         )
                     )
-                    campo = result.scalar_one()
-                    campo_estudio = CampoEducativoDetalladoSchema(
-                        **campo.__dict__)
+                    campo: CampoEducativoEspecifico = result.scalar_one()
+                    campo_estudio = CampoEducativoEspecificoSchema(
+                        id=campo.id,
+                        campo_amplio=campo.id_campo_amplio,
+                        codigo=campo.codigo,
+                        descripcion=campo.descripcion
+                    )
                     if estudio.id_tipo_beca:
                         result = await async_db_session.execute(
                             select(TipoBeca).where(
@@ -96,7 +101,7 @@ class ServicioFormacionAcademica():
                         )
                         t_fin = result.scalar_one()
                         tipo_financioamiento = FinanciamientoBecaSchema(
-                            **t_beca.__dict__)
+                            **t_fin.__dict__)
 
                     estudios.append(
                         FormacionAcademicaSchema(
@@ -135,7 +140,7 @@ class ServicioFormacionAcademica():
         nivel: NivelEducativoSchema = None
         ies: IESNacionalSchema = None
         grado: GradoSchema = None
-        campo_estudio: CampoEducativoDetallado = None
+        campo_estudio: CampoEducativoEspecifico = None
         beca: TipoBecaSchema = None
         tipo_financioamiento: FinanciamientoBecaSchema = None
         formacion: FormacionAcademicaSchema = None
@@ -155,6 +160,7 @@ class ServicioFormacionAcademica():
                     select(Pais).where(Pais.id == estudio.id_pais_estudio)
                 )
                 pais = result.scalar_one()
+                pais_or = PaisSchema(**pais.__dict__)
                 result = await async_db_session.execute(
                     select(NivelEducativo).where(
                         NivelEducativo.id == estudio.id_nivel)
@@ -181,14 +187,17 @@ class ServicioFormacionAcademica():
                     grado = GradoSchema(**gr.__dict__)
 
                 result = await async_db_session.execute(
-                    select(CampoEducativoDetallado).where(
-                        CampoEducativoDetallado.id == estudio.id_campo_detalldo
+                    select(CampoEducativoEspecifico).where(
+                        CampoEducativoEspecifico.id == estudio.id_campo_detalldo
 
                     )
                 )
                 campo = result.scalar_one()
-                campo_estudio = CampoEducativoDetalladoSchema(
-                    **campo.__dict__)
+                campo_estudio = CampoEducativoEspecificoSchema(
+                    id=campo.id,
+                    campo_amplio=campo.id_campo_amplio,
+                    codigo=campo.codigo,
+                    descripcion=campo.descripcion)
                 if estudio.id_tipo_beca:
                     result = await async_db_session.execute(
                         select(TipoBeca).where(
@@ -210,7 +219,7 @@ class ServicioFormacionAcademica():
                     )
                     t_fin = result.scalar_one()
                     tipo_financioamiento = FinanciamientoBecaSchema(
-                        **t_beca.__dict__)
+                        **t_fin.__dict__)
 
                 FormacionAcademicaSchema(
                     id=estudio.id,
@@ -243,7 +252,9 @@ class ServicioFormacionAcademica():
 
     @classmethod
     async def agregar_registro(cls, estudio: FormacionAcademicaPostSchema) -> bool:
-        
+        estado_formacion: EF = EF.CURSANDO
+        if estudio.estado.value == EF.TERMINADA.value:
+            estado_formacion = EF.TERMINADA
         try:
             return await FormacionAcademica.crear(
                 id_persona=estudio.id_persona,
@@ -253,11 +264,11 @@ class ServicioFormacionAcademica():
                 id_nivel=estudio.nivel_educativo,
                 id_grado=estudio.grado,
                 nombre_titulo=estudio.nombre_titulo,
-                id_campo_detallado=estudio.campo_detallado,
-                estado=estudio.estado,
+                id_campo_especifico=estudio.campo_especifico,
+                estado=estado_formacion,
                 fecha_inicio=estudio.fecha_inicio,
                 fecha_fin=estudio.fecha_fin,
-                registro_senescyt=estudio.fecha_fin,
+                registro_senescyt=estudio.registro_senescyt,
                 fecha_obtencion_titulo=estudio.fecha_obtencion_titulo,
                 lugar=estudio.lugar,
                 posee_beca=estudio.posee_beca,
@@ -267,12 +278,12 @@ class ServicioFormacionAcademica():
                 descripcion=estudio.descripcion)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-    
 
     @classmethod
     async def actualizar_registro(cls, estudio: FormacionAcademicaPutSchema) -> bool:
-        
+
         try:
+
             return await FormacionAcademica.actualizar(
                 id=estudio.id,
                 id_pais_estudio=estudio.pais_estudio,
@@ -281,11 +292,11 @@ class ServicioFormacionAcademica():
                 id_nivel=estudio.nivel_educativo,
                 id_grado=estudio.grado,
                 nombre_titulo=estudio.nombre_titulo,
-                id_campo_detallado=estudio.campo_detallado,
-                estado=estudio.estado,
+                id_campo_especifico=estudio.campo_especifico,
+                estado=EstadoFormacion[estudio.estado.name],
                 fecha_inicio=estudio.fecha_inicio,
                 fecha_fin=estudio.fecha_fin,
-                registro_senescyt=estudio.fecha_fin,
+                registro_senescyt=estudio.registro_senescyt,
                 fecha_obtencion_titulo=estudio.fecha_obtencion_titulo,
                 lugar=estudio.lugar,
                 posee_beca=estudio.posee_beca,
@@ -297,21 +308,19 @@ class ServicioFormacionAcademica():
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
-    async def eliminar_registro(cls, id:str) -> bool:
-        
+    async def eliminar_registro(cls, id: str) -> bool:
+
         try:
-            return await  FormacionAcademica.eliminar(id)
+            return await FormacionAcademica.eliminar(id)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-      
-
 
     @classmethod
-    async def existe(cls, estudio:FormacionAcademicaPostSchema)->bool:
+    async def existe(cls, estudio: FormacionAcademicaPostSchema) -> bool:
         try:
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
-            result = async_db_session.execute(
+            result = await async_db_session.execute(
                 select(FormacionAcademica).where(
                     FormacionAcademica.id_nivel == estudio.nivel_educativo,
                     FormacionAcademica.nombre_titulo == estudio.nivel_educativo

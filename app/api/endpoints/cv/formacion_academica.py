@@ -50,7 +50,7 @@ async def registar_formacion(response: Response, estudio: FormacionAcademicaPost
 
 @router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_formacion(id: str, response: Response, estudio: FormacionAcademicaPutSchema = Body(...)):
+async def actualizar_formacion(response: Response, estudio: FormacionAcademicaPutSchema = Body(...)):
     actualizado = await ServicioFormacionAcademica.actualizar_registro(estudio)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)

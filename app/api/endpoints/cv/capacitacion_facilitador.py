@@ -64,7 +64,6 @@ async def actualizar_capacitacion(response: Response, capacitacion: Capacitacion
                dependencies=[Depends(ServicioToken.JWTBearer())]
                )
 async def eliminar_capacitacion(id: str, response: Response):
-    print(id)
     capacitacion = await ServicioCapacitacionFacilitador.buscar_por_id(id)
     if capacitacion:
         eliminado = await ServicioCapacitacionFacilitador.eliminar_registro(id)

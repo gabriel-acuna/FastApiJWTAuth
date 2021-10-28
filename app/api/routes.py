@@ -44,6 +44,7 @@ api_router.include_router(
 api_router.include_router(
     core.area_institucion.router, tags=["Areas institucionales"]
 )
+api_router.include_router(core.campo_especifico.router, tags=["Campos de estudios específicos"])
 api_router.include_router(core.campo_detallado.router, tags=["Campos de estudios detallados"])
 api_router.include_router(core.tipo_financiamiento.router, tags=["Tipos de financiamiento"])
 api_router.include_router(core.grado.router, tags=["Grados"])
