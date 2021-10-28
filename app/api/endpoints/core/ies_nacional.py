@@ -7,7 +7,7 @@ from app.schemas.Message import MessageSchema
 from app.api.messages import *
 from app.services.auth import ServicioToken
 
-router = APIRouter(prefix="/iess")
+router = APIRouter(prefix="/ies-nacionales")
 
 
 @router.get("/", response_model=List[IESNacionalSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
@@ -15,7 +15,7 @@ async def listar_ies_nacionales():
     return await ServicioIES.listar()
 
 
-@router.get("/${id}",  response_model=IESNacionalSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
+@router.get("/{id}",  response_model=IESNacionalSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_ies_nacional(id:str):
     ies = await ServicioIES.buscar_por_id(id)
     if not ies:
