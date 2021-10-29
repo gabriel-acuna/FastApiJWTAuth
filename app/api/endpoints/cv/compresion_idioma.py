@@ -72,4 +72,5 @@ async def eliminar_idioma(id: str, response: Response):
 
         response.status_code = status.HTTP_409_CONFLICT
         return MessageSchema(type="error", content=ERROR_MSG)
+    response.status_code = status.HTTP_202_ACCEPTED
     return MessageSchema(type="warning", content=DELETE_WARNING_MSG)

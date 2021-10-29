@@ -46,6 +46,8 @@ class ServicioFormacionAcademica():
                         select(NivelEducativo).where(
                             NivelEducativo.id == estudio.id_nivel)
                     )
+                    nivel_educativo = result.scalar_one()
+                    nivel = NivelEducativoSchema(**nivel_educativo.__dict__)
                     if estudio.id_ies:
                         result = await async_db_session.execute(
                             select(IESNacional).where(
@@ -56,10 +58,8 @@ class ServicioFormacionAcademica():
                         ies = IESNacionalSchema(
                             **ies_nacional.__dict__
                         )
-                    nivel_educativo = result.scalar_one()
-                    nivel = NivelEducativoSchema(**nivel_educativo.__dict__)
                     if estudio.id_grado:
-                        result = async_db_session.execute(
+                        result = await async_db_session.execute(
                             select(Grado).where(
                                 Grado.id == estudio.id_grado
                             )
@@ -102,18 +102,20 @@ class ServicioFormacionAcademica():
                         t_fin = result.scalar_one()
                         tipo_financioamiento = FinanciamientoBecaSchema(
                             **t_fin.__dict__)
-
+                    estado_formacion: EstadoFormacion = EstadoFormacion.CURSANDO
+                    if estudio.estado.value == EstadoFormacion.TERMINADA.value:
+                        estado_formacion = EstadoFormacion.TERMINADA
                     estudios.append(
                         FormacionAcademicaSchema(
                             id=estudio.id,
                             id_persona=estudio.id_persona,
-                            paie_estudio=pais_or,
+                            pais_estudio=pais_or,
                             ies=ies,
                             nivel_educativo=nivel,
                             grado=grado,
                             nombre_titulo=estudio.nombre_titulo,
-                            campo_detallado=campo_estudio,
-                            estado=estudio.estado,
+                            campo_especifico=campo_estudio,
+                            estado=estado_formacion,
                             fecha_inicio=estudio.fecha_inicio,
                             fecha_fin=estudio.fecha_fin,
                             registro_senescyt=estudio.registro_senescyt,
@@ -153,6 +155,7 @@ class ServicioFormacionAcademica():
                     FormacionAcademica.id == id
                 )
             )
+           
             respuesta = result.all()
             if respuesta:
                 estudio: FormacionAcademica = respuesta[0][0]
@@ -165,6 +168,8 @@ class ServicioFormacionAcademica():
                     select(NivelEducativo).where(
                         NivelEducativo.id == estudio.id_nivel)
                 )
+                nivel_educativo = result.scalar_one()
+                nivel = NivelEducativoSchema(**nivel_educativo.__dict__)
                 if estudio.id_ies:
                     result = await async_db_session.execute(
                         select(IESNacional).where(
@@ -175,10 +180,8 @@ class ServicioFormacionAcademica():
                     ies = IESNacionalSchema(
                         **ies_nacional.__dict__
                     )
-                nivel_educativo = result.scalar_one()
-                nivel = NivelEducativoSchema(**nivel_educativo.__dict__)
                 if estudio.id_grado:
-                    result = async_db_session.execute(
+                    result = await async_db_session.execute(
                         select(Grado).where(
                             Grado.id == estudio.id_grado
                         )
@@ -188,7 +191,7 @@ class ServicioFormacionAcademica():
 
                 result = await async_db_session.execute(
                     select(CampoEducativoEspecifico).where(
-                        CampoEducativoEspecifico.id == estudio.id_campo_detalldo
+                        CampoEducativoEspecifico.id == estudio.id_campo_especifico
 
                     )
                 )
@@ -220,17 +223,19 @@ class ServicioFormacionAcademica():
                     t_fin = result.scalar_one()
                     tipo_financioamiento = FinanciamientoBecaSchema(
                         **t_fin.__dict__)
-
-                FormacionAcademicaSchema(
+                estado_formacion: EstadoFormacion = EstadoFormacion.CURSANDO
+                if estudio.estado.value == EstadoFormacion.TERMINADA.value:
+                    estado_formacion = EstadoFormacion.TERMINADA
+                formacion = FormacionAcademicaSchema(
                     id=estudio.id,
                     id_persona=estudio.id_persona,
-                    paie_estudio=pais_or,
+                    pais_estudio=pais_or,
                     ies=ies,
                     nivel_educativo=nivel,
                     grado=grado,
                     nombre_titulo=estudio.nombre_titulo,
-                    campo_detallado=campo_estudio,
-                    estado=estudio.estado,
+                    campo_especifico=campo_estudio,
+                    estado=estado_formacion,
                     fecha_inicio=estudio.fecha_inicio,
                     fecha_fin=estudio.fecha_fin,
                     registro_senescyt=estudio.registro_senescyt,
@@ -281,8 +286,10 @@ class ServicioFormacionAcademica():
 
     @classmethod
     async def actualizar_registro(cls, estudio: FormacionAcademicaPutSchema) -> bool:
-
         try:
+            estado_formacion: EF = EF.CURSANDO
+            if estudio.estado.value == EF.TERMINADA.value:
+                estado_formacion = EF.TERMINADA
 
             return await FormacionAcademica.actualizar(
                 id=estudio.id,
@@ -293,7 +300,7 @@ class ServicioFormacionAcademica():
                 id_grado=estudio.grado,
                 nombre_titulo=estudio.nombre_titulo,
                 id_campo_especifico=estudio.campo_especifico,
-                estado=EstadoFormacion[estudio.estado.name],
+                estado=estado_formacion,
                 fecha_inicio=estudio.fecha_inicio,
                 fecha_fin=estudio.fecha_fin,
                 registro_senescyt=estudio.registro_senescyt,
