@@ -26,7 +26,8 @@ class ServicioProvincia():
         try:
             resultado = await Provincia.obtener(id)
             if resultado:
-                provincia = ProvinciaSchema(resultado[0].__dict__)
+                provincia = ProvinciaSchema(
+                    id=resultado[0].id, provincia=resultado[0].provincia)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return provincia
@@ -46,18 +47,17 @@ class ServicioProvincia():
     async def agregar_registro(cls, provincia: ProvinciaPostSchema) -> bool:
         try:
             return await Provincia.crear(
-                provincia = provincia.provincia
+                provincia=provincia.provincia
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
-    
     @classmethod
     async def actualizar_registro(cls, provincia: ProvinciaPutSchema) -> bool:
         try:
             return await Provincia.actualizar(
-                id = provincia.id,
-                provincia = provincia.provincia
+                id=provincia.id,
+                provincia=provincia.provincia
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -72,8 +72,8 @@ class ServicioProvincia():
     @classmethod
     async def existe(cls, provincia: ProvinciaPostSchema) -> bool:
         try:
-            existe =  await Provincia.filtarPor(
-                provincia = provincia.provincia
+            existe = await Provincia.filtarPor(
+                provincia=provincia.provincia
             )
             if existe:
                 return True

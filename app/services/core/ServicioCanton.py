@@ -25,7 +25,10 @@ class ServicioCanton():
         try:
             respuesta = await Canton.obtener(id)
             if respuesta:
-                canton = CantonSchema(respuesta[0].__dict__)
+                canton = CantonSchema(id=respuesta[0].id,
+                                      provincia_id=respuesta[0].provincia_id,
+                                      canton=respuesta[0].canton
+                                      )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return canton
@@ -52,7 +55,7 @@ class ServicioCanton():
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
-    async def eliminar_registro(cls, id: str):
+    async def eliminar_registro(cls, id: int):
         try:
             return await Canton.eliminar(id)
         except Exception as ex:

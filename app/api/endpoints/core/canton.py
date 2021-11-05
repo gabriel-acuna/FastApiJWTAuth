@@ -19,7 +19,7 @@ async def obtener_canton(id: int):
     canton = await ServicioCanton.buscar_por_id(id)
     if not canton:
         raise HTTPException(status_code=404, detail="Cantón no encontrado")
-    return CantonSchema(**canton[0].__dict__)
+    return canton
 
 @router.post("/", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def registrar_canton(response: Response, canton: CantonPostSchema = Body(...)):
@@ -31,7 +31,7 @@ async def registrar_canton(response: Response, canton: CantonPostSchema = Body(.
         response.status_code = status.HTTP_409_CONFLICT
         return MessageSchema(type="error", content=ERROR_MSG)
     response.status_code = status.HTTP_202_ACCEPTED
-    return MessageSchema(type="warning", content=f"El cantón {canton.canton} ya está resgistrada")
+    return MessageSchema(type="warning", content=f"El cantón {canton.canton} ya está resgistrado")
 
 
 @router.put("/", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
@@ -49,7 +49,7 @@ async def actualizar_canton(response: Response, canton: CantonPutSchema):
 
 
 @router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
-async def eliminar_etnia(id: str, response: Response):
+async def eliminar_canton(id: int, response: Response):
     etnia = await ServicioCanton.buscar_por_id(id)
     if etnia:
         eliminado = await ServicioCanton.eliminar_registro(id)
@@ -58,4 +58,5 @@ async def eliminar_etnia(id: str, response: Response):
 
         response.status_code = status.HTTP_409_CONFLICT
         return MessageSchema(type="error", content=ERROR_MSG)
+    response.status_code = status.HTTP_202_ACCEPTED
     return MessageSchema(type="warning", content=DELETE_WARNING_MSG)
