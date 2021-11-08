@@ -1,21 +1,21 @@
 from typing import List
-from app.models.core.modelos_principales import CampoEducativoDetallado
-from app.schemas.core.CampoEducativoSchema import CampoEducativoDetalladoPostSchema, CampoEducativoDetalladoPutSchema, CampoEducativoDetalladoSchema
+from app.models.core.modelos_principales import CampoEducativoAmplio
+from app.schemas.core.CampoEducativoSchema import CampoEducativoAmplioPostSchema, CampoEducativoAmplioPutSchema, CampoEducativoAmplioSchema
 import logging
-class ServicioCampoEducativoDetallado():
+
+class ServicioCampoEducativoAmplio():
 
     @classmethod
-    async def listar(cls) -> List[CampoEducativoDetalladoSchema] :
-        campos: List[CampoEducativoDetalladoSchema] = []
+    async def listar(cls) -> List[CampoEducativoAmplioSchema] :
+        campos: List[CampoEducativoAmplioSchema] = []
         try:
-            filas = await CampoEducativoDetallado.listar()
+            filas = await CampoEducativoAmplio.listar()
             if filas:
                 for fila in filas:
-                    campo: CampoEducativoDetallado = fila[0]
+                    campo: CampoEducativoAmplio = fila[0]
                     campos.append(
-                        CampoEducativoDetalladoSchema(
+                        CampoEducativoAmplioSchema(
                             id = campo.id,
-                            campo_especifico = campo.id_campo_especifico,
                             codigo = campo.codigo,
                             descripcion = campo.descripcion
                         )
@@ -25,14 +25,13 @@ class ServicioCampoEducativoDetallado():
         return campos
 
     @classmethod
-    async def  buscar_por_id(cls, id:str) -> CampoEducativoDetalladoSchema:
-        campo: CampoEducativoDetalladoSchema = None
+    async def  buscar_por_id(cls, id:str) -> CampoEducativoAmplioSchema:
+        campo: CampoEducativoAmplioSchema = None
         try:
-            resultado = await CampoEducativoDetallado.obtener(id)
+            resultado = await CampoEducativoAmplio.obtener(id)
             if resultado:
-                campo = CampoEducativoDetalladoSchema(
+                campo = CampoEducativoAmplioSchema(
                             id = resultado[0].id,
-                            campo_especifico = resultado[0].id_campo_especifico,
                             codigo = resultado[0].codigo,
                             descripcion = resultado[0].descripcion
                         )
@@ -41,11 +40,10 @@ class ServicioCampoEducativoDetallado():
         return campo
 
     @classmethod
-    async def agregar_registro(cls, campo: CampoEducativoDetalladoPostSchema):
+    async def agregar_registro(cls, campo: CampoEducativoAmplioPostSchema):
         try:
-            return await CampoEducativoDetallado.crear(
+            return await CampoEducativoAmplio.crear(
                 codigo=campo.codigo,
-                id_campo_especifico = campo.campo_especifico,
                 descripcion = campo.descripcion
                 
             )
@@ -53,14 +51,12 @@ class ServicioCampoEducativoDetallado():
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
-    async def actualizar_registro(cls, campo: CampoEducativoDetalladoPutSchema):
+    async def actualizar_registro(cls, campo: CampoEducativoAmplioPutSchema):
         try:
-            return await CampoEducativoDetallado.actualizar(
+            return await CampoEducativoAmplio.actualizar(
                 id = campo.id,
                 codigo=campo.codigo,
-                id_campo_especifico = campo.campo_especifico,
                 descripcion = campo.descripcion
-                
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -68,16 +64,15 @@ class ServicioCampoEducativoDetallado():
     @classmethod
     async def eliminar_registro(cls, id: str):
         try:
-            return await CampoEducativoDetallado.eliminar(id)
+            return await CampoEducativoAmplio.eliminar(id)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
     @classmethod
-    async def existe(cls, campo: CampoEducativoDetalladoPostSchema) -> bool:
+    async def existe(cls, campo: CampoEducativoAmplioPostSchema) -> bool:
         try:
-            existe = await CampoEducativoDetallado.filtarPor(
+            existe = await CampoEducativoAmplio.filtarPor(
                 codigo=campo.codigo,
-                id_campo_especifico = campo.campo_especifico,
                 descripcion = campo.descripcion
             )
             if existe:

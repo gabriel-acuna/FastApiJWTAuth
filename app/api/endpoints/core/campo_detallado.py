@@ -14,7 +14,7 @@ router = APIRouter(prefix="/campos-detallados")
 async def listar_campos_estudios_detallados():
     return await ServicioCampoEducativoDetallado.listar()
 
-@router.get("/${id}",  response_model=CampoEducativoDetalladoSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
+@router.get("/{id}",  response_model=CampoEducativoDetalladoSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_campo(id:str):
     campo = await ServicioCampoEducativoDetallado.buscar_por_id(id)
     if not campo:

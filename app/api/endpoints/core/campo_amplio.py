@@ -1,5 +1,5 @@
-from app.schemas.core.CampoEducativoSchema import CampoEducativoEspecificoPostSchema, CampoEducativoEspecificoPutSchema, CampoEducativoEspecificoSchema
-from app.services.core.ServicioCampoEducativoEspecifico import ServicioCampoEducativoEspecifico
+from app.schemas.core.CampoEducativoSchema import CampoEducativoAmplioPostSchema, CampoEducativoAmplioPutSchema, CampoEducativoAmplioSchema
+from app.services.core.ServicioCampoEducativoAmplio import ServicioCampoEducativoAmplio
 from typing import List
 from fastapi import APIRouter, HTTPException, Response, status, Depends, Body
 from app.schemas.core.TipoFuncionarioSchema import *
@@ -7,16 +7,16 @@ from app.schemas.Message import MessageSchema
 from app.api.messages import *
 from app.services.auth import ServicioToken
 
-router = APIRouter(prefix="/campos-especificos")
+router = APIRouter(prefix="/campos-amplios")
 
 
-@router.get("/", response_model=List[CampoEducativoEspecificoSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
-async def listar_campos_estudios_detallados():
-    return await ServicioCampoEducativoEspecifico.listar()
+@router.get("/", response_model=List[CampoEducativoAmplioSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
+async def listar_campos_estudios_amplios():
+    return await ServicioCampoEducativoAmplio.listar()
 
-@router.get("/{id}",  response_model=CampoEducativoEspecificoSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
+@router.get("/{id}",  response_model=CampoEducativoAmplioSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_campo(id:str):
-    campo = await ServicioCampoEducativoEspecifico.buscar_por_id(id)
+    campo = await ServicioCampoEducativoAmplio.buscar_por_id(id)
     if not campo:
         raise HTTPException(
             status_code=404, detail="Campo no encontrado"
@@ -27,22 +27,22 @@ async def obtener_campo(id:str):
 @router.post("/", response_model=MessageSchema,
              status_code=201,
              dependencies=[Depends(ServicioToken.JWTBearer())])
-async def registar_campo(response: Response, campo: CampoEducativoEspecificoPostSchema = Body(...)):
-    existe = await ServicioCampoEducativoEspecifico.existe(campo)
+async def registar_campo(response: Response, campo: CampoEducativoAmplioPostSchema = Body(...)):
+    existe = await ServicioCampoEducativoAmplio.existe(campo)
     if not existe:
-        registrado = await ServicioCampoEducativoEspecifico.agregar_registro(campo)
+        registrado = await ServicioCampoEducativoAmplio.agregar_registro(campo)
         if registrado:
             return MessageSchema(type="success", content=POST_SUCCESS_MSG)
         response.status_code = status.HTTP_409_CONFLICT
         return MessageSchema(type="error", content=ERROR_MSG)
     response.status_code = status.HTTP_202_ACCEPTED
-    return MessageSchema(type="warning", content=f"El campo de estudio específico ya está resgistrado")
+    return MessageSchema(type="warning", content=f"El campo de estudio amplio ya está resgistrado")
 
 
 @router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_campo(response: Response, campo:CampoEducativoEspecificoPutSchema = Body(...)):
-    actualizado = await ServicioCampoEducativoEspecifico.actualizar_registro(campo)
+async def actualizar_campo(response: Response, campo:CampoEducativoAmplioPutSchema = Body(...)):
+    actualizado = await ServicioCampoEducativoAmplio.actualizar_registro(campo)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
     response.status_code = status.HTTP_409_CONFLICT
@@ -54,12 +54,13 @@ async def actualizar_campo(response: Response, campo:CampoEducativoEspecificoPut
                dependencies=[Depends(ServicioToken.JWTBearer())]
                )
 async def eliminar_campo(id: str, response: Response):
-    campo = await ServicioCampoEducativoEspecifico.buscar_por_id(id)
+    campo = await ServicioCampoEducativoAmplio.buscar_por_id(id)
     if campo:
-        eliminado = await ServicioCampoEducativoEspecifico.eliminar_registro(id)
+        eliminado = await ServicioCampoEducativoAmplio.eliminar_registro(id)
         if eliminado:
             return MessageSchema(type="success", content=DELETE_SUCCESS_MSG)
 
         response.status_code = status.HTTP_409_CONFLICT
         return MessageSchema(type="error", content=ERROR_MSG)
+    response.status_code = status.HTTP_202_ACCEPTED
     return MessageSchema(type="warning", content=DELETE_WARNING_MSG)
