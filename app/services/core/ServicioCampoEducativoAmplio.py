@@ -1,12 +1,13 @@
 from typing import List
-from app.models.core.modelos_principales import CampoEducativoAmplio
-from app.schemas.core.CampoEducativoSchema import CampoEducativoAmplioPostSchema, CampoEducativoAmplioPutSchema, CampoEducativoAmplioSchema
+from app.models.core.modelos_principales import CampoEducativoAmplio, CampoEducativoEspecifico
+from app.schemas.core.CampoEducativoSchema import CampoEducativoAmplioPostSchema, CampoEducativoAmplioPutSchema, CampoEducativoAmplioSchema, CampoEducativoEspecificoSchema
 import logging
+
 
 class ServicioCampoEducativoAmplio():
 
     @classmethod
-    async def listar(cls) -> List[CampoEducativoAmplioSchema] :
+    async def listar(cls) -> List[CampoEducativoAmplioSchema]:
         campos: List[CampoEducativoAmplioSchema] = []
         try:
             filas = await CampoEducativoAmplio.listar()
@@ -15,9 +16,9 @@ class ServicioCampoEducativoAmplio():
                     campo: CampoEducativoAmplio = fila[0]
                     campos.append(
                         CampoEducativoAmplioSchema(
-                            id = campo.id,
-                            codigo = campo.codigo,
-                            descripcion = campo.descripcion
+                            id=campo.id,
+                            codigo=campo.codigo,
+                            descripcion=campo.descripcion
                         )
                     )
         except Exception as ex:
@@ -25,27 +26,44 @@ class ServicioCampoEducativoAmplio():
         return campos
 
     @classmethod
-    async def  buscar_por_id(cls, id:str) -> CampoEducativoAmplioSchema:
+    async def buscar_por_id(cls, id: str) -> CampoEducativoAmplioSchema:
         campo: CampoEducativoAmplioSchema = None
         try:
             resultado = await CampoEducativoAmplio.obtener(id)
             if resultado:
                 campo = CampoEducativoAmplioSchema(
-                            id = resultado[0].id,
-                            codigo = resultado[0].codigo,
-                            descripcion = resultado[0].descripcion
-                        )
+                    id=resultado[0].id,
+                    codigo=resultado[0].codigo,
+                    descripcion=resultado[0].descripcion
+                )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return campo
+
+    @classmethod
+    async def listar_campos_especificos(cls, id: str) -> List[CampoEducativoEspecificoSchema]:
+        campos: List[CampoEducativoEspecificoSchema] = []
+        try:
+            filas = await CampoEducativoEspecifico.filtarPor(id_campo_amplio=id)
+            if filas:
+                for fila in filas:
+                    campos.append(CampoEducativoEspecificoSchema(id=fila[0].id,
+                                                                 campo_amplio=fila[0].id_campo_amplio,
+                                                                 codigo=fila[0].codigo,
+                                                                 descripcion=fila[0].descripcion
+
+                                                                 ))
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        return campos
 
     @classmethod
     async def agregar_registro(cls, campo: CampoEducativoAmplioPostSchema):
         try:
             return await CampoEducativoAmplio.crear(
                 codigo=campo.codigo,
-                descripcion = campo.descripcion
-                
+                descripcion=campo.descripcion
+
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -54,9 +72,9 @@ class ServicioCampoEducativoAmplio():
     async def actualizar_registro(cls, campo: CampoEducativoAmplioPutSchema):
         try:
             return await CampoEducativoAmplio.actualizar(
-                id = campo.id,
+                id=campo.id,
                 codigo=campo.codigo,
-                descripcion = campo.descripcion
+                descripcion=campo.descripcion
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -73,7 +91,7 @@ class ServicioCampoEducativoAmplio():
         try:
             existe = await CampoEducativoAmplio.filtarPor(
                 codigo=campo.codigo,
-                descripcion = campo.descripcion
+                descripcion=campo.descripcion
             )
             if existe:
                 return True

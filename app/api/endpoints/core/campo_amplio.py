@@ -1,4 +1,4 @@
-from app.schemas.core.CampoEducativoSchema import CampoEducativoAmplioPostSchema, CampoEducativoAmplioPutSchema, CampoEducativoAmplioSchema
+from app.schemas.core.CampoEducativoSchema import CampoEducativoAmplioPostSchema, CampoEducativoAmplioPutSchema, CampoEducativoAmplioSchema, CampoEducativoEspecificoSchema
 from app.services.core.ServicioCampoEducativoAmplio import ServicioCampoEducativoAmplio
 from typing import List
 from fastapi import APIRouter, HTTPException, Response, status, Depends, Body
@@ -13,6 +13,10 @@ router = APIRouter(prefix="/campos-amplios")
 @router.get("/", response_model=List[CampoEducativoAmplioSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_campos_estudios_amplios():
     return await ServicioCampoEducativoAmplio.listar()
+
+@router.get("/especificos/{id}", response_model=List[CampoEducativoEspecificoSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
+async def obtener_campos_especificos(id:str):
+    return await ServicioCampoEducativoAmplio.listar_campos_especificos(id)
 
 @router.get("/{id}",  response_model=CampoEducativoAmplioSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def obtener_campo(id:str):

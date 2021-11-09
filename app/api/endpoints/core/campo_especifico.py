@@ -1,4 +1,4 @@
-from app.schemas.core.CampoEducativoSchema import CampoEducativoEspecificoPostSchema, CampoEducativoEspecificoPutSchema, CampoEducativoEspecificoSchema
+from app.schemas.core.CampoEducativoSchema import CampoEducativoDetalladoSchema, CampoEducativoEspecificoPostSchema, CampoEducativoEspecificoPutSchema, CampoEducativoEspecificoSchema
 from app.services.core.ServicioCampoEducativoEspecifico import ServicioCampoEducativoEspecifico
 from typing import List
 from fastapi import APIRouter, HTTPException, Response, status, Depends, Body
@@ -14,8 +14,14 @@ router = APIRouter(prefix="/campos-especificos")
 async def listar_campos_estudios_detallados():
     return await ServicioCampoEducativoEspecifico.listar()
 
+
+@router.get("/detallados/{id}", response_model=List[CampoEducativoDetalladoSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
+async def listar_campos_estudios_detallados(id: str):
+    return await ServicioCampoEducativoEspecifico.listar_campos_detallados(id)
+
+
 @router.get("/{id}",  response_model=CampoEducativoEspecificoSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
-async def obtener_campo(id:str):
+async def obtener_campo(id: str):
     campo = await ServicioCampoEducativoEspecifico.buscar_por_id(id)
     if not campo:
         raise HTTPException(
@@ -41,7 +47,7 @@ async def registar_campo(response: Response, campo: CampoEducativoEspecificoPost
 
 @router.put("/", response_model=MessageSchema,
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def actualizar_campo(response: Response, campo:CampoEducativoEspecificoPutSchema = Body(...)):
+async def actualizar_campo(response: Response, campo: CampoEducativoEspecificoPutSchema = Body(...)):
     actualizado = await ServicioCampoEducativoEspecifico.actualizar_registro(campo)
     if actualizado:
         return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
