@@ -4,3 +4,4 @@ from app.models.auth.cuentas_usuarios import *
 from app.models.core.modelos_principales import *
 from app.models.dath.modelos import *
 from app.models.cv.modelos import *
+from app.models.foreign_tables import *
