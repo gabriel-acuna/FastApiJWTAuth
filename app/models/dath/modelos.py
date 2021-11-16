@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 import enum
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.dialects.postgresql.base import TIMESTAMP
-from sqlalchemy.sql.expression import null
+from sqlalchemy import Sequence
 from sqlalchemy import Column, ForeignKey, text, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import Date, Enum, Integer, Numeric, String
@@ -27,6 +27,18 @@ class Sexo(enum.Enum):
     HOMBRE = "HOMBRE"
     MUJER = "MUJER"
 
+class TipoLicenciaConduccion(enum.Enum):
+    A = 'A'
+    A1 = 'A1'
+    B = 'B'
+    C = 'C'
+    C1 = 'C1'
+    D = 'D'
+    D1 = 'D1'
+    E = 'E'
+    E1 = 'E1'
+    F = 'F'
+    G = 'G'
 
 class InformacionPersonal(Base, OperacionesLecturaAsincronas):
     ''' Este modelo contiene la infromación personal de profesores y funcionarios 
@@ -56,7 +68,8 @@ class InformacionPersonal(Base, OperacionesLecturaAsincronas):
     telefono_movil = Column(String(13), nullable=False)
     direccion_domicilio = relationship('DireccionDomicilio', uselist=False, cascade="save-update")
     tipo_sangre = Column(String(5), nullable=False)
-    lincencia_conduccion = Column(String(2), nullable=False, default='')
+    lincencia_conduccion = Column(String(2), nullable=False, default='NO')
+    tipo_licencia_conduccion = Column(Enum(TipoLicenciaConduccion))
 
     def calcular_edad(self):
         hoy = date.today()
@@ -83,6 +96,55 @@ class DireccionDomicilio(Base, OperacionesLecturaAsincronas):
     calle2 = Column(String(30))
     referencia = Column(String(120))
 
+class ContactoEmergencia(Base, OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__ = "contactos_emergencia_personal"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    id_persona = Column(ForeignKey(
+        'datos_personales.identificacion'), nullable=False)
+    apellidos = Column(String(80), nullable=False)
+    nombres = Column(String(80), nullable=False)
+    direccion = Column(String(120), nullable=False)
+    telefono_domicilio = Column(
+        String(10), default="0000000000")
+    telefono_movil = Column(String(13), nullable=False)
+
+class TipoSustituto(enum.Enum):
+    DIRECTO = 'DIRECTO'
+    SOLIDADRIDAD = 'SOLIDARIDAD'
+
+class SustitutoPersonal(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__="sustitutos_personal"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    id_persona = Column(ForeignKey(
+        'datos_personales.identificacion'), nullable=False)
+    tipo_sustituto = Column(Enum(TipoSustituto), nullable=False)
+    apellidos = Column(String(80), nullable=False)
+    nombres = Column(String(80), nullable=False)
+    numero_carnet = Column(String(15), nullable=False)
+    desde = Column(Date, nullable=False)
+    hasta = Column(Date, nullable=False)
+
+
+class TipoCuenta(enum.Enum):
+    AHORRO = "AHORRO"
+    CORRIENTE = "CORRIENTE"
+
+
+class InformacionBancaria(Base, OperacionesLecturaAsincronas, 
+    OperacionesEscrituraAsinconas, EliminacionAsincrona):
+    __tablename__ = "informacion_bancaria_personal"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    id_persona = Column(ForeignKey(
+        'datos_personales.identificacion'), nullable=False)
+    institucion_financiera =  Column(String(120), nullable=False)
+    tipo_cuenta = Column(Enum(TipoCuenta), nullable=False)
+    numero_cuenta = Column(String(10))
+
+    
 class ExpedienteLaboral(Base, OperacionesLecturaAsincronas):
     __tablename__ = "expedientes_laborales"
     id = Column(UUID, primary_key=True, index=True,
@@ -98,6 +160,23 @@ class TipoPersonal(enum.Enum):
     FUNCIONARIIO = "FUNCIONARIO"
     PROFESOR = "PROFESOR"
 
+class TipoContrato(Base,
+    OperacionesLecturaAsincronas,
+    EliminacionAsincrona,
+    OperacionesEscrituraAsinconas):
+    __tablename__ = "tipos_contratos"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    contrato = Column(String(120), nullable=False)
+
+class TipoNombramiento(Base,
+    OperacionesLecturaAsincronas,
+    EliminacionAsincrona,
+    OperacionesEscrituraAsinconas):
+    __tablename__ = "tipos_nombramientos"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    nombramiento = Column(String(120), nullable=False)
 
 class DetalleExpedienteLaboral(Base,
     OperacionesLecturaAsincronas,
@@ -138,3 +217,71 @@ class DetalleExpedienteLaboral(Base,
     id_sub_area = Column(Integer, ForeignKey(
         'areas_institucionales.id'), default=0)
     id_nivel = Column(ForeignKey('nivel_educativo.id'))
+
+class RegimenLaboral(Base, OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__ = "regimenes_laborales"
+    id = Column(Integer, Sequence('regimenes_laborales_id_seq'),primary_key=True)
+    regimen = Column(String(120), nullable=False)
+
+class ModalidadContractual(Base, OperacionesLecturaAsincronas,
+    OperacionesEscrituraAsinconas, EliminacionAsincrona):
+    __tablename__ = "modalidades_contractuales"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    modalidad = Column(String(120), nullable=False)
+
+class MotivoDesvinculacion(Base, OperacionesLecturaAsincronas,
+    OperacionesEscrituraAsinconas, EliminacionAsincrona):
+    __tablename__ = "motivos_desvinculacion"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    motivo = Column(String(120), nullable=False )
+
+class TipoFalta(enum.Enum):
+    LEVES = 'LEVES'
+    GRAVES = 'GRAVES'
+
+class Sancion(Base, OperacionesLecturaAsincronas,
+    OperacionesEscrituraAsinconas, EliminacionAsincrona):
+    __tablename__ = "sanciones"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    sancion = Column(String(80), nullable=False )
+
+class MES(enum.Enum):
+    ENERO = 'ENERO '
+    FEBREO = 'FEBRERO'
+    MARZO = 'MARZO'
+    ABRIL = 'ABRIL'
+    MAYO = 'MAYO'
+    JUNIO = 'JUNIO'
+    JULIO = 'JULIO'
+    AGOSTO = 'AGOSTO'
+    SEPTIEMBRE = 'SEPTIEMBRE'
+    OCTUBRE = 'OCTUBRE'
+    NOVIEMBRE = 'NOVIEMBRE'
+    DICIEMBFRE = 'DICIEMBRE'
+
+class EstadoSumario(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas,EliminacionAsincrona):
+    __tablename__ = "estados_sumarios"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    estaso = Column(String(70), nullable=False )
+
+class RegimenDisciplinario(Base, OperacionesEscrituraAsinconas,
+    OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__ = "regimen_disciplinario"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    anio_sancion = Column(Integer, nullable=False)
+    mes_sancion = Column(Enum(MES))
+    id_persona = Column(ForeignKey(
+        'datos_personales.identificacion'), nullable=False)
+    id_regimen = Column(ForeignKey('regimenes_laborales.id'), nullable=False)
+    id_modalidad = Column(ForeignKey('modalidades_contractuales.id'))
+    tipo_falta = Column(Enum(TipoFalta),nullable=False)
+    id_sancion = Column(ForeignKey('sanciones'))
+    aplica_sumario = Column(String(2), default='NO', nullable=False)
+    estado_sumario = Column(ForeignKey('estados_sumarios.id'), nullable=False)
+    numero_sentencia = Column(String(80))

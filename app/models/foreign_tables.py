@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from decouple import config
 from sqlalchemy.sql import base
-from sqlalchemy.sql.expression import true
+from sqlalchemy.sql.expression import select, true
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, Numeric, String
 from sqlalchemy.orm import relationship, sessionmaker
@@ -58,9 +58,9 @@ class Coordinacion(Base):
 class ProfesorDistributivoHoras(Base):
     '''Modelo que permitira consultar el distributivo de horas de los profesores por periodo académico'''
     id = Column(Integer, primary_key=true)
-    periodo_id = Column(ForeignKey('sga.sga_periodo'))
-    profesor_id = Column(ForeignKey('sga.sga_profesor'))
-    coordinacion = Column(ForeignKey('sga.sga_coordinacion'))
+    periodo_id = Column(ForeignKey('sga.sga_periodo.id'))
+    profesor_id = Column(ForeignKey('sga.sga_profesor.id'))
+    coordinacion_id = Column(ForeignKey('sga.sga_coordinacion.id'))
     horas = Column(Numeric(4, 2), default=0)
     horasdocencia = Column(default=0)
     horasinvestigacion = Column(Numeric(4, 2), default=0)
@@ -71,46 +71,67 @@ class ProfesorDistributivoHoras(Base):
     __tablename__ = 'sga_profesordistributivohoras'
     __table_args__ = {'autoload': True, 'schema': 'sga'}
 
-    class CriterioDocenciaPeriodo(Base):
-        id = Column(Integer, primary_key=true)
-        __tablename__ = "sga_criteriodocenciaperiodo"
-        __table_args__ = {'autoload': True, 'schema': 'sga'}
+class CriterioDocencia(Base):
+    __tablename__ = "sga_criteriodocencia"
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+    id = Column(Integer, primary_key=true)
+    nombre = Column(String)
 
-    class CriterioInvestigacionPeriodo(Base):
-        id = Column(Integer, primary_key=true)
-        __tablename__ = "sga_criterioinvestigacionperiodo"
-        __table_args__ = {'autoload': True, 'schema': 'sga'}
+
+
+class CriterioDocenciaPeriodo(Base):
+    id = Column(Integer, primary_key=true)
+    periodo_id = Column(ForeignKey('sga.sga_periodo.id'))
+    criterio_id = Column(ForeignKey('sga.sga_criteriodocencia.id'))
+    criterio = relationship("CriterioDocencia" , primaryjoin="CriterioDocenciaPeriodo.criterio_id == CriterioDocencia.id")
+    __tablename__ = "sga_criteriodocenciaperiodo"
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+
+class CriterioInvestigacionPeriodo(Base):
+    id = Column(Integer, primary_key=true)
+    __tablename__ = "sga_criterioinvestigacionperiodo"
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+
+
+class CriterioGestionPeriodo(Base):
+    id = Column(Integer, primary_key=true)
+    __tablename__ = 'sga_criteriogestionperiodo'
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+    id=Column(Integer, primary_key=true)
     
-
-    class CriterioGestionPeriodo(Base):
-        id = Column(Integer, primary_key=true)
-        __tablename__ = 'sga_criteriogestionperiodo'
-        __table_args__ = {'autoload': True, 'schema': 'sga'}
-        id=Column(Integer, primary_key=true)
-        
-    class CriterioVinculacionPeriodo(Base):
-        id = Column(Integer, primary_key=true)
-        __tablename__ = 'sga_criteriovinculacionperiodo'
-        __table_args__ = {'autoload': True, 'schema': 'sga'}
-        id=Column(Integer, primary_key=true)
+class CriterioVinculacionPeriodo(Base):
+    id = Column(Integer, primary_key=true)
+    __tablename__ = 'sga_criteriovinculacionperiodo'
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+    id=Column(Integer, primary_key=true)
 
     
-    class CriterioPracticasPeriodo(Base):
-        id = Column(Integer, primary_key=true)
-        __tablename__ = 'sga_criteriopracticasperiodo'
-        __table_args__ = {'autoload': True, 'schema': 'sga'}
-        id=Column(Integer, primary_key=true)
+class CriterioPracticasPeriodo(Base):
+    id = Column(Integer, primary_key=true)
+    __tablename__ = 'sga_criteriopracticasperiodo'
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+    id=Column(Integer, primary_key=true)
 
-    class CriterioOtrasActividadesPeriodo(Base):
-        id = Column(Integer, primary_key=true)
-        __tablename__ = 'sga_criteriootrasactividadesperiodo'
-        __table_args__ = {'autoload': True, 'schema': 'sga'}
-        id=Column(Integer, primary_key=true)
+class CriterioOtrasActividadesPeriodo(Base):
+    id = Column(Integer, primary_key=true)
+    __tablename__ = 'sga_criteriootrasactividadesperiodo'
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+   
 
-        criteriodocenciaperiodo_id = Column(ForeignKey('sga.criteriodocenciaperiodo_id'))
-        criterioinvestigacionperiodo = Column(ForeignKey('sga.sga_criterioinvestigacionperiodo.id'))
-        criteriogestionperiodo = Column(ForeignKey('sga.sga_criteriogestionperiodo.id'))
-        criteriovinculacionperiodo = Column(ForeignKey('sga.criteriovinculacionperiodo.id'))
-        criteriopracticasperiodo = Column(ForeignKey('sga.criteriopracticasperiodo.id'))
-        criteriootrasactividadesperiodo = ForeignKey('sga.criteriootrasactividadesperiodo.id')
-        horas = Column(Numeric(4,2), default=0)
+
+class DetalleDistributivo(Base):
+    id=Column(Integer, primary_key=true)
+    distributivo_id = Column(ForeignKey('sga.sga_profesordistributivohoras'))
+    criteriodocenciaperiodo_id = Column(ForeignKey('sga.sga_criteriodocenciaperiodo.id'))
+    criterioinvestigacionperiodo_id = Column(ForeignKey('sga.sga_criterioinvestigacionperiodo.id'))
+    criteriogestionperiodo_id = Column(ForeignKey('sga.sga_criteriogestionperiodo.id'))
+    criteriovinculacionperiodo_id = Column(ForeignKey('sga.criteriovinculacionperiodo.id'))
+    criteriopracticasperiodo_id = Column(ForeignKey('sga.criteriopracticasperiodo.id'))
+    criteriootrasactividadesperiodo_id = ForeignKey('sga.criteriootrasactividadesperiodo.id')
+    horas = Column(Numeric(4,2), default=0)
+    criteriodocenciaperiodo = relationship("CriterioDocenciaPeriodo", 
+    primaryjoin="CriterioDocenciaPeriodo.id == DetalleDistributivo.criteriodocenciaperiodo_id")
+    __tablename__ = 'sga_detalledistributivo'
+    __table_args__ = {'autoload': True, 'schema': 'sga'}
+
+
