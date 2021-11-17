@@ -121,13 +121,13 @@ class CriterioOtrasActividadesPeriodo(Base):
 
 class DetalleDistributivo(Base):
     id=Column(Integer, primary_key=true)
-    distributivo_id = Column(ForeignKey('sga.sga_profesordistributivohoras'))
+    distributivo_id = Column(ForeignKey('sga.sga_profesordistributivohoras.id'))
     criteriodocenciaperiodo_id = Column(ForeignKey('sga.sga_criteriodocenciaperiodo.id'))
     criterioinvestigacionperiodo_id = Column(ForeignKey('sga.sga_criterioinvestigacionperiodo.id'))
     criteriogestionperiodo_id = Column(ForeignKey('sga.sga_criteriogestionperiodo.id'))
-    criteriovinculacionperiodo_id = Column(ForeignKey('sga.criteriovinculacionperiodo.id'))
-    criteriopracticasperiodo_id = Column(ForeignKey('sga.criteriopracticasperiodo.id'))
-    criteriootrasactividadesperiodo_id = ForeignKey('sga.criteriootrasactividadesperiodo.id')
+    criteriovinculacionperiodo_id = Column(ForeignKey('sga.sga_criteriovinculacionperiodo.id'))
+    criteriopracticasperiodo_id = Column(ForeignKey('sga.sga_criteriopracticasperiodo.id'))
+    criteriootrasactividadesperiodo_id = ForeignKey('sga.sga_criteriootrasactividadesperiodo.id')
     horas = Column(Numeric(4,2), default=0)
     criteriodocenciaperiodo = relationship("CriterioDocenciaPeriodo", 
     primaryjoin="CriterioDocenciaPeriodo.id == DetalleDistributivo.criteriodocenciaperiodo_id")

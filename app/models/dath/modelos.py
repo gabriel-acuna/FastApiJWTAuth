@@ -281,7 +281,7 @@ class RegimenDisciplinario(Base, OperacionesEscrituraAsinconas,
     id_regimen = Column(ForeignKey('regimenes_laborales.id'), nullable=False)
     id_modalidad = Column(ForeignKey('modalidades_contractuales.id'))
     tipo_falta = Column(Enum(TipoFalta),nullable=False)
-    id_sancion = Column(ForeignKey('sanciones'))
+    id_sancion = Column(ForeignKey('sanciones.id'))
     aplica_sumario = Column(String(2), default='NO', nullable=False)
     estado_sumario = Column(ForeignKey('estados_sumarios.id'), nullable=False)
     numero_sentencia = Column(String(80))
