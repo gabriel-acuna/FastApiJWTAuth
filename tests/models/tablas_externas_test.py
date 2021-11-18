@@ -12,7 +12,3 @@ def test_consultar_profesores():
     assert len(listado)>0
     print(listado[0][0].__dict__)
 
-def test_listado_horas_periodo():
-    listado = ServicioHorasPorPerido.verificar_datos_sga(7)
-    assert len(listado)>0
-    print(len(listado))

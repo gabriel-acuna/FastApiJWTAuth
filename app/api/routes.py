@@ -6,6 +6,7 @@ from app.api.endpoints.auth import auth
 import app.api.endpoints.core as core
 import app.api.endpoints.dath as dath
 import app.api.endpoints.cv as cv
+import app.api.endpoints.dac as dac
 from starlette.middleware.cors import CORSMiddleware
 
 
@@ -73,6 +74,8 @@ api_router.include_router(cv.ponencia.router, tags=["Participación en ponencias
 api_router.include_router(cv.experiencia_laboral.router, tags=["Experiencia laboral"])
 api_router.include_router(cv.merito.router, tags=["Méritos y disticiones"])
 api_router.include_router(cv.compresion_idioma.router, tags=["Compresión de idiomas"])
+
+api_router.include_router(dac.periodo_academico.router, tags=["Periodos académicos"])
 
 app = FastAPI(title="SIGAC UNESUM API",
               description='''REST APi para el Sistema de Gestión de Aseguramiento
