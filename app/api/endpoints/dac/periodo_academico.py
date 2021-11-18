@@ -7,7 +7,7 @@ from typing import List
 from app.api.messages import *
 
 router = APIRouter(
-    prefix="/capacitaciones"
+    prefix="/periodos-academicos"
 )
 
 @router.get("/", response_model=List[PeriodoAcademicoSchema], dependencies=[Depends(ServicioToken.JWTBearer())])
