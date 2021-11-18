@@ -67,6 +67,7 @@ class InformacionPersonal(Base, OperacionesLecturaAsincronas):
         String(10), default="0000000000")
     telefono_movil = Column(String(13), nullable=False)
     direccion_domicilio = relationship('DireccionDomicilio', uselist=False, cascade="save-update")
+    contacto_emergencia = relationship('ContactoEmergencia', uselist=False, cascade="save-update")
     tipo_sangre = Column(String(5), nullable=False)
     lincencia_conduccion = Column(String(2), nullable=False, default='NO')
     tipo_licencia_conduccion = Column(Enum(TipoLicenciaConduccion))
@@ -261,13 +262,13 @@ class MES(enum.Enum):
     SEPTIEMBRE = 'SEPTIEMBRE'
     OCTUBRE = 'OCTUBRE'
     NOVIEMBRE = 'NOVIEMBRE'
-    DICIEMBFRE = 'DICIEMBRE'
+    DICIEMBRE = 'DICIEMBRE'
 
 class EstadoSumario(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas,EliminacionAsincrona):
     __tablename__ = "estados_sumarios"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
-    estaso = Column(String(70), nullable=False )
+    estado = Column(String(70), nullable=False )
 
 class RegimenDisciplinario(Base, OperacionesEscrituraAsinconas,
     OperacionesLecturaAsincronas, EliminacionAsincrona):

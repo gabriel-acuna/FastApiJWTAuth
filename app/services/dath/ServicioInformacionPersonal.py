@@ -1,4 +1,5 @@
 import logging
+from app.services.dath.ServicioContactoEmergencia import ServicioContactoEmergencia
 from app.services.dath.ServicioDireccionDomicilio import ServicioDireccionDomicilio
 from app.models.core.modelos_principales import Discapacidad, EstadoCivil, Etnia, Nacionalidad, Pais
 from app.schemas.core.PaisSchema import PaisSchema
@@ -6,7 +7,7 @@ from typing import List
 from sqlalchemy.sql.elements import or_
 from sqlalchemy.sql.expression import delete, select
 from app.schemas.dath.InformacionPersonalSchema import *
-from app.models.dath.modelos import ExpedienteLaboral, InformacionPersonal, DireccionDomicilio
+from app.models.dath.modelos import ContactoEmergencia, ExpedienteLaboral, InformacionPersonal, DireccionDomicilio
 from app.database.conf import AsyncDatabaseSession
 from app.schemas.dath.DireccionSchema import *
 
@@ -19,13 +20,13 @@ class ServicioInformacionPersonal():
         try:
             filas = await InformacionPersonal.listar()
             for fila in filas:
-                
+
                 persona = fila[0]
                 personal = await ServicioInformacionPersonal.buscar_por_id(id=persona.identificacion)
-                personal_ies.append(personal) 
+                personal_ies.append(personal)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-             
+
         return personal_ies
 
     @classmethod
@@ -41,9 +42,9 @@ class ServicioInformacionPersonal():
                 async_db_session = AsyncDatabaseSession()
                 await async_db_session.init()
                 persona = respuesta[0][0]
-                res =   await async_db_session.execute(
-                        select(Etnia).where(
-                        Etnia.id==persona.id_etnia
+                res = await async_db_session.execute(
+                    select(Etnia).where(
+                        Etnia.id == persona.id_etnia
                     ))
                 etnia = res.scalar_one()
                 res = await async_db_session.execute(
@@ -73,13 +74,14 @@ class ServicioInformacionPersonal():
                 nacionalidad = NacionalidadSchema(**nac.__dict__)
 
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
+                contacto_emergencia = await ServicioContactoEmergencia.buscar_por_id_persona(persona.identificacion)
 
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=id
                     )
                 )
-            
+
                 expediente = results.scalar_one()
                 await async_db_session.close()
                 informacion_personal = InformacionPersonalSchema(
@@ -105,9 +107,11 @@ class ServicioInformacionPersonal():
                     telefono_domicilio=persona.telefono_domicilio,
                     telefono_movil=persona.telefono_movil,
                     direccion_domicilio=direccion,
+                    contacto_emergencia=contacto_emergencia,
                     tipo_sangre=persona.tipo_sangre,
                     licencia_conduccion=persona.lincencia_conduccion,
-                    fecha_ingreso = expediente.registrado_en
+                    tipo_licencia=persona.tipo_licencia_conduccion,
+                    fecha_ingreso=expediente.registrado_en
 
 
                 )
@@ -128,9 +132,9 @@ class ServicioInformacionPersonal():
                 async_db_session = AsyncDatabaseSession()
                 await async_db_session.init()
                 persona = respuesta[0][0]
-                res =   await async_db_session.execute(
-                        select(Etnia).where(
-                        Etnia.id==persona.id_etnia
+                res = await async_db_session.execute(
+                    select(Etnia).where(
+                        Etnia.id == persona.id_etnia
                     ))
                 etnia = res.scalar_one()
                 res = await async_db_session.execute(
@@ -160,13 +164,13 @@ class ServicioInformacionPersonal():
                 nacionalidad = NacionalidadSchema(**nac.__dict__)
 
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
-                print(direccion)
+                contacto_emergencia = await ServicioContactoEmergencia.buscar_por_id_persona(persona.identificacion)
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=persona.identificacion
                     )
                 )
-            
+
                 expediente = results.scalar_one()
                 await async_db_session.close()
                 informacion_personal = InformacionPersonalSchema(
@@ -192,9 +196,11 @@ class ServicioInformacionPersonal():
                     telefono_domicilio=persona.telefono_domicilio,
                     telefono_movil=persona.telefono_movil,
                     direccion_domicilio=direccion,
+                    contacto_emergencia=contacto_emergencia,
                     tipo_sangre=persona.tipo_sangre,
                     licencia_conduccion=persona.lincencia_conduccion,
-                    fecha_ingreso = expediente.registrado_en
+                    tipo_licencia=persona.lincencia_conduccion,
+                    fecha_ingreso=expediente.registrado_en
 
 
                 )
@@ -204,7 +210,7 @@ class ServicioInformacionPersonal():
 
     @classmethod
     async def agregar_registro(cls, persona: InformacionPersonalPostSchema) -> bool:
-        regsitrado:bool = False
+        regsitrado: bool = False
         try:
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
@@ -233,8 +239,9 @@ class ServicioInformacionPersonal():
                 informacion_personal.telefono_domicilio = persona.telefono_domicilio
             informacion_personal.telefono_movil = persona.telefono_movil
             informacion_personal.tipo_sangre = persona.tipo_sangre
-            if persona.licencia_conduccion:
-                informacion_personal.lincencia_conduccion = persona.licencia_conduccion
+            informacion_personal.lincencia_conduccion
+            if persona.tipo_licencia:
+                informacion_personal.tipo_licencia_conduccion = persona.tipo_licencia
             informacion_personal.direccion_domicilio = DireccionDomicilio(
                 id_canton=persona.direccion_domicilio.id_canton,
                 id_provincia=persona.direccion_domicilio.id_provincia,
@@ -242,6 +249,13 @@ class ServicioInformacionPersonal():
                 calle1=persona.direccion_domicilio.calle1,
                 calle2=persona.direccion_domicilio.calle2,
                 referencia=persona.direccion_domicilio.referencia)
+            informacion_personal.contacto_emergencia = ContactoEmergencia(
+                apellidos=persona.contacto_emergencia.apellidos,
+                nombres=persona.contacto_emergencia.nombres,
+                direccion=persona.contacto_emergencia.direccion,
+                telefono_domicilio=persona.contacto_emergencia.telefono_domicilio,
+                telefono_movil=persona.contacto_emergencia.telefono_movil
+            )
             async_db_session.add(informacion_personal)
             await async_db_session.commit()
             async_db_session.add(
@@ -259,8 +273,8 @@ class ServicioInformacionPersonal():
         return regsitrado
 
     @classmethod
-    async def actualizar_registro(cls, persona: InformacionPersonalPutSchema, id: str)->bool:
-        resp:bool = False
+    async def actualizar_registro(cls, persona: InformacionPersonalPutSchema, id: str) -> bool:
+        resp: bool = False
         try:
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
@@ -278,6 +292,20 @@ class ServicioInformacionPersonal():
             direccion.calle1 = persona.direccion_domicilio.calle1
             direccion.calle2 = persona.direccion_domicilio.calle2
             direccion.referencia = persona.direccion_domicilio.referencia
+
+            results1 = await async_db_session.execute(
+                select(ContactoEmergencia).filter_by(id_persona=id)
+            )
+            res = results1.all()
+            if res:
+                contacto_emergencia = res[0][0]
+            else:
+                contacto_emergencia = ContactoEmergencia()
+            contacto_emergencia.apellidos = persona.contacto_emergencia.apellidos
+            contacto_emergencia.nombres = persona.contacto_emergencia.nombres
+            contacto_emergencia.direccion = persona.contacto_emergencia.direccion
+            contacto_emergencia.telefono_movil = persona.contacto_emergencia.telefono_movil
+            contacto_emergencia.telefono_domicilio = persona.contacto_emergencia.telefono_domicilio
 
             results2 = await async_db_session.execute(
                 select(ExpedienteLaboral).filter_by(
@@ -309,8 +337,9 @@ class ServicioInformacionPersonal():
                 persona.telefono_domicilio = '0000000000'
             informacion_personal.telefono_domicilio = persona.telefono_domicilio
             informacion_personal.tipo_sangre = persona.tipo_sangre
-            if persona.licencia_conduccion:
-                informacion_personal.lincencia_conduccion = persona.licencia_conduccion
+            informacion_personal.lincencia_conduccion
+            if persona.tipo_licencia:
+                informacion_personal.tipo_licencia_conduccion = persona.tipo_licencia
             informacion_personal.direccion_domicilio = direccion
             expediente.registrado_en = persona.fecha_ingreso
 
@@ -335,7 +364,7 @@ class ServicioInformacionPersonal():
             query1 = delete(ExpedienteLaboral).where(
                 ExpedienteLaboral.id_persona == id)
             await async_db_session.execute(query1)
-          
+
             query2 = delete(InformacionPersonal).where(
                 InformacionPersonal.identificacion == id)
             await async_db_session.execute(query2)

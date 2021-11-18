@@ -32,7 +32,7 @@ class ServicioFormacionAcademica():
                     grado: GradoSchema = None
                     campo_estudio: CampoEducativoEspecifico = None
                     beca: TipoBecaSchema = None
-                    tipo_financioamiento: FinanciamientoBecaSchema = None
+                    tipo_financiamiento: FinanciamientoBecaSchema = None
 
                     estudio: FormacionAcademica
                     estudio = fila[0]
@@ -87,20 +87,15 @@ class ServicioFormacionAcademica():
                         )
                         t_beca = result.scalar_one()
                         beca = TipoBecaSchema(**t_beca.__dict__)
-                    if estudio.id_tipo_beca:
-                        result = await async_db_session.execute(
-                            select(TipoBeca).where(
-                                TipoBeca.id == estudio.id_tipo_beca)
-                        )
-                        t_beca = result.scalar_one()
-                        beca = TipoBecaSchema(**t_beca.__dict__)
+
                     if estudio.id_financiamiento:
                         result = await async_db_session.execute(
                             select(FinanciamientoBeca).where(
                                 FinanciamientoBeca.id == estudio.id_financiamiento)
                         )
                         t_fin = result.scalar_one()
-                        tipo_financioamiento = FinanciamientoBecaSchema(
+                        
+                        tipo_financiamiento = FinanciamientoBecaSchema(
                             **t_fin.__dict__)
                     estado_formacion: EstadoFormacion = EstadoFormacion.CURSANDO
                     if estudio.estado.value == EstadoFormacion.TERMINADA.value:
@@ -111,6 +106,7 @@ class ServicioFormacionAcademica():
                             id_persona=estudio.id_persona,
                             pais_estudio=pais_or,
                             ies=ies,
+                            nombre_ies =estudio.nombre_ies,
                             nivel_educativo=nivel,
                             grado=grado,
                             nombre_titulo=estudio.nombre_titulo,
@@ -124,7 +120,7 @@ class ServicioFormacionAcademica():
                             posee_beca=estudio.posee_beca,
                             tipo_beca=beca,
                             monto_beca=estudio.monto_beca,
-                            financimiento=tipo_financioamiento,
+                            financiamiento=tipo_financiamiento,
                             descripcion=estudio.descripcion
 
                         )
@@ -144,7 +140,7 @@ class ServicioFormacionAcademica():
         grado: GradoSchema = None
         campo_estudio: CampoEducativoEspecifico = None
         beca: TipoBecaSchema = None
-        tipo_financioamiento: FinanciamientoBecaSchema = None
+        tipo_financiamiento: FinanciamientoBecaSchema = None
         formacion: FormacionAcademicaSchema = None
 
         try:
@@ -221,7 +217,7 @@ class ServicioFormacionAcademica():
                             FinanciamientoBeca.id == estudio.id_financiamiento)
                     )
                     t_fin = result.scalar_one()
-                    tipo_financioamiento = FinanciamientoBecaSchema(
+                    tipo_financiamiento = FinanciamientoBecaSchema(
                         **t_fin.__dict__)
                 estado_formacion: EstadoFormacion = EstadoFormacion.CURSANDO
                 if estudio.estado.value == EstadoFormacion.TERMINADA.value:
@@ -231,6 +227,7 @@ class ServicioFormacionAcademica():
                     id_persona=estudio.id_persona,
                     pais_estudio=pais_or,
                     ies=ies,
+                    nombre_ies =estudio.nombre_ies,
                     nivel_educativo=nivel,
                     grado=grado,
                     nombre_titulo=estudio.nombre_titulo,
@@ -244,11 +241,10 @@ class ServicioFormacionAcademica():
                     posee_beca=estudio.posee_beca,
                     tipo_beca=beca,
                     monto_beca=estudio.monto_beca,
-                    financimiento=tipo_financioamiento,
+                    financiamiento=tipo_financiamiento,
                     descripcion=estudio.descripcion
 
                 )
-
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:

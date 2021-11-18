@@ -4,6 +4,7 @@ from app.schemas.core.EstadoCivilSchema import EstadoCivilSchema
 from datetime import date
 from app.schemas.core.PaisSchema import PaisSchema
 from pydantic import BaseModel, Field, validator
+from app.schemas.dath.ContactoEmergenciaSchema import *
 from app.schemas.dath.DireccionSchema import *
 from app.schemas.core.DiscapacidadSchema import DiscapacidadSchema
 from app.schemas.core.EtniaSchema import EtniaSchema
@@ -45,8 +46,10 @@ class InformacionPersonalSchema(BaseModel):
     telefono_domicilio: Optional[str]
     telefono_movil: str
     direccion_domicilio: DireccionSchema
+    contacto_emergencia: Optional[ContactoEmergenciaSchema]
     tipo_sangre: str
     licencia_conduccion: str
+    tipo_licencia:Optional[str]
     fecha_ingreso: date
 
 class InformacionPersonalPostSchema(BaseModel):
@@ -70,8 +73,10 @@ class InformacionPersonalPostSchema(BaseModel):
     telefono_domicilio: Optional[str]
     telefono_movil: str = Field(...)
     direccion_domicilio: DireccionPostSchema
+    contacto_emergencia: ContactoEmergenciaPostSchema
     tipo_sangre: str = Field(...)
-    licencia_conduccion: Optional[str]
+    licencia_conduccion: str = Field(...)
+    tipo_licencia: Optional[str] = Field()
     fecha_ingreso: date
     
     @validator("identificacion")
@@ -116,8 +121,10 @@ class InformacionPersonalPutSchema(BaseModel):
     telefono_domicilio: Optional[str]
     telefono_movil: str = Field(...)
     direccion_domicilio: DireccionPostSchema
+    contacto_emergencia: ContactoEmergenciaPostSchema
     tipo_sangre: str = Field(...)
-    licencia_conduccion: Optional[str]
+    licencia_conduccion: str = Field(...)
+    tipo_licencia: Optional[str] = Field()
     fecha_ingreso:date
     
     @validator("fecha_ingreso")
