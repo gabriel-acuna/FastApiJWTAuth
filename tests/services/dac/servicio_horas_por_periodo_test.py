@@ -1,5 +1,3 @@
-from sqlalchemy.sql.expression import select
-from app.models.foreign_tables import *
 from app.services.dac.ServicioHorasPorPerido import *
 
 def test_listado_horas_periodo():

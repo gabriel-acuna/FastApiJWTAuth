@@ -1,6 +1,4 @@
-from sqlalchemy.sql.expression import select
-from app.models.foreign_tables import *
-from app.services.dac.ServicioPeridoAcademico import *
+from app.services.dac.ServicioPeridoAcademico import ServicioPeriodoAcademico
 
 
 def test_listado_periodos_academicos():
