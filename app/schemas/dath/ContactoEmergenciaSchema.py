@@ -4,7 +4,6 @@ from pydantic.fields import Field
 
 class ContactoEmergenciaSchema(BaseModel):
     id:str
-    id_persona:str
     apellidos:str
     nombres: str
     direccion: str
@@ -12,7 +11,6 @@ class ContactoEmergenciaSchema(BaseModel):
     telefono_movil: str
 
 class ContactoEmergenciaPostSchema(BaseModel):
-    id_persona:str = Field(...)
     apellidos:str = Field(...)
     nombres: str = Field(...)
     direccion: str = Field(...)

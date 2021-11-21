@@ -1,5 +1,6 @@
 from typing import Optional
 from pydantic.networks import EmailStr
+from pydantic.utils import T
 from app.schemas.core.EstadoCivilSchema import EstadoCivilSchema
 from datetime import date
 from app.schemas.core.PaisSchema import PaisSchema
@@ -23,6 +24,18 @@ class Sexo(str, enum.Enum):
     HOMBRE = "HOMBRE"
     MUJER = "MUJER"
 
+class TipoLicenciaConduccion(str,enum.Enum):
+    A = 'A'
+    A1 = 'A1'
+    B = 'B'
+    C = 'C'
+    C1 = 'C1'
+    D = 'D'
+    D1 = 'D1'
+    E = 'E'
+    E1 = 'E1'
+    F = 'F'
+    G = 'G'
 
 class InformacionPersonalSchema(BaseModel):
     tipo_identificacion: TipoIdentificacion
@@ -49,7 +62,7 @@ class InformacionPersonalSchema(BaseModel):
     contacto_emergencia: Optional[ContactoEmergenciaSchema]
     tipo_sangre: str
     licencia_conduccion: str
-    tipo_licencia:Optional[str]
+    tipo_licencia:Optional[TipoLicenciaConduccion]
     fecha_ingreso: date
 
 class InformacionPersonalPostSchema(BaseModel):
@@ -76,7 +89,7 @@ class InformacionPersonalPostSchema(BaseModel):
     contacto_emergencia: ContactoEmergenciaPostSchema
     tipo_sangre: str = Field(...)
     licencia_conduccion: str = Field(...)
-    tipo_licencia: Optional[str] = Field()
+    tipo_licencia: Optional[TipoLicenciaConduccion] = Field()
     fecha_ingreso: date
     
     @validator("identificacion")
@@ -124,7 +137,7 @@ class InformacionPersonalPutSchema(BaseModel):
     contacto_emergencia: ContactoEmergenciaPostSchema
     tipo_sangre: str = Field(...)
     licencia_conduccion: str = Field(...)
-    tipo_licencia: Optional[str] = Field()
+    tipo_licencia: Optional[TipoLicenciaConduccion] = Field()
     fecha_ingreso:date
     
     @validator("fecha_ingreso")

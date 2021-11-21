@@ -110,7 +110,7 @@ class ServicioInformacionPersonal():
                     contacto_emergencia=contacto_emergencia,
                     tipo_sangre=persona.tipo_sangre,
                     licencia_conduccion=persona.lincencia_conduccion,
-                    tipo_licencia=persona.tipo_licencia_conduccion,
+                    tipo_licencia=TipoLicenciaConduccion[persona.tipo_licencia_conduccion.value] if persona.tipo_licencia_conduccion is not None else None,
                     fecha_ingreso=expediente.registrado_en
 
 
@@ -199,7 +199,7 @@ class ServicioInformacionPersonal():
                     contacto_emergencia=contacto_emergencia,
                     tipo_sangre=persona.tipo_sangre,
                     licencia_conduccion=persona.lincencia_conduccion,
-                    tipo_licencia=persona.lincencia_conduccion,
+                    tipo_licencia=TipoLicenciaConduccion[persona.tipo_licencia_conduccion.value] if persona.tipo_licencia_conduccion is not None else None,
                     fecha_ingreso=expediente.registrado_en
 
 
@@ -239,7 +239,7 @@ class ServicioInformacionPersonal():
                 informacion_personal.telefono_domicilio = persona.telefono_domicilio
             informacion_personal.telefono_movil = persona.telefono_movil
             informacion_personal.tipo_sangre = persona.tipo_sangre
-            informacion_personal.lincencia_conduccion
+            informacion_personal.lincencia_conduccion = persona.licencia_conduccion
             if persona.tipo_licencia:
                 informacion_personal.tipo_licencia_conduccion = persona.tipo_licencia
             informacion_personal.direccion_domicilio = DireccionDomicilio(
@@ -337,7 +337,7 @@ class ServicioInformacionPersonal():
                 persona.telefono_domicilio = '0000000000'
             informacion_personal.telefono_domicilio = persona.telefono_domicilio
             informacion_personal.tipo_sangre = persona.tipo_sangre
-            informacion_personal.lincencia_conduccion
+            informacion_personal.lincencia_conduccion = persona.licencia_conduccion
             if persona.tipo_licencia:
                 informacion_personal.tipo_licencia_conduccion = persona.tipo_licencia
             informacion_personal.direccion_domicilio = direccion
@@ -361,13 +361,16 @@ class ServicioInformacionPersonal():
             query = delete(DireccionDomicilio).where(
                 DireccionDomicilio.id_persona == id)
             await async_db_session.execute(query)
-            query1 = delete(ExpedienteLaboral).where(
+            query = delete(ContactoEmergencia).where(
+                ContactoEmergencia.id_persona == id)
+            await async_db_session.execute(query)
+            query = delete(ExpedienteLaboral).where(
                 ExpedienteLaboral.id_persona == id)
-            await async_db_session.execute(query1)
+            await async_db_session.execute(query)
 
-            query2 = delete(InformacionPersonal).where(
+            query = delete(InformacionPersonal).where(
                 InformacionPersonal.identificacion == id)
-            await async_db_session.execute(query2)
+            await async_db_session.execute(query)
 
             await async_db_session.commit()
             elminado = True
