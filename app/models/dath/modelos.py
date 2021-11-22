@@ -68,6 +68,7 @@ class InformacionPersonal(Base, OperacionesLecturaAsincronas):
     telefono_movil = Column(String(13), nullable=False)
     direccion_domicilio = relationship('DireccionDomicilio', uselist=False, cascade="save-update")
     contacto_emergencia = relationship('ContactoEmergencia', uselist=False, cascade="save-update")
+    informacion_bancaria = relationship('InformacionBancaria', uselist=False, cascade="save-update")
     tipo_sangre = Column(String(5), nullable=False)
     lincencia_conduccion = Column(String(2), nullable=False, default='NO')
     tipo_licencia_conduccion = Column(Enum(TipoLicenciaConduccion))

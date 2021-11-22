@@ -7,11 +7,12 @@ from typing import List
 from sqlalchemy.sql.elements import or_
 from sqlalchemy.sql.expression import delete, select
 from app.schemas.dath.InformacionPersonalSchema import *
-from app.models.dath.modelos import ContactoEmergencia, ExpedienteLaboral, InformacionPersonal, DireccionDomicilio
+from app.schemas.dath.InformacionBancariaSchema import *
+from app.models.dath.modelos import ContactoEmergencia, ExpedienteLaboral, InformacionBancaria, InformacionPersonal, DireccionDomicilio
 from app.database.conf import AsyncDatabaseSession
 from app.schemas.dath.DireccionSchema import *
 
-
+ 
 class ServicioInformacionPersonal():
 
     @classmethod
@@ -37,6 +38,7 @@ class ServicioInformacionPersonal():
             persona: InformacionPersonal = None
             nacionalidad: NacionalidadSchema = None
             direccion: DireccionSchema = None
+            cuenta_bancaria: InformacionBancariaSchema
             persona: InformacionPersonal
             if respuesta:
                 async_db_session = AsyncDatabaseSession()
@@ -75,7 +77,15 @@ class ServicioInformacionPersonal():
 
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
                 contacto_emergencia = await ServicioContactoEmergencia.buscar_por_id_persona(persona.identificacion)
-
+                res = await async_db_session.execute(select(InformacionBancaria).filter_by(id_persona=id))
+                info_ban = res.all()
+                print(info_ban[0][0].tipo_cuenta)
+                cuenta_bancaria = InformacionBancariaSchema(
+                    id=info_ban[0][0].id,
+                    institucion_financiera= info_ban[0][0].institucion_financiera,
+                    tipo_cuenta = TipoCuenta[info_ban[0][0].tipo_cuenta.value],
+                    numero_cuenta = info_ban[0][0].numero_cuenta )   if info_ban else None
+                print(cuenta_bancaria)
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=id
@@ -108,9 +118,11 @@ class ServicioInformacionPersonal():
                     telefono_movil=persona.telefono_movil,
                     direccion_domicilio=direccion,
                     contacto_emergencia=contacto_emergencia,
+                    informacion_bancaria=cuenta_bancaria,
                     tipo_sangre=persona.tipo_sangre,
                     licencia_conduccion=persona.lincencia_conduccion,
-                    tipo_licencia=TipoLicenciaConduccion[persona.tipo_licencia_conduccion.value] if persona.tipo_licencia_conduccion is not None else None,
+                    tipo_licencia=TipoLicenciaConduccion[
+                        persona.tipo_licencia_conduccion.value] if persona.tipo_licencia_conduccion is not None else None,
                     fecha_ingreso=expediente.registrado_en
 
 
@@ -165,6 +177,15 @@ class ServicioInformacionPersonal():
 
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
                 contacto_emergencia = await ServicioContactoEmergencia.buscar_por_id_persona(persona.identificacion)
+
+                res = await async_db_session.execute(select(InformacionBancaria).filter_by(id_persona=id))
+                info_ban = res.all()
+                cuenta_bancaria = InformacionBancariaSchema(
+                    id=info_ban[0][0].id,
+                    institucion_financiera= info_ban[0][0].institucion_financiera,
+                    tipo_cuenta = TipoCuenta[info_ban[0][0].tipo_cuenta.value],
+                    numero_cuenta = info_ban[0][0].numero_cuenta )   if info_ban else None
+                print(cuenta_bancaria)
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=persona.identificacion
@@ -197,9 +218,11 @@ class ServicioInformacionPersonal():
                     telefono_movil=persona.telefono_movil,
                     direccion_domicilio=direccion,
                     contacto_emergencia=contacto_emergencia,
+                    informacion_bancaria=cuenta_bancaria,
                     tipo_sangre=persona.tipo_sangre,
                     licencia_conduccion=persona.lincencia_conduccion,
-                    tipo_licencia=TipoLicenciaConduccion[persona.tipo_licencia_conduccion.value] if persona.tipo_licencia_conduccion is not None else None,
+                    tipo_licencia=TipoLicenciaConduccion[
+                        persona.tipo_licencia_conduccion.value] if persona.tipo_licencia_conduccion is not None else None,
                     fecha_ingreso=expediente.registrado_en
 
 
@@ -256,6 +279,11 @@ class ServicioInformacionPersonal():
                 telefono_domicilio=persona.contacto_emergencia.telefono_domicilio,
                 telefono_movil=persona.contacto_emergencia.telefono_movil
             )
+            informacion_personal.informacion_bancaria = InformacionBancaria(
+                institucion_financiera=persona.informacion_bancaria.institucion_financiera,
+                tipo_cuenta=persona.informacion_bancaria.tipo_cuenta,
+                numero_cuenta=persona.informacion_bancaria.numero_cuenta
+            )
             async_db_session.add(informacion_personal)
             await async_db_session.commit()
             async_db_session.add(
@@ -307,6 +335,14 @@ class ServicioInformacionPersonal():
             contacto_emergencia.telefono_movil = persona.contacto_emergencia.telefono_movil
             contacto_emergencia.telefono_domicilio = persona.contacto_emergencia.telefono_domicilio
 
+            results1 = await async_db_session.execute(
+                select(InformacionBancaria).filter_by(id_persona=id)
+            )
+            res = results1.all()
+            informacion_bancaria = res[0][0] if res else InformacionBancaria()
+            informacion_bancaria.institucion_financiera = persona.informacion_bancaria.institucion_financiera
+            informacion_bancaria.tipo_cuenta = persona.informacion_bancaria.tipo_cuenta
+            informacion_bancaria.numero_cuenta = persona.informacion_bancaria.numero_cuenta
             results2 = await async_db_session.execute(
                 select(ExpedienteLaboral).filter_by(
                     id_persona=id
@@ -333,19 +369,17 @@ class ServicioInformacionPersonal():
             informacion_personal.porcentaje_discapacidad = persona.porcentaje_discapacidad
             informacion_personal.correo_institucional = persona.correo_institucional
             informacion_personal.correo_personal = persona.correo_personal
-            if persona.telefono_domicilio is None:
-                persona.telefono_domicilio = '0000000000'
-            informacion_personal.telefono_domicilio = persona.telefono_domicilio
+            informacion_personal.telefono_domicilio = persona.telefono_domicilio if persona.telefono_domicilio is None else '0000000000'
             informacion_personal.tipo_sangre = persona.tipo_sangre
             informacion_personal.lincencia_conduccion = persona.licencia_conduccion
             if persona.tipo_licencia:
                 informacion_personal.tipo_licencia_conduccion = persona.tipo_licencia
             informacion_personal.direccion_domicilio = direccion
+            informacion_personal.contacto_emergencia = contacto_emergencia
+            informacion_personal.informacion_bancaria = informacion_bancaria
             expediente.registrado_en = persona.fecha_ingreso
-
             await async_db_session.commit()
             resp = True
-
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         finally:

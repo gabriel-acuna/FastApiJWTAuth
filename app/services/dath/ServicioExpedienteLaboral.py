@@ -91,7 +91,7 @@ class ServicioExpedienteLaboral():
                 relacion_ies = RelacionIESSchema(**r_ies.__dict__)
                 if detalle.id_tipo_escalafon:
                     result = await async_db_session.execute(select(TipoEscalafonNombramiento).where(
-                        TipoEscalafonNombramiento.id == detalle.id_tipo_esclafon))
+                        TipoEscalafonNombramiento.id == detalle.id_tipo_escalafon))
                     t_es = result.scalar_one()
                     escalafon_nombramiento = TipoEscalafonNombramientoSchema(
                         **t_es.__dict__)

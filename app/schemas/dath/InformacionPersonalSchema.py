@@ -11,6 +11,7 @@ from app.schemas.core.DiscapacidadSchema import DiscapacidadSchema
 from app.schemas.core.EtniaSchema import EtniaSchema
 from app.schemas.core.NacionalidadSchema import NacionalidadSchema
 import enum
+from app.schemas.dath.InformacionBancariaSchema import InformacionBancariaPostSchema, InformacionBancariaSchema
 from app.schemas.validaciones import longitud_maxima, validar_cedula
 from datetime import date
 
@@ -60,6 +61,7 @@ class InformacionPersonalSchema(BaseModel):
     telefono_movil: str
     direccion_domicilio: DireccionSchema
     contacto_emergencia: Optional[ContactoEmergenciaSchema]
+    informacion_bancaria: Optional[InformacionBancariaSchema]
     tipo_sangre: str
     licencia_conduccion: str
     tipo_licencia:Optional[TipoLicenciaConduccion]
@@ -87,6 +89,7 @@ class InformacionPersonalPostSchema(BaseModel):
     telefono_movil: str = Field(...)
     direccion_domicilio: DireccionPostSchema
     contacto_emergencia: ContactoEmergenciaPostSchema
+    informacion_bancaria: InformacionBancariaPostSchema
     tipo_sangre: str = Field(...)
     licencia_conduccion: str = Field(...)
     tipo_licencia: Optional[TipoLicenciaConduccion] = Field()
@@ -135,6 +138,7 @@ class InformacionPersonalPutSchema(BaseModel):
     telefono_movil: str = Field(...)
     direccion_domicilio: DireccionPostSchema
     contacto_emergencia: ContactoEmergenciaPostSchema
+    informacion_bancaria: InformacionBancariaPostSchema
     tipo_sangre: str = Field(...)
     licencia_conduccion: str = Field(...)
     tipo_licencia: Optional[TipoLicenciaConduccion] = Field()
