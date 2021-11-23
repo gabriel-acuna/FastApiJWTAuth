@@ -77,15 +77,13 @@ class ServicioInformacionPersonal():
 
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
                 contacto_emergencia = await ServicioContactoEmergencia.buscar_por_id_persona(persona.identificacion)
-                res = await async_db_session.execute(select(InformacionBancaria).filter_by(id_persona=id))
+                res = await async_db_session.execute(select(InformacionBancaria).filter_by(id_persona=persona.identificacion))
                 info_ban = res.all()
-                print(info_ban[0][0].tipo_cuenta)
                 cuenta_bancaria = InformacionBancariaSchema(
                     id=info_ban[0][0].id,
                     institucion_financiera= info_ban[0][0].institucion_financiera,
                     tipo_cuenta = TipoCuenta[info_ban[0][0].tipo_cuenta.value],
                     numero_cuenta = info_ban[0][0].numero_cuenta )   if info_ban else None
-                print(cuenta_bancaria)
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=id
@@ -178,14 +176,13 @@ class ServicioInformacionPersonal():
                 direccion = await ServicioDireccionDomicilio.buscar_por_id_persona(persona.identificacion)
                 contacto_emergencia = await ServicioContactoEmergencia.buscar_por_id_persona(persona.identificacion)
 
-                res = await async_db_session.execute(select(InformacionBancaria).filter_by(id_persona=id))
+                res = await async_db_session.execute(select(InformacionBancaria).filter_by(id_persona=persona.identificacion))
                 info_ban = res.all()
                 cuenta_bancaria = InformacionBancariaSchema(
                     id=info_ban[0][0].id,
                     institucion_financiera= info_ban[0][0].institucion_financiera,
                     tipo_cuenta = TipoCuenta[info_ban[0][0].tipo_cuenta.value],
                     numero_cuenta = info_ban[0][0].numero_cuenta )   if info_ban else None
-                print(cuenta_bancaria)
                 results = await async_db_session.execute(
                     select(ExpedienteLaboral).filter_by(
                         id_persona=persona.identificacion
