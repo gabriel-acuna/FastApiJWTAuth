@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any, Dict, Optional
+from typing import Optional
 from pydantic import BaseModel, Field, validator
 import enum
 from app.schemas.core.TipoDocumentoSchema import TipoDocumentoSchema
@@ -12,6 +12,7 @@ from app.schemas.core.AreaInstitucionalSchema import AreaInstitucionSchema
 from app.schemas.core.TipoDocenteLOESSchema import TipoDocenteLOESSchema
 from app.schemas.core.CategoriaDocenteLOSEPSchema import CategoriaDocenteLOSEPSchema
 from app.schemas.core.NivelEducativoSchema import NivelEducativoSchema
+from app.schemas.dath.TipoContratoSchema import TipoContratoSchema
 
 
 class TipoPersonal(str, enum.Enum):
@@ -30,6 +31,8 @@ class DetalleExpedienteSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: TipoDocumentoSchema
     motivo_accion: Optional[str]
+    tipo_contrato: Optional[TipoContratoSchema]
+    tipo_nombramiento: Optional[TipoEscalafonNombramientoSchema]
     descripcion: Optional[str]
     numero_documento: str
     contrato_relacionado: Optional[str]
@@ -56,6 +59,8 @@ class DetalleExpedienteSchema(BaseModel):
 class DetalleExpedienteFuncionarioPostSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
+    tipo_contrato: Optional[str] = Field()
+    tipo_nombramiento: Optional[str] = Field()
     motivo_accion: Optional[str] = Field()
     descripcion: Optional[str] = Field()
     numero_documento: str = Field(...)
@@ -77,15 +82,17 @@ class DetalleExpedienteFuncionarioPostSchema(BaseModel):
     def fecha_ingreso_validaciones(cls, value):
         hoy = date.today()
         if value > hoy:
-            raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
+            raise ValueError(
+                "La fecha de ingreso no puede ser mayor a la fecha actual")
         return value
-    
 
 
 class DetalleExpedienteFuncionarioPutSchema(BaseModel):
     id: str = Field(...)
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
+    tipo_contrato: Optional[str] = Field()
+    tipo_nombramiento: Optional[str] = Field()
     motivo_accion: Optional[str] = Field()
     descripcion: Optional[str] = Field()
     numero_documento: str = Field(...)
@@ -107,6 +114,8 @@ class DetalleExpedienteFuncionarioPutSchema(BaseModel):
 class DetalleExpedienteProfesorPostSchema(BaseModel):
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
+    tipo_contrato: Optional[str] = Field()
+    tipo_nombramiento: Optional[str] = Field()
     motivo_accion: Optional[str] = Field()
     descripcion: Optional[str] = Field()
     numero_documento: str = Field(...)
@@ -129,6 +138,8 @@ class DetalleExpedienteProfesorPutSchema(BaseModel):
     id: str = Field(...)
     tipo_personal: TipoPersonal
     tipo_documento: str = Field(...)
+    tipo_contrato: Optional[str] = Field()
+    tipo_nombramiento: Optional[str] = Field()
     motivo_accion: Optional[str] = Field()
     numero_documento: str = Field(...)
     descripcion: Optional[str] = Field()

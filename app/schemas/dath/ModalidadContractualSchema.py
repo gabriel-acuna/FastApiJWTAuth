@@ -11,6 +11,6 @@ class ModalidadContractualPostSchema(BaseModel):
     modalidad: str = Field(...)
 
 
-class ModalidadContractualPostSchema(BaseModel):
+class ModalidadContractualPutSchema(BaseModel):
     id: str = Field(...)
     modalidad: str = Field(...)

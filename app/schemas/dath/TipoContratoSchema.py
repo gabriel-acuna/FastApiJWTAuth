@@ -10,6 +10,6 @@ class TipoContratoPostSchema(BaseModel):
     contrato: str = Field(...)
 
 
-class TipoContratoPostSchema(BaseModel):
+class TipoContratoPutSchema(BaseModel):
     id: str = Field(...)
     contrato: str = Field(...)
