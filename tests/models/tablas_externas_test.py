@@ -12,3 +12,11 @@ def test_consultar_profesores():
     assert len(listado)>0
     print(listado[0][0].__dict__)
 
+def test_consultar_periodo_academico():
+    session = loadSession()
+    results =  session.execute(
+        select(PeriodoAcademico.inicio, PeriodoAcademico.fin).where(PeriodoAcademico.id==8)
+    )
+    periodo = results.all()
+    print(periodo)
+

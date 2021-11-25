@@ -166,7 +166,7 @@ class ExpedienteLaboral(Base, OperacionesLecturaAsincronas):
 
 
 class TipoPersonal(enum.Enum):
-    FUNCIONARIIO = "FUNCIONARIO"
+    FUNCIONARIO = "FUNCIONARIO"
     PROFESOR = "PROFESOR"
 
 
@@ -308,7 +308,7 @@ class RegimenDisciplinario(Base, OperacionesEscrituraAsinconas,
     tipo_falta = Column(Enum(TipoFalta), nullable=False)
     id_sancion = Column(ForeignKey('sanciones.id'))
     aplica_sumario = Column(String(2), default='NO', nullable=False)
-    estado_sumario = Column(ForeignKey('estados_sumarios.id'), nullable=False)
+    id_estado_sumario = Column(ForeignKey('estados_sumarios.id'), nullable=False)
     numero_sentencia = Column(String(80))
 
 

@@ -11,6 +11,6 @@ class RegimenLaboralPostSchema(BaseModel):
     regimen: str = Field(...)
 
 
-class RegimenLaboralPostSchema(BaseModel):
+class RegimenLaboralPutSchema(BaseModel):
     id: str = Field(...)
     regimen: str = Field(...)

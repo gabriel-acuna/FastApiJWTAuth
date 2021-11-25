@@ -32,7 +32,7 @@ class RegimenDisciplinarioSchema(BaseModel):
     mes_sancion:MES
     persona: dict
     regimen_laboral: RegimenLaboralSchema
-    modalidad_laboral: ModalidadContractualSchema
+    modalidad_contractual: ModalidadContractualSchema
     tipo_falta: TipoFalta
     sancion = SancionSchema
     aplica_sumario:str
@@ -41,9 +41,27 @@ class RegimenDisciplinarioSchema(BaseModel):
 
 
 class RegimenDisciplinarioSancionPostSchema(BaseModel):
+    anio_sancion:int = Field(...)
+    mes_sancion:MES = Field(...)
+    persona: str = Field(...)
+    regimen_laboral: str = Field(...)
+    modalidad_contractual: str = Field(...)
+    tipo_falta: TipoFalta = Field(...)
     sancion: str = Field(...)
+    aplica_sumario:str = Field(...)
+    estado_sumario:str = Field(...)
+    numero_sentencia: Optional[str] = Field()
 
 
 class RegimenDisciplinarioSancionPutSchema(BaseModel):
     id: str = Field(...)
+    anio_sancion:int = Field(...)
+    mes_sancion:MES = Field(...)
+    persona: str = Field(...)
+    regimen_laboral: str = Field(...)
+    modalidad_contractual: str = Field(...)
+    tipo_falta: TipoFalta = Field(...)
     sancion: str = Field(...)
+    aplica_sumario:str = Field(...)
+    estado_sumario:str = Field(...)
+    numero_sentencia: Optional[str] = Field()
