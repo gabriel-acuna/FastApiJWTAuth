@@ -2,6 +2,7 @@ from typing import Dict, Optional
 from pydantic import BaseModel, Field
 import enum
 from app.schemas.dath.EstadoSumarioSchema import EstadoSumarioSchema
+from app.schemas.dath.InformacionPersonalSchema import InformacionPersonalBasicaSchema
 from app.schemas.dath.RegimenLaboralSchema import RegimenLaboralSchema
 from app.schemas.dath.ModalidadContractualSchema import ModalidadContractualSchema
 from app.schemas.dath.SancionSchema import SancionSchema
@@ -30,7 +31,7 @@ class RegimenDisciplinarioSchema(BaseModel):
     id: str
     anio_sancion:int
     mes_sancion:MES
-    persona: dict
+    persona: InformacionPersonalBasicaSchema
     regimen_laboral: RegimenLaboralSchema
     modalidad_contractual: ModalidadContractualSchema
     tipo_falta: TipoFalta
@@ -40,7 +41,7 @@ class RegimenDisciplinarioSchema(BaseModel):
     numero_sentencia: Optional[str]
 
 
-class RegimenDisciplinarioSancionPostSchema(BaseModel):
+class RegimenDisciplinarioPostSchema(BaseModel):
     anio_sancion:int = Field(...)
     mes_sancion:MES = Field(...)
     persona: str = Field(...)
@@ -53,7 +54,7 @@ class RegimenDisciplinarioSancionPostSchema(BaseModel):
     numero_sentencia: Optional[str] = Field()
 
 
-class RegimenDisciplinarioSancionPutSchema(BaseModel):
+class RegimenDisciplinarioPutSchema(BaseModel):
     id: str = Field(...)
     anio_sancion:int = Field(...)
     mes_sancion:MES = Field(...)

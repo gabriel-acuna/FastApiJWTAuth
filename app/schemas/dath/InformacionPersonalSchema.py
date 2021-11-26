@@ -25,7 +25,8 @@ class Sexo(str, enum.Enum):
     HOMBRE = "HOMBRE"
     MUJER = "MUJER"
 
-class TipoLicenciaConduccion(str,enum.Enum):
+
+class TipoLicenciaConduccion(str, enum.Enum):
     A = 'A'
     A1 = 'A1'
     B = 'B'
@@ -37,6 +38,16 @@ class TipoLicenciaConduccion(str,enum.Enum):
     E1 = 'E1'
     F = 'F'
     G = 'G'
+
+
+class InformacionPersonalBasicaSchema(BaseModel):
+    tipo_identificacion: TipoIdentificacion
+    identificacion: str
+    primer_nombre: str
+    segundo_nombre: str
+    primer_apellido: str
+    segundo_apellido: str
+
 
 class InformacionPersonalSchema(BaseModel):
     tipo_identificacion: TipoIdentificacion
@@ -64,8 +75,9 @@ class InformacionPersonalSchema(BaseModel):
     informacion_bancaria: Optional[InformacionBancariaSchema]
     tipo_sangre: str
     licencia_conduccion: str
-    tipo_licencia:Optional[TipoLicenciaConduccion]
+    tipo_licencia: Optional[TipoLicenciaConduccion]
     fecha_ingreso: date
+
 
 class InformacionPersonalPostSchema(BaseModel):
     tipo_identificacion: TipoIdentificacion
@@ -94,27 +106,24 @@ class InformacionPersonalPostSchema(BaseModel):
     licencia_conduccion: str = Field(...)
     tipo_licencia: Optional[TipoLicenciaConduccion] = Field()
     fecha_ingreso: date
-    
+
     @validator("identificacion")
     def identificacion_validaciones(cls, field_value, values, field, config):
-        print( "test",validar_cedula(field_value))
-        r =  longitud_maxima(10, field_value)
-       
-        
+        print("test", validar_cedula(field_value))
+        r = longitud_maxima(10, field_value)
+
         if values['tipo_identificacion'] == TipoIdentificacion.CEDULA and validar_cedula(field_value):
             return field_value
         elif values['tipo_identificacion'] == TipoIdentificacion.PASAPORTE and r:
             return field_value
-    
+
     @validator("fecha_ingreso")
     def fecha_ingreso_validaciones(cls, value):
         hoy = date.today()
         if value > hoy:
-            raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
+            raise ValueError(
+                "La fecha de ingreso no puede ser mayor a la fecha actual")
         return value
-        
-
-
 
 
 class InformacionPersonalPutSchema(BaseModel):
@@ -142,11 +151,12 @@ class InformacionPersonalPutSchema(BaseModel):
     tipo_sangre: str = Field(...)
     licencia_conduccion: str = Field(...)
     tipo_licencia: Optional[TipoLicenciaConduccion] = Field()
-    fecha_ingreso:date
-    
+    fecha_ingreso: date
+
     @validator("fecha_ingreso")
     def fecha_ingreso_validaciones(cls, value):
         hoy = date.today()
         if value > hoy:
-            raise ValueError("La fecha de ingreso no puede ser mayor a la fecha actual")
+            raise ValueError(
+                "La fecha de ingreso no puede ser mayor a la fecha actual")
         return value

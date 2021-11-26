@@ -308,7 +308,8 @@ class RegimenDisciplinario(Base, OperacionesEscrituraAsinconas,
     tipo_falta = Column(Enum(TipoFalta), nullable=False)
     id_sancion = Column(ForeignKey('sanciones.id'))
     aplica_sumario = Column(String(2), default='NO', nullable=False)
-    id_estado_sumario = Column(ForeignKey('estados_sumarios.id'), nullable=False)
+    id_estado_sumario = Column(ForeignKey(
+        'estados_sumarios.id'), nullable=False)
     numero_sentencia = Column(String(80))
 
 
@@ -318,21 +319,24 @@ class TipoDeclaracion(enum.Enum):
     fin = 'FIN DE GESTION'
 
 
-class DeclaracionPatrimonial(Base):
+class DeclaracionPatrimonial(Base, OperacionesLecturaAsincronas, 
+                             OperacionesEscrituraAsinconas, EliminacionAsincrona):
     __tablename__ = "declaraciones_patrimoniales"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     id_persona = Column(ForeignKey(
         'datos_personales.identificacion'), nullable=False)
     tipo_declaracion = Column(Enum(TipoDeclaracion), nullable=False)
-    fecha_presentación = Column(Date, nullable=False)
+    fecha_presentacion = Column(Date, nullable=False)
 
 
-class FamiliarPersonal(Base):
+class FamiliarPersonal(Base, OperacionesLecturaAsincronas,
+                       OperacionesEscrituraAsinconas, EliminacionAsincrona):
     __tablename__ = "familiares_personal"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
-    id_persona = Column(ForeignKey('datos_personales.identificacion'), nullable=False)
+    id_persona = Column(ForeignKey(
+        'datos_personales.identificacion'), nullable=False)
     parentesco = Column(String(30), nullable=False)
     identificacion = Column(String(10), nullable=False)
     nombres = Column(String(60), nullable=False)
@@ -349,6 +353,7 @@ class FamiliarPersonal(Base):
             "meses": edad.months,
             "dias": edad.days
         }
+
 
 '''
 class InformeTecnico(Base):
@@ -371,4 +376,3 @@ class EvaluacionDesempeño(Base):
     calificacion = Column(String(60), nullable=False)
 
 '''
-
