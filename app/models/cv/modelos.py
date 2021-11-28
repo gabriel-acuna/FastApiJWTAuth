@@ -1,3 +1,4 @@
+
 from sqlalchemy.sql.expression import false
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Enum, Date, Enum, Integer, Numeric
@@ -17,6 +18,13 @@ import enum
 class EstadoFormacion(enum.Enum):
     TERMINADA = "FINALIZADO"
     CURSANDO = "EN CURSO"
+
+
+class TipoEvento(Base, OperacionesEscrituraAsinconas, OperacionesLecturaAsincronas, EliminacionAsincrona):
+    __tablename__ = "tipos_eventos"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    evento = Column(String(120), nullable=False)
 
 
 class FormacionAcademica(Base, OperacionesEscrituraAsinconas, EliminacionAsincrona):
@@ -71,8 +79,8 @@ class Capacitacion(Base,
 
 
 class CapacitacionFacilitador(Base,
-    OperacionesEscrituraAsinconas,
-    OperacionesLecturaAsincronas, EliminacionAsincrona):
+                              OperacionesEscrituraAsinconas,
+                              OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "capacitaciones_facilitadores"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -88,10 +96,10 @@ class CapacitacionFacilitador(Base,
 
 
 class Ponencia(Base,
-    OperacionesLecturaAsincronas,
-    OperacionesEscrituraAsinconas,
-    EliminacionAsincrona
-    ):
+               OperacionesLecturaAsincronas,
+               OperacionesEscrituraAsinconas,
+               EliminacionAsincrona
+               ):
     __tablename__ = "ponencias_exposiciones"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -106,9 +114,9 @@ class Ponencia(Base,
 
 
 class ExperienciaLaboral(Base,
-    OperacionesLecturaAsincronas,
-    OperacionesEscrituraAsinconas,
-    EliminacionAsincrona):
+                         OperacionesLecturaAsincronas,
+                         OperacionesEscrituraAsinconas,
+                         EliminacionAsincrona):
     __tablename__ = "experiencia_laboral_personal"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text('uuid_generate_v4()'))
@@ -122,9 +130,9 @@ class ExperienciaLaboral(Base,
 
 
 class MeritoDistincion(Base,
-    OperacionesEscrituraAsinconas,
-    OperacionesLecturaAsincronas,
-    EliminacionAsincrona):
+                       OperacionesEscrituraAsinconas,
+                       OperacionesLecturaAsincronas,
+                       EliminacionAsincrona):
     __tablename__ = 'meritos_distinciones'
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -145,9 +153,9 @@ class NivelComprension(enum.Enum):
 
 
 class ComprensionIdioma(Base,
-    OperacionesLecturaAsincronas,
-    OperacionesEscrituraAsinconas,
-    EliminacionAsincrona):
+                        OperacionesLecturaAsincronas,
+                        OperacionesEscrituraAsinconas,
+                        EliminacionAsincrona):
     __tablename__ = 'comprension_idiomas'
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))

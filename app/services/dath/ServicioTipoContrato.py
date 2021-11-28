@@ -1,5 +1,5 @@
 from typing import List
-from app.schemas.dath.TipoContratoSchema import *
+from app.schemas.dath.TipoContratoSchema import TipoContratoPostSchema, TipoContratoPutSchema, TipoContratoSchema
 from app.models.dath.modelos import TipoContrato
 import logging
 

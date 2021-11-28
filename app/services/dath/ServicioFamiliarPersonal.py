@@ -4,7 +4,7 @@ import logging
 from typing import List
 
 
-class ServicioFamiliarPersoal():
+class ServicioFamiliarPersonal():
 
     @classmethod
     async def listar_por_id_persona(cls, id_persona: str) -> List[FamiliarSchema]:
@@ -28,6 +28,29 @@ class ServicioFamiliarPersoal():
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return familiares
+    
+    @classmethod
+    async def buscar_por_id(cls, id:str) -> FamiliarPutSchema:
+        familiar: FamiliarSchema =  None
+        try:
+            respuesta = await FamiliarPersonal.obtener(id)
+            if respuesta:
+                familiar = FamiliarSchema(
+                    id=respuesta[0].id,
+                    id_persona=respuesta[0].id_persona,
+                    parentesco=respuesta[0].parentesco,
+                    identificacion=respuesta[0].identificacion,
+                    nombres=respuesta[0].nombres,
+                    apellidos=respuesta[0].apellidos,
+                    sexo=respuesta[0].sexo,
+                    fecha_nacimiento=respuesta[0].fecha_nacimiento,
+                    edad=respuesta[0].calcular_edad()
+
+                )
+
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        return familiar
 
     @classmethod
     async def agregar_registro(cls, familiar: FamiliarPostSchema) -> bool:

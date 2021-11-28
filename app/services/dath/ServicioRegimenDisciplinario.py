@@ -214,6 +214,17 @@ class ServicioRegimenDisciplinario():
         return sanciones
 
     @classmethod
+    async def buscar_por_id(cls, id: str) -> RegimenDisciplinarioSchema:
+        regimen: RegimenDisciplinarioSchema = None
+        try:
+            respuesta = await RegimenDisciplinario.obtener(id)
+            if respuesta:
+                regimen = RegimenDisciplinarioSchema(respuesta[0].__dict__)
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        return regimen
+
+    @classmethod
     async def agregar_registro(cls, sancion: RegimenDisciplinarioPostSchema) -> bool:
         try:
             return await RegimenDisciplinario.crear(

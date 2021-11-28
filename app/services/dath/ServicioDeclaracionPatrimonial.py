@@ -1,13 +1,13 @@
 from typing import List
 from app.schemas.dath.DeclaracionPatrimonialSchema import *
 from app.schemas.dath.InformacionPersonalSchema import InformacionPersonalBasicaSchema
-from models.dath.modelos import DeclaracionPatrimonial, InformacionPersonal
+from app.models.dath.modelos import DeclaracionPatrimonial, InformacionPersonal
 from app.database.conf import AsyncDatabaseSession
 from sqlalchemy.sql.expression import select
 import logging
 
 
-class ServicioDeclaracaionPatrimonial():
+class ServicioDeclaracionPatrimonial():
 
     @classmethod
     async def listar(cls) -> List[DeclaracionPatrimonialDetalladaSchema]:
@@ -58,6 +58,18 @@ class ServicioDeclaracaionPatrimonial():
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return declaraciones
+
+    @classmethod
+    async def buscar_por_id(cls, id: str) -> DeclaracionPatrimonialSchema:
+        declaracion: DeclaracionPatrimonialSchema = None
+        try:
+            respuesta = await DeclaracionPatrimonial.obtener(id)
+            if respuesta:
+                declaracion = DeclaracionPatrimonialSchema(
+                    respuesta[0].__dict__)
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        return declaracion
 
     @classmethod
     async def agregar_registro(cls, declaracion: DeclaracionPatrimonialPostSchema) -> bool:
