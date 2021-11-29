@@ -5,7 +5,7 @@ from app.services.dath.ServicioFamiliarPersonal import ServicioFamiliarPersonal,
 from fastapi import APIRouter, HTTPException, Body, Response, Depends, status
 from app.services.auth import ServicioToken
 
-router = APIRouter(prefix="/familiares-patrimoniales")
+router = APIRouter(prefix="/familiares-personal")
 
 
 @router.get("/personal/{id}",
@@ -18,7 +18,7 @@ async def listar_familiares():
 @router.get("/{id}",
             response_model=List[FamiliarSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def listar_familiares_por_persona(id: str):
+async def obtener_familiar(id: str):
     familiar = await ServicioFamiliarPersonal.buscar_por_id(id)
     if not familiar:
         raise HTTPException(
