@@ -7,7 +7,7 @@ from app.api.messages import *
 
 
 router = APIRouter(
-    prefix="/eventoes"
+    prefix="/eventos"
 )
 
 
