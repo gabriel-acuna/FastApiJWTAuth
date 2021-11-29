@@ -56,7 +56,8 @@ class FormacionAcademica(Base, OperacionesEscrituraAsinconas, EliminacionAsincro
 
 class TipoCertificado(enum.Enum):
     ASISTENCIA = "ASISTENCIA"
-    APROBACION = "APROBACIÓN"
+    APROBACIÓN = "APROBACIÓN"
+    PARTICIPACIÓN = "PARTICIPACIÓN"
 
 
 class Capacitacion(Base,
@@ -68,7 +69,8 @@ class Capacitacion(Base,
                 server_default=text("uuid_generate_v4()"))
     id_persona = Column(ForeignKey(
         "datos_personales.identificacion"), nullable=False)
-    tipo_evento = Column(String(30), nullable=False)
+    id_tipo_evento = Column(ForeignKey("tipos_eventos.id"), nullable=False)
+    nombre = Column(String(30), nullable=False)
     institucion_organizadora = Column(String(80), nullable=False)
     funcion_evento = Column(String(75))
     id_pais = Column(ForeignKey('paises.id'))
@@ -77,6 +79,7 @@ class Capacitacion(Base,
     inicio = Column(Date, nullable=False)
     fin = Column(Date, nullable=False)
     tipo_certificado = Column(Enum(TipoCertificado))
+    certificado = Column(String(120))
     url_certificado = Column(String)
 
 
