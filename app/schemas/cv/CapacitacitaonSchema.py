@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Optional
 from pydantic import BaseModel
+from app.schemas.core.PaisSchema import PaisSchema
 import enum
 
 from pydantic.fields import Field
@@ -14,6 +15,8 @@ class CapacitacionSchema(BaseModel):
     id_persona:str
     tipo_evento:str
     institucion_organizadora:str
+    funcion_evento: Optional[str]
+    pais: PaisSchema
     lugar:str
     horas: str
     inicio: date
@@ -25,6 +28,8 @@ class CapacitacionPostSchema(BaseModel):
     id_persona:str = Field(...)
     tipo_evento:str = Field(...)
     institucion_organizadora:str = Field(...)
+    funcion_evento: Optional[str]
+    pais: str
     lugar:str = Field(...)
     horas: int = Field(...)
     inicio: date = Field(...)
@@ -36,6 +41,8 @@ class CapacitacionPostSchema(BaseModel):
 class CapacitacionPutSchema(BaseModel):
     tipo_evento:str = Field(...)
     institucion_organizadora:str = Field(...)
+    funcion_evento: Optional[str]
+    pais: str
     lugar:str = Field(...)
     horas: int = Field(...)
     inicio: date = Field(...)

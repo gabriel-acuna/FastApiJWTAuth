@@ -39,10 +39,13 @@ class ServicioExperienciaLaboral():
             return await ExperienciaLaboral.crear(
                 id_persona=experiencia.id_persona,
                 empresa=experiencia.empresa,
+                unidad_admnistrativa = experiencia.unidad_admnistrativa,
                 lugar=experiencia.lugar,
                 cargo=experiencia.cargo,
+                motivo_ingreso = experiencia.motivo_ingreso,
                 inicio=experiencia.inicio,
-                fin=experiencia.fin
+                fin=experiencia.fin,
+                motivo_salida = experiencia.motivo_salida
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -53,10 +56,13 @@ class ServicioExperienciaLaboral():
             return await ExperienciaLaboral.actualizar(
                 id=experiencia.id,
                 empresa=experiencia.empresa,
+                unidad_admnistrativa = experiencia.unidad_admnistrativa,
                 lugar=experiencia.lugar,
                 cargo=experiencia.cargo,
+                motivo_ingreso = experiencia.motivo_ingreso,
                 inicio=experiencia.inicio,
-                fin=experiencia.fin
+                fin=experiencia.fin,
+                motivo_salida = experiencia.motivo_salida
 
             )
         except Exception as ex:

@@ -52,22 +52,26 @@ api_router.include_router(core.tipo_financiamiento.router, tags=["Tipos de finan
 api_router.include_router(core.grado.router, tags=["Grados"])
 api_router.include_router(core.tipo_beca.router, tags=["Tipos de becas"])
 api_router.include_router(core.ies_nacional.router, tags=["IES Nacionales"])
-api_router.include_router(
-    dath.informacion_personal.router, tags=["Información personal"]
-)
 
-api_router.include_router(
-    dath.expediente_laboral.router, tags=["Expediente laboral"]
-)
+api_router.include_router(dath.informacion_personal.router, tags=["Información personal"])
+api_router.include_router(dath.tipo_contrato.router, tags=["Tipos contratos"])
+api_router.include_router(dath.tipo_nombramiento.router, tags=["Tipos nombramientos"])
+api_router.include_router(dath.expediente_laboral.router, tags=["Expediente laboral"])
+api_router.include_router(dath.declaracion_patrimonial.router, tags=["Declaraciones patrimoniales"])
+api_router.include_router(dath.familiar_personal.router, tags=["Familia personal"])
+api_router.include_router(dath.estado_sumario.router, tags=["Estados sumarios"])
+api_router.include_router(dath.modalidad_contractual.router, tags=["Modalidades contractuales"])
+api_router.include_router(dath.regimen_laboral.router, tags=["Régimenes laborales"])
+api_router.include_router(dath.motivio_desvinculacion.router, tags=["Motivos desvinculación"])
+api_router.include_router(dath.sancion.router, tags=["Sanciones"])
+api_router.include_router(dath.regimen_disciplinario.router, tags=["Regimen disciplinario"])
 
-api_router.include_router(
-    cv.capacitacion.router, tags=["Capacitaciones"]
-)
 
-api_router.include_router(
-    cv.referencia.router, tags=["Referencias"]
-)
 
+
+api_router.include_router(cv.tipo_evento.router, tags=["Tipos de eventos"])
+api_router.include_router(cv.capacitacion.router, tags=["Capacitaciones"])
+api_router.include_router(cv.referencia.router, tags=["Referencias"])
 api_router.include_router(cv.formacion_academica.router, tags=["Formación académica"])
 api_router.include_router(cv.capacitacion_facilitador.router, tags= ["Capacitaciones como facilitador"])
 api_router.include_router(cv.ponencia.router, tags=["Participación en ponencias"])

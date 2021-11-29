@@ -35,7 +35,7 @@ def upgrade():
     sa.Column('identificacion', sa.String(length=10), nullable=False),
     sa.Column('nombres', sa.String(length=60), nullable=False),
     sa.Column('apellidos', sa.String(length=60), nullable=False),
-    sa.Column('sexo', postgresql('HOMBRE', 'MUJER', name='sexo', create_type=False), nullable=False),
+    sa.Column('sexo', postgresql.ENUM('HOMBRE', 'MUJER', name='sexo', create_type=False), nullable=False),
     sa.Column('fecha_nacimiento', sa.Date(), nullable=False),
     sa.ForeignKeyConstraint(['id_persona'], ['datos_personales.identificacion'], ),
     sa.PrimaryKeyConstraint('id')

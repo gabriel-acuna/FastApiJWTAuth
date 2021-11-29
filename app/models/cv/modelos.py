@@ -70,6 +70,8 @@ class Capacitacion(Base,
         "datos_personales.identificacion"), nullable=False)
     tipo_evento = Column(String(30), nullable=False)
     institucion_organizadora = Column(String(80), nullable=False)
+    funcion_evento = Column(String(75))
+    id_pais = Column(ForeignKey('paises.id'))
     lugar = Column(String(30), nullable=False)
     horas = Column(Integer, nullable=False)
     inicio = Column(Date, nullable=False)
@@ -122,11 +124,14 @@ class ExperienciaLaboral(Base,
                 server_default=text('uuid_generate_v4()'))
     id_persona = Column(ForeignKey(
         "datos_personales.identificacion"), nullable=False)
+    unidad_administrativa = Column(String(120), nullable=False)
     empresa = Column(String(120), nullable=False)
     lugar = Column(String(120), nullable=False)
     cargo = Column(String(60), nullable=False)
+    motivo_ingreso = Column(String(120), nullable=False)
     inicio = Column(Date, nullable=False)
     fin = Column(Date)
+    motivo_salida = Column(String(120))
 
 
 class MeritoDistincion(Base,
