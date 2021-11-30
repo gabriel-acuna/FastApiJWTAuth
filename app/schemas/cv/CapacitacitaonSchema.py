@@ -7,19 +7,22 @@ import enum
 
 from pydantic.fields import Field
 
+
 class TipoCertificado(str, enum.Enum):
     ASISTENCIA = "ASISTENCIA"
-    APROBACION = "APROBACIÓN"
+    APROBACIÓN = "APROBACIÓN"
+    PARTICIPACIÓN = "PARTICIPACIÓN"
+
 
 class CapacitacionSchema(BaseModel):
-    id:str
-    id_persona:str
-    tipo_evento:TipoEventoSchema
+    id: str
+    id_persona: str
+    tipo_evento: TipoEventoSchema
     nombre: str
-    institucion_organizadora:str
+    institucion_organizadora: str
     funcion_evento: Optional[str]
     pais: PaisSchema
-    lugar:str
+    lugar: str
     horas: str
     inicio: date
     fin: date
@@ -27,33 +30,33 @@ class CapacitacionSchema(BaseModel):
     url: Optional[str]
     certificado: Optional[str]
 
+
 class CapacitacionPostSchema(BaseModel):
-    id_persona:str = Field(...)
-    tipo_evento:str = Field(...)
+    id_persona: str = Field(...)
+    tipo_evento: str = Field(...)
     nombre: str = Field(...)
-    institucion_organizadora:str = Field(...)
+    institucion_organizadora: str = Field(...)
     funcion_evento: Optional[str] = Field()
-    pais: str = Field(...)
-    lugar:str = Field(...)
+    pais: int = Field(...)
+    lugar: str = Field(...)
     horas: int = Field(...)
     inicio: date = Field(...)
     fin: date = Field(...)
-    tipo_certificado: TipoCertificado =Field(...)
+    tipo_certificado: TipoCertificado = Field(...)
     certificado: Optional[str] = Field()
     url: Optional[str] = Field()
-    
 
 
 class CapacitacionPutSchema(BaseModel):
-    tipo_evento:str = Field(...)
+    tipo_evento: str = Field(...)
     nombre: str = Field(...)
-    institucion_organizadora:str = Field(...)
+    institucion_organizadora: str = Field(...)
     funcion_evento: Optional[str] = Field()
-    pais: str = Field(...)
-    lugar:str = Field(...)
+    pais: int = Field(...)
+    lugar: str = Field(...)
     horas: int = Field(...)
     inicio: date = Field(...)
     fin: date = Field(...)
-    tipo_certificado: TipoCertificado =Field(...)
+    tipo_certificado: TipoCertificado = Field(...)
     certificado: Optional[str] = Field()
     url: Optional[str] = Field()

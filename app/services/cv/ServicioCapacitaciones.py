@@ -29,13 +29,11 @@ class ServicioCapacitacion():
                     pais = PaisSchema(**p.__dict__)
                     result = await async_db_session.execute(
                         select(TipoEvento).where(
-                            TipoEvento.id == fila[0].id_pais)
+                            TipoEvento.id == fila[0].id_tipo_evento)
                     )
                     t_evento = result.scalar_one()
                     tipo_evento = TipoEventoSchema(**t_evento.__dict__)
-                    tp: TipoCertificado = TipoCertificado.ASISTENCIA
-                    if fila[0].tipo_certificado.name == 'APROBACION':
-                        tp = TipoCertificado.APROBACION
+
                     capaciatciones.append(CapacitacionSchema(
                         id=fila[0].id,
                         id_persona=fila[0].id_persona,
@@ -48,15 +46,15 @@ class ServicioCapacitacion():
                         horas=fila[0].horas,
                         inicio=fila[0].inicio,
                         fin=fila[0].fin,
-                        tipo_certificado=tp,
-                        certificado = fila[0].certificado,
+                        tipo_certificado=fila[0].tipo_certificado.value,
+                        certificado=fila[0].certificado,
                         url=fila[0].url_certificado
                     )
                     )
                 await async_db_session.close()
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
-            
+
         return capaciatciones
 
     @classmethod
@@ -66,24 +64,22 @@ class ServicioCapacitacion():
             resultado = await Capacitacion.obtener(id=id)
             if resultado:
                 pais = await Pais.obtener(resultado[0].id_pais)
-                tipo_evento = await TipoEvento.obtener(resultado[0])
-                tipo_certificado: TipoCertificado = TipoCertificado.ASISTENCIA
-                if resultado[0].tipo_certificado.name == 'APROBACION':
-                    tipo_certificado = TipoCertificado.APROBACION
+                tipo_evento = await TipoEvento.obtener(resultado[0].id_tipo_evento)
+
                 capacitacion = CapacitacionSchema(
                     id=resultado[0].id,
                     id_persona=resultado[0].id_persona,
-                    tipo_evento=resultado[0].tipo_evento,
+                    tipo_evento=TipoEventoSchema(**tipo_evento[0].__dict__),
                     nombre=resultado[0].nombre,
                     institucion_organizadora=resultado[0].institucion_organizadora,
-                    funcion_evento=TipoEventoSchema(**tipo_evento[0].__dict__),
+                    funcion_evento=resultado[0].funcion_evento,
                     pais=PaisSchema(**pais[0].__dict__),
                     lugar=resultado[0].lugar,
                     horas=resultado[0].horas,
                     inicio=resultado[0].inicio,
                     fin=resultado[0].fin,
-                    tipo_certificado=tipo_certificado,
-                    certificado = resultado[0].certificado,
+                    tipo_certificado=resultado[0].tipo_certificado.value,
+                    certificado=resultado[0].certificado,
                     url=resultado[0].url_certificado
                 )
         except Exception as ex:
@@ -93,22 +89,19 @@ class ServicioCapacitacion():
     @classmethod
     async def agregar_registro(cls, capacitacion: CapacitacionPostSchema) -> bool:
         try:
-            tipo_cert: TC = TC.ASISTENCIA
-            if capacitacion.tipo_certificado.name == 'APROBACION':
-                tipo_cert = TC.APROBACION
             return await Capacitacion.crear(
                 id_persona=capacitacion.id_persona,
-                tipo_evento=capacitacion.tipo_evento,
+                id_tipo_evento=capacitacion.tipo_evento,
                 nombre=capacitacion.nombre,
                 institucion_organizadora=capacitacion.institucion_organizadora,
                 funcion_evento=capacitacion.funcion_evento,
-                pais=capacitacion.pais,
+                id_pais=capacitacion.pais,
                 lugar=capacitacion.lugar,
                 horas=capacitacion.horas,
                 inicio=capacitacion.inicio,
                 fin=capacitacion.fin,
-                tipo_certificado=tipo_cert,
-                certificado = capacitacion.url,
+                tipo_certificado=capacitacion.tipo_certificado,
+                certificado=capacitacion.url,
                 url_certificado=capacitacion.url
             )
         except Exception as ex:
@@ -117,22 +110,20 @@ class ServicioCapacitacion():
     @classmethod
     async def actualizar_registro(cls, id: str, capacitacion: CapacitacionPutSchema) -> bool:
         try:
-            tipo_cert: TC = TC.ASISTENCIA
-            if capacitacion.tipo_certificado.name == 'APROBACION':
-                tipo_cert = TC.APROBACION
+
             return await Capacitacion.actualizar(
                 id=id,
-                tipo_evento=capacitacion.tipo_evento,
+                id_tipo_evento=capacitacion.tipo_evento,
                 nombre=capacitacion.nombre,
                 institucion_organizadora=capacitacion.institucion_organizadora,
                 funcion_evento=capacitacion.funcion_evento,
-                pais=capacitacion.pais,
+                id_pais=capacitacion.pais,
                 lugar=capacitacion.lugar,
                 horas=capacitacion.horas,
                 inicio=capacitacion.inicio,
                 fin=capacitacion.fin,
-                tipo_certificado=tipo_cert,
-                certificado = capacitacion.url,
+                tipo_certificado=capacitacion.tipo_certificado,
+                certificado=capacitacion.url,
                 url_certificado=capacitacion.url
             )
         except Exception as ex:
