@@ -39,7 +39,7 @@ class ServicioExperienciaLaboral():
             return await ExperienciaLaboral.crear(
                 id_persona=experiencia.id_persona,
                 empresa=experiencia.empresa,
-                unidad_admnistrativa = experiencia.unidad_admnistrativa,
+                unidad_administrativa = experiencia.unidad_administrativa,
                 lugar=experiencia.lugar,
                 cargo=experiencia.cargo,
                 motivo_ingreso = experiencia.motivo_ingreso,
@@ -56,7 +56,7 @@ class ServicioExperienciaLaboral():
             return await ExperienciaLaboral.actualizar(
                 id=experiencia.id,
                 empresa=experiencia.empresa,
-                unidad_admnistrativa = experiencia.unidad_admnistrativa,
+                unidad_administrativa = experiencia.unidad_administrativa,
                 lugar=experiencia.lugar,
                 cargo=experiencia.cargo,
                 motivo_ingreso = experiencia.motivo_ingreso,

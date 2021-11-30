@@ -6,7 +6,7 @@ class ExperienciaLaboralSchema(BaseModel):
     id: str
     id_persona: str
     empresa: str
-    unidad_admnistrativa: str
+    unidad_administrativa: str
     lugar: str
     cargo: str
     motivo_ingreso:str
@@ -17,7 +17,7 @@ class ExperienciaLaboralSchema(BaseModel):
 class ExperienciaLaboralPostSchema(BaseModel):
     id_persona: str = Field(...)
     empresa: str = Field(...)
-    unidad_admnistrativa: str = Field(...)
+    unidad_administrativa: str = Field(...)
     lugar: str = Field(...)
     cargo: str = Field(...)
     motivo_ingreso:str = Field(...)
@@ -28,7 +28,7 @@ class ExperienciaLaboralPostSchema(BaseModel):
 class ExperienciaLaboralPutSchema(BaseModel):
     id: str = Field(...)
     empresa: str = Field(...)
-    unidad_admnistrativa: str = Field(...)
+    unidad_administrativa: str = Field(...)
     lugar: str = Field(...)
     cargo: str = Field(...)
     motivo_ingreso:str = Field(...)

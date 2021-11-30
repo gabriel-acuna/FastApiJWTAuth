@@ -70,7 +70,7 @@ class Capacitacion(Base,
     id_persona = Column(ForeignKey(
         "datos_personales.identificacion"), nullable=False)
     id_tipo_evento = Column(ForeignKey("tipos_eventos.id"), nullable=False)
-    nombre = Column(String(30), nullable=False)
+    nombre = Column(String(120), nullable=False)
     institucion_organizadora = Column(String(80), nullable=False)
     funcion_evento = Column(String(75))
     id_pais = Column(ForeignKey('paises.id'))
