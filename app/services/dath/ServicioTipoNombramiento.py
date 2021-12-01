@@ -12,7 +12,7 @@ class ServicioTipoNombramiento():
         try:
             filas = await TipoNombramiento.listar()
             for fila in filas:
-                nombramientos.append(**fila[0].__dict__)
+                nombramientos.append(TipoNombramientoSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return nombramientos

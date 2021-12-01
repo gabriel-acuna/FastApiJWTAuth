@@ -12,7 +12,7 @@ class ServicioTipoContrato():
         try:
             filas = await TipoContrato.listar()
             for fila in filas:
-                contratos.append(**fila[0].__dict__)
+                contratos.append(TipoContratoSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return contratos
