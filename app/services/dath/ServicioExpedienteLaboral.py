@@ -142,11 +142,11 @@ class ServicioExpedienteLaboral():
                     niv = result.scalar_one()
                     nivel = NivelEducativoSchema(**niv.__dict__)
                 if detalle.id_tipo_contrato:
-                    result = await async_db_session.execute(select(TipoContrato).where(TipoContrato.id == detalle.id))
+                    result = await async_db_session.execute(select(TipoContrato).where(TipoContrato.id == detalle.id_tipo_contrato))
                     t_contrato = result.scalar_one()
                     tipo_contrato = TipoContratoSchema(**t_contrato.__dict__)
                 if detalle.id_tipo_nombramiento:
-                    result = await async_db_session.execute(select(TipoNombramiento).where(TipoNombramiento.id == detalle.id))
+                    result = await async_db_session.execute(select(TipoNombramiento).where(TipoNombramiento.id == detalle.id_tipo_nombramiento))
                     t_nomb = result.scalar_one()
                     tipo_contrato = TipoEscalafonNombramientoSchema(**t_nomb.__dict__)
 
@@ -277,11 +277,11 @@ class ServicioExpedienteLaboral():
                     niv = result.scalar_one()
                     nivel = NivelEducativoSchema(**niv.__dict__)
                 if detalle.id_tipo_contrato:
-                    result = await async_db_session.execute(select(TipoContrato).where(TipoContrato.id == detalle.id))
+                    result = await async_db_session.execute(select(TipoContrato).where(TipoContrato.id == detalle.id_tipo_contrato))
                     t_contrato = result.scalar_one()
                     tipo_contrato = TipoContratoSchema(**t_contrato.__dict__)
                 if detalle.id_tipo_nombramiento:
-                    result = await async_db_session.execute(select(TipoNombramiento).where(TipoNombramiento.id == detalle.id))
+                    result = await async_db_session.execute(select(TipoNombramiento).where(TipoNombramiento.id == detalle.id_tipo_nombramiento))
                     t_nomb = result.scalar_one()
                     tipo_contrato = TipoEscalafonNombramientoSchema(**t_nomb.__dict__)
 

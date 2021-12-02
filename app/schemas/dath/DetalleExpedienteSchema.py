@@ -67,13 +67,13 @@ class DetalleExpedienteFuncionarioPostSchema(BaseModel):
     relacion_ies: str = Field(...)
     fecha_inicio: date = Field(...)
     fecha_fin: Optional[date] = Field()
-    ingreso_concurso: Opciones
+    ingreso_concurso: Opciones = Field(...)
     remuneracion_mensual: float = Field(...)
     tipo_funcionario: str = Field(...)
     cargo: str = Field(...)
     tipo_docente: str = Field(...)
     categoria_docente: str = Field(...)
-    puesto_jerarquico = Opciones
+    puesto_jerarquico: Opciones = Field(...)
     horas_laborables_semanales: int = Field(...)
     area: int = Field(...)
     sub_area: Optional[int] = Field()
@@ -99,13 +99,13 @@ class DetalleExpedienteFuncionarioPutSchema(BaseModel):
     relacion_ies: str = Field(...)
     fecha_inicio: date = Field(...)
     fecha_fin: Optional[date] = Field()
-    ingreso_concurso: Opciones
+    ingreso_concurso: Opciones = Field(...)
     remuneracion_mensual: float = Field(...)
     tipo_funcionario: str = Field(...)
     cargo: str = Field(...)
     tipo_docente: str = Field(...)
     categoria_docente: str = Field(...)
-    puesto_jerarquico = Opciones
+    puesto_jerarquico: Opciones = Field(...)
     horas_laborables_semanales: int = Field(...)
     area: int = Field(...)
     sub_area: Optional[int] = Field()
