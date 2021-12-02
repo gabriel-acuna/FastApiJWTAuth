@@ -1,5 +1,4 @@
 from typing import List, Union
-from sqlalchemy.orm.session import DEACTIVE
 from sqlalchemy.sql.expression import desc, false, select
 from app.models.dath.modelos import ExpedienteLaboral, DetalleExpedienteLaboral, TipoContrato, TipoNombramiento, TipoPersonal as TP
 from app.models.core.modelos_principales import TipoDocumento, RelacionIES, TipoEscalafonNombramiento, TiempoDedicacionProfesor
@@ -67,7 +66,7 @@ class ServicioExpedienteLaboral():
         area: AreaInstitucionSchema = None
         sub_area: AreaInstitucionSchema = None
         tipo_contrato: TipoContratoSchema = None
-        tipo_nombramiento: TipoEscalafonNombramientoSchema = None
+        tipo_nombramiento: TipoNombramientoSchema = None
         
 
         try:
@@ -148,7 +147,7 @@ class ServicioExpedienteLaboral():
                 if detalle.id_tipo_nombramiento:
                     result = await async_db_session.execute(select(TipoNombramiento).where(TipoNombramiento.id == detalle.id_tipo_nombramiento))
                     t_nomb = result.scalar_one()
-                    tipo_contrato = TipoEscalafonNombramientoSchema(**t_nomb.__dict__)
+                    tipo_nombramiento = TipoNombramientoSchema(**t_nomb.__dict__)
 
                 detalle_expediente = DetalleExpedienteSchema(
                     id=detalle.id,
@@ -205,7 +204,7 @@ class ServicioExpedienteLaboral():
         area: AreaInstitucionSchema = None
         sub_area: AreaInstitucionSchema = None
         tipo_contrato: TipoContratoSchema = None
-        tipo_nombramiento: TipoEscalafonNombramientoSchema = None
+        tipo_nombramiento: TipoNombramientoSchema = None
 
         try:
             detalle: DetalleExpedienteLaboral = None
@@ -283,7 +282,7 @@ class ServicioExpedienteLaboral():
                 if detalle.id_tipo_nombramiento:
                     result = await async_db_session.execute(select(TipoNombramiento).where(TipoNombramiento.id == detalle.id_tipo_nombramiento))
                     t_nomb = result.scalar_one()
-                    tipo_contrato = TipoEscalafonNombramientoSchema(**t_nomb.__dict__)
+                    tipo_nombramiento = TipoNombramientoSchema(**t_nomb.__dict__)
 
                 detalle_expediente = DetalleExpedienteSchema(
                     id=detalle.id,
@@ -417,7 +416,7 @@ class ServicioExpedienteLaboral():
 
                     actualizado = await DetalleExpedienteLaboral.actualizar(
                         id=detalle_expediente.id,
-                        tipo_personal=TP.FUNCIONARIIO,
+                        tipo_personal=TP.FUNCIONARIO,
                         id_tipo_documento=detalle_expediente.tipo_documento,
                         id_tipo_contrato = detalle_expediente.tipo_contrato if detalle_expediente.tipo_contrato else None,
                         id_tipo_nombramiento = detalle_expediente.tipo_nombramiento if detalle_expediente.tipo_nombramiento else None,

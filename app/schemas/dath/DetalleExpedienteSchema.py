@@ -13,6 +13,7 @@ from app.schemas.core.TipoDocenteLOESSchema import TipoDocenteLOESSchema
 from app.schemas.core.CategoriaDocenteLOSEPSchema import CategoriaDocenteLOSEPSchema
 from app.schemas.core.NivelEducativoSchema import NivelEducativoSchema
 from app.schemas.dath.TipoContratoSchema import TipoContratoSchema
+from app.schemas.dath.TipoNombramientoSchema import TipoNombramientoSchema
 
 
 class TipoPersonal(str, enum.Enum):
@@ -32,7 +33,7 @@ class DetalleExpedienteSchema(BaseModel):
     tipo_documento: TipoDocumentoSchema
     motivo_accion: Optional[str]
     tipo_contrato: Optional[TipoContratoSchema]
-    tipo_nombramiento: Optional[TipoEscalafonNombramientoSchema]
+    tipo_nombramiento: Optional[TipoNombramientoSchema]
     descripcion: Optional[str]
     numero_documento: str
     contrato_relacionado: Optional[str]
