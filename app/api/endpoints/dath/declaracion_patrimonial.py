@@ -44,7 +44,7 @@ async def registrar_declaracion(declaracion: DeclaracionPatrimonialPostSchema, r
 async def actualizar_declaracion(declaracion:  DeclaracionPatrimonialPutSchema, response: Response):
     existe = await ServicioDeclaracionPatrimonial.buscar_por_id(declaracion.id)
     if existe:
-        actualizado = await ServicioDeclaracionPatrimonial.agregar_registro(declaracion)
+        actualizado = await ServicioDeclaracionPatrimonial.actualizar_registro(declaracion)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

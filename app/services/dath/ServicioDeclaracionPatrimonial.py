@@ -54,53 +54,62 @@ class ServicioDeclaracionPatrimonial():
             filas = await DeclaracionPatrimonial.filtarPor(id_persona=id_persona)
             for fila in filas:
                 declaraciones.append(
-                    DeclaracionPatrimonialSchema(**fila[0].__dict__))
+                    DeclaracionPatrimonialSchema(
+                        id=fila[0].id,
+                        persona=fila[0].id_persona,
+                        tipo_declaracion=fila[0].tipo_declaracion.value,
+                        fecha_presentacion=fila[0].fecha_presentacion
+
+                    ))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return declaraciones
 
-    @classmethod
+    @ classmethod
     async def buscar_por_id(cls, id: str) -> DeclaracionPatrimonialSchema:
         declaracion: DeclaracionPatrimonialSchema = None
         try:
             respuesta = await DeclaracionPatrimonial.obtener(id)
             if respuesta:
                 declaracion = DeclaracionPatrimonialSchema(
-                    respuesta[0].__dict__)
+                    id=respuesta[0].id,
+                    persona=respuesta[0].id_persona,
+                    tipo_declaracion=respuesta[0].tipo_declaracion.value,
+                    fecha_presentacion=respuesta[0].fecha_presentacion)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return declaracion
 
-    @classmethod
+    @ classmethod
     async def agregar_registro(cls, declaracion: DeclaracionPatrimonialPostSchema) -> bool:
         try:
             return await DeclaracionPatrimonial.crear(
                 id_persona=declaracion.persona,
-                tipo_declaracion=declaracion.tipo_declaracion,
-                fech_presentacion=declaracion.fecha_presentacion
+                tipo_declaracion=declaracion.tipo_declaracion.name,
+                fecha_presentacion=declaracion.fecha_presentacion
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
-    @classmethod
+    @ classmethod
     async def actualizar_registro(cls, declaracion: DeclaracionPatrimonialPutSchema) -> bool:
         try:
-            return await DeclaracionPatrimonial.crear(
+            return await DeclaracionPatrimonial.actualizar(
                 id=declaracion.id,
-                tipo_declaracion=declaracion.tipo_declaracion,
-                fech_presentacion=declaracion.fecha_presentacion
+                tipo_declaracion=declaracion.tipo_declaracion.name,
+                fecha_presentacion=declaracion.fecha_presentacion
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
-    @classmethod
-    async def eliminar_registro(cls) -> bool:
+    @ classmethod
+    async def eliminar_registro(cls, id: str) -> bool:
         try:
-            return DeclaracionPatrimonial.eliminar(id)
+            return await DeclaracionPatrimonial.eliminar(id)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
-    @classmethod
+    @ classmethod
     async def existe(cls, declaracion: DeclaracionPatrimonialPostSchema) -> bool:
         try:
             existe = await DeclaracionPatrimonial.filtarPor(

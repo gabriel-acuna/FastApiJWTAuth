@@ -35,7 +35,7 @@ class RegimenDisciplinarioSchema(BaseModel):
     regimen_laboral: RegimenLaboralSchema
     modalidad_contractual: ModalidadContractualSchema
     tipo_falta: TipoFalta
-    sancion = SancionSchema
+    sancion: SancionSchema
     aplica_sumario:str
     estado_sumario: EstadoSumarioSchema
     numero_sentencia: Optional[str]
