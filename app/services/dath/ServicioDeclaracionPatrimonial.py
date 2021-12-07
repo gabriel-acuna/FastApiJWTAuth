@@ -38,6 +38,7 @@ class ServicioDeclaracionPatrimonial():
                                 segundo_apellido=persona[0][5],
                             ),
                             tipo_declaracion=declaracion.tipo_declaracion,
+                            numero_declaracion=declaracion.numero_declaracion,
                             fecha_presentacion=declaracion.fecha_presentacion
                         )
                     )
@@ -58,6 +59,7 @@ class ServicioDeclaracionPatrimonial():
                         id=fila[0].id,
                         persona=fila[0].id_persona,
                         tipo_declaracion=fila[0].tipo_declaracion.value,
+                        numero_declaracion=fila[0].numero_declaracion,
                         fecha_presentacion=fila[0].fecha_presentacion
 
                     ))
@@ -75,6 +77,7 @@ class ServicioDeclaracionPatrimonial():
                     id=respuesta[0].id,
                     persona=respuesta[0].id_persona,
                     tipo_declaracion=respuesta[0].tipo_declaracion.value,
+                    numero_declaracion=respuesta[0].numero_declaracion,
                     fecha_presentacion=respuesta[0].fecha_presentacion)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -86,7 +89,9 @@ class ServicioDeclaracionPatrimonial():
             return await DeclaracionPatrimonial.crear(
                 id_persona=declaracion.persona,
                 tipo_declaracion=declaracion.tipo_declaracion.name,
+                numero_declaracion=declaracion.numero_declaracion,
                 fecha_presentacion=declaracion.fecha_presentacion
+
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -97,6 +102,7 @@ class ServicioDeclaracionPatrimonial():
             return await DeclaracionPatrimonial.actualizar(
                 id=declaracion.id,
                 tipo_declaracion=declaracion.tipo_declaracion.name,
+                numero_declaracion=declaracion.numero_declaracion,
                 fecha_presentacion=declaracion.fecha_presentacion
             )
         except Exception as ex:

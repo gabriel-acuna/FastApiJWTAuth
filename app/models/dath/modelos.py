@@ -319,13 +319,14 @@ class TipoDeclaracion(enum.Enum):
     fin = 'FIN DE GESTION'
 
 
-class DeclaracionPatrimonial(Base, OperacionesLecturaAsincronas, 
+class DeclaracionPatrimonial(Base, OperacionesLecturaAsincronas,
                              OperacionesEscrituraAsinconas, EliminacionAsincrona):
     __tablename__ = "declaraciones_patrimoniales"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     id_persona = Column(ForeignKey(
         'datos_personales.identificacion'), nullable=False)
+    numero_declaracion = Column(String(10), nullable=False)
     tipo_declaracion = Column(Enum(TipoDeclaracion), nullable=False)
     fecha_presentacion = Column(Date, nullable=False)
 
