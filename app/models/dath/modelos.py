@@ -10,6 +10,7 @@ from sqlalchemy.sql.sqltypes import Date, Enum, Integer, Numeric, String
 from app.models import Base
 from app.models.core.modelos_principales import Etnia, Nacionalidad
 from app.models.async_crud import *
+from decouple import config as cf
 
 """"
     Autor: Ing. Gabriel Acuña
@@ -60,6 +61,7 @@ class InformacionPersonal(Base, OperacionesLecturaAsincronas):
     id_discapacidad = Column(ForeignKey("discapacidades.id"), nullable=False)
     carnet_conadis = Column(String(13), default='', nullable=False)
     porcentaje_discapacidad = Column(Integer, default=0)
+    sustituto = Column(String(2))
     id_etnia = Column(ForeignKey("etnias.id"))
     id_nacionalidad = Column(ForeignKey(
         "nacionalidades.id"))
@@ -366,14 +368,44 @@ class InformeTecnico(Base):
     desde = Column(Date, nullable=False)
     hasta = Column(Date, nullable=False)
 
-class EvaluacionDesempeño(Base):
-    __tablename__ = "evaluacaion_personal"
+'''
+
+class EvaluacionPersonal(Base):
+    __tablename__ = "evaluaciones_personal"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
     id_persona = Column(ForeignKey('datos_personales.identificacion'))
-    desde = Column(date, nullable=False)
-    hasta = Column(date, nullable=False)
-    puntaje = Column(Numeric(4,2), nullable=False)
+    desde = Column(Date, nullable=False)
+    hasta = Column(Date, nullable=False)
+    puntaje = Column(Numeric(4, 2), nullable=False)
     calificacion = Column(String(60), nullable=False)
 
-'''
+class ServidorDesvinculado(Base):
+    __tablename__ = "servidores_desvinculados"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    institucion = Column(String(120), default=cf('IES'))
+    ruc = Column(String(13), default=cf('RUC_IES'))
+    id_persona = Column(ForeignKey("datos_personales.identificacion"))
+    fecha_ingreso = Column(Date, nullable=False)
+    fecha_salida = Column(Date, nullable=False)
+    nombre_planta = Column(String(120))
+    id_regimen = Column(ForeignKey('regimen_disciplinario.id'), nullable=False)
+    id_modalidad = Column(ForeignKey(
+        'modalidades_contractuales.id'), nullable=False)
+    grupo_ocupacional = Column(String(120), default='')
+    id_motivo_desvinculacion = Column(ForeignKey("motivos_desvinculacion.id"))
+    pago_liquidacion = Column(String(2), nullable=False)
+    fecha_pago = Column(Date)
+    valor_cancelado = Column(Numeric(9, 2), nullable=False, default=0)
+    motivo_incumplimiento = Column(String(120))
+
+
+class InformacionReproductiva(Base):
+    __tablename__ = "informacion_reproductiva_personal"
+    id = Column(UUID, primary_key=True, index=True,
+                server_default=text("uuid_generate_v4()"))
+    id_persona = Column(ForeignKey("datos_personales.identificacion"))
+    estado = Column(String(30), nullable=False)
+    inicio = Column(Date, nullable=False)
+    fin = Column(Date, nullable=False)

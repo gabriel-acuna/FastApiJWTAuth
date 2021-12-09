@@ -48,6 +48,15 @@ class InformacionPersonalBasicaSchema(BaseModel):
     primer_apellido: str
     segundo_apellido: str
 
+class InformacionPersonalResumenSchema(BaseModel):
+    tipo_identificacion: TipoIdentificacion
+    identificacion: str
+    primer_nombre: str
+    segundo_nombre: str
+    primer_apellido: str
+    segundo_apellido: str
+    direccion_domicilio: DireccionSchema
+    fecha_ingreso: date
 
 class InformacionPersonalSchema(BaseModel):
     tipo_identificacion: TipoIdentificacion
@@ -64,6 +73,7 @@ class InformacionPersonalSchema(BaseModel):
     discapacidad: DiscapacidadSchema
     carnet_conadis: str
     porcentaje_discapacidad: int
+    sustituto: Optional[str]
     etnia: EtniaSchema
     nacionalidad: Optional[NacionalidadSchema]
     correo_institucional: EmailStr
@@ -92,6 +102,7 @@ class InformacionPersonalPostSchema(BaseModel):
     estado_civil: int = Field(...)
     discapacidad: str = Field(...)
     carnet_conadis: Optional[str]
+    sustituto: Optional[str] = Field()
     porcentaje_discapacidad: int = Field(...)
     etnia: str = Field(...)
     nacionalidad: Optional[str]
@@ -139,6 +150,7 @@ class InformacionPersonalPutSchema(BaseModel):
     discapacidad: str = Field(...)
     carnet_conadis: Optional[str]
     porcentaje_discapacidad: int = Field(...)
+    sustituto: Optional[str] = Field(...)
     etnia: str = Field(...)
     nacionalidad: Optional[str]
     correo_institucional: EmailStr = Field(...)
