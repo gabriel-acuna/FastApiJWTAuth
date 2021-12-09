@@ -370,7 +370,9 @@ class InformeTecnico(Base):
 
 '''
 
-class EvaluacionPersonal(Base):
+
+class EvaluacionPersonal(Base, OperacionesEscrituraAsinconas,
+                         OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "evaluaciones_personal"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -380,7 +382,9 @@ class EvaluacionPersonal(Base):
     puntaje = Column(Numeric(4, 2), nullable=False)
     calificacion = Column(String(60), nullable=False)
 
-class ServidorDesvinculado(Base):
+
+class ServidorDesvinculado(Base, OperacionesEscrituraAsinconas,
+                         OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "servidores_desvinculados"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))
@@ -401,7 +405,8 @@ class ServidorDesvinculado(Base):
     motivo_incumplimiento = Column(String(120))
 
 
-class InformacionReproductiva(Base):
+class InformacionReproductiva(Base, OperacionesEscrituraAsinconas,
+                         OperacionesLecturaAsincronas, EliminacionAsincrona):
     __tablename__ = "informacion_reproductiva_personal"
     id = Column(UUID, primary_key=True, index=True,
                 server_default=text("uuid_generate_v4()"))

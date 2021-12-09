@@ -19,7 +19,8 @@ class EvaluacionPersonalPostSchema(BaseModel):
     calificacion: str = Field(...)
 
 
-class EvaluacionPersonalPostSchema(BaseModel):
+class EvaluacionPersonalPutSchema(BaseModel):
+    id: str = Field(...)
     id_persona: str = Field(...)
     desde: date = Field(...)
     hasta: date = Field(...)
