@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from datetime import date
 
 
-class InformacionReproductiva(BaseModel):
+class InformacionReproductivaSchema(BaseModel):
     id: str
     id_persona: str
     estado: str
@@ -10,13 +10,13 @@ class InformacionReproductiva(BaseModel):
     fin: date
 
 
-class InformacionReproductivaPost(BaseModel):
+class InformacionReproductivaPostSchema(BaseModel):
     id_persona: str = Field(...)
     estado: str = Field(...)
     incio: date = Field(...)
     fin: date = Field(...)
 
-class InformacionReproductivaPut(BaseModel):
+class InformacionReproductivaPutSchema(BaseModel):
     id: str = Field(...)
     estado: str = Field(...)
     incio: date = Field(...)
