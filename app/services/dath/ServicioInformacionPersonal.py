@@ -108,6 +108,7 @@ class ServicioInformacionPersonal():
                         **discapacidad.__dict__),
                     carnet_conadis=persona.carnet_conadis,
                     porcentaje_discapacidad=persona.porcentaje_discapacidad,
+                    sustituto = persona.sustituto,
                     etnia=EtniaSchema(**etnia.__dict__),
                     nacionalidad=nacionalidad,
                     correo_institucional=persona.correo_institucional,
@@ -207,6 +208,7 @@ class ServicioInformacionPersonal():
                         **discapacidad.__dict__),
                     carnet_conadis=persona.carnet_conadis,
                     porcentaje_discapacidad=persona.porcentaje_discapacidad,
+                    sustituto = persona.sustituto,
                     etnia=EtniaSchema(**etnia.__dict__),
                     nacionalidad=nacionalidad,
                     correo_institucional=persona.correo_institucional,
@@ -253,6 +255,8 @@ class ServicioInformacionPersonal():
             if persona.carnet_conadis:
                 informacion_personal.carnet_conadis = persona.carnet_conadis
             informacion_personal.porcentaje_discapacidad = persona.porcentaje_discapacidad
+            if persona.sustituto:
+                informacion_personal.sustituto = persona.sustituto
             informacion_personal.correo_institucional = persona.correo_institucional
             informacion_personal.correo_personal = persona.correo_personal
             if persona.telefono_domicilio:
@@ -364,6 +368,8 @@ class ServicioInformacionPersonal():
             if persona.carnet_conadis:
                 informacion_personal.carnet_conadis = persona.carnet_conadis
             informacion_personal.porcentaje_discapacidad = persona.porcentaje_discapacidad
+            if persona.sustituto:
+                informacion_personal.sustituo = persona.sustituto
             informacion_personal.correo_institucional = persona.correo_institucional
             informacion_personal.correo_personal = persona.correo_personal
             informacion_personal.telefono_domicilio = persona.telefono_domicilio if persona.telefono_domicilio is None else '0000000000'
