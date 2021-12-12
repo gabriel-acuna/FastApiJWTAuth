@@ -51,7 +51,7 @@ async def registrar_regimen_disciplinario(regimen_disciplinario: RegimenDiscipli
 async def actualizar_regimen_disciplinario(regimen_disciplinario:  RegimenDisciplinarioPutSchema, response: Response):
     existe = await ServicioRegimenDisciplinario.buscar_por_id(regimen_disciplinario.id)
     if existe:
-        actualizado = await ServicioRegimenDisciplinario.agregar_registro(regimen_disciplinario)
+        actualizado = await ServicioRegimenDisciplinario.actualizar_registro(regimen_disciplinario)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

@@ -48,7 +48,7 @@ async def registrar_tipo_nombramiento(tipo_nombramiento: TipoNombramientoPostSch
 async def actualizar_tipo_nombramiento(tipo_nombramiento: TipoNombramientoPutSchema, response: Response):
     existe = await ServicioTipoNombramiento.buscar_por_id(tipo_nombramiento.id)
     if existe:
-        actualizado = await ServicioTipoNombramiento.agregar_registro(tipo_nombramiento)
+        actualizado = await ServicioTipoNombramiento.actualizar_registro(tipo_nombramiento)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

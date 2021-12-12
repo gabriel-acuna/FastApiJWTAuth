@@ -6,8 +6,9 @@ from app.schemas.dath.ModalidadContractualSchema import ModalidadContractualSche
 from app.schemas.dath.MotivoDesvinculacionSchema import MotivoDesvinculacionSchema
 from datetime import date
 
+
 class ServidorDesvinculadoSchema(BaseModel):
-    id:str
+    id: str
     institucion: str
     ruc: str
     persona: InformacionPersonalResumenSchema
@@ -15,8 +16,9 @@ class ServidorDesvinculadoSchema(BaseModel):
     fecha_salida: date
     nombre_planta: str
     regimen: RegimenLaboralSchema
-    modalidad: MotivoDesvinculacionSchema
+    modalidad: ModalidadContractualSchema
     grupo_ocupacional: str
+    motivo_desvinculacion: MotivoDesvinculacionSchema
     pago_liquidacion: str
     fecha_pago: Optional[date]
     valor_cancelado: Optional[float]
@@ -30,7 +32,8 @@ class ServidorDesvinculadoPostSchema(BaseModel):
     nombre_planta: str = Field(...)
     regimen: int = Field(...)
     modalidad: str = Field(...)
-    grupo_ocupacional: str =Field(...)
+    grupo_ocupacional: str = Field(...)
+    motivo_desvinculacion: str = Field(...)
     pago_liquidacion: str = Field(...)
     fecha_pago: Optional[date] = Field()
     valor_cancelado: Optional[float] = Field()
@@ -45,7 +48,8 @@ class ServidorDesvinculadoPutSchema(BaseModel):
     nombre_planta: str = Field(...)
     regimen: int = Field(...)
     modalidad: str = Field(...)
-    grupo_ocupacional: str =Field(...)
+    grupo_ocupacional: str = Field(...)
+    motivo_desvinculacion: str = Field(...)
     pago_liquidacion: str = Field(...)
     fecha_pago: Optional[date] = Field()
     valor_cancelado: Optional[float] = Field()

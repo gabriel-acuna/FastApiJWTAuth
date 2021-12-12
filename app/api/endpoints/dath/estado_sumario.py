@@ -22,7 +22,7 @@ async def obtener_estado_sumario(id: str):
     estado_sumario = await ServicioEstadoSumario.buscar_por_id(id)
     if not estado_sumario:
         raise HTTPException(
-            status_code=404, detail="Estado umario no encontrado")
+            status_code=404, detail="Estado sumario no encontrado")
     return estado_sumario
 
 
@@ -48,7 +48,7 @@ async def registrar_estado_sumario(estado_sumario: EstadoSumarioPostSchema, resp
 async def actualizar_estado_sumario(estado_sumario:  EstadoSumarioPutSchema, response: Response):
     existe = await ServicioEstadoSumario.buscar_por_id(estado_sumario.id)
     if existe:
-        actualizado = await ServicioEstadoSumario.agregar_registro(estado_sumario)
+        actualizado = await ServicioEstadoSumario.actualizar_registro(estado_sumario)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

@@ -48,7 +48,7 @@ async def registrar_familiar(familiar: FamiliarPostSchema, response: Response):
 async def actualizar_familiar(familiar:  FamiliarPutSchema, response: Response):
     existe = await ServicioFamiliarPersonal.buscar_por_id(familiar.id)
     if existe:
-        actualizado = await ServicioFamiliarPersonal.agregar_registro(familiar)
+        actualizado = await ServicioFamiliarPersonal.actualizar_registro(familiar)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

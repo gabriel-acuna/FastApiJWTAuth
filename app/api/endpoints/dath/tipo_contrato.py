@@ -48,7 +48,7 @@ async def registrar_tipo_contrato(tipo_contrato: TipoContratoPostSchema, respons
 async def actualizar_tipo_contrato(tipo_contrato: TipoContratoPutSchema, response: Response):
     existe = await ServicioTipoContrato.buscar_por_id(tipo_contrato.id)
     if existe:
-        actualizado = await ServicioTipoContrato.agregar_registro(tipo_contrato)
+        actualizado = await ServicioTipoContrato.actualizar_registro(tipo_contrato)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

@@ -48,7 +48,7 @@ async def registrar_regimen_laboral(regimen_laboral: RegimenLaboralPostSchema, r
 async def actualizar_regimen_laboral(regimen_laboral:  RegimenLaboralPutSchema, response: Response):
     existe = await ServicioRegimenLaboral.buscar_por_id(regimen_laboral.id)
     if existe:
-        actualizado = await ServicioRegimenLaboral.agregar_registro(regimen_laboral)
+        actualizado = await ServicioRegimenLaboral.actualizar_registro(regimen_laboral)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

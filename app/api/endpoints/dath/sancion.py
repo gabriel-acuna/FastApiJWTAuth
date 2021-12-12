@@ -48,7 +48,7 @@ async def registrar_sancion(sancion: SancionPostSchema, response: Response):
 async def actualizar_sancion(sancion:  SancionPutSchema, response: Response):
     existe = await ServicioSancion.buscar_por_id(sancion.id)
     if existe:
-        actualizado = await ServicioSancion.agregar_registro(sancion)
+        actualizado = await ServicioSancion.actualizar_registro(sancion)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

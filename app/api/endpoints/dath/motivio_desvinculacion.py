@@ -48,7 +48,7 @@ async def registrar_motivo_desvinculacion(motivo_desvinculacion: MotivoDesvincul
 async def actualizar_motivo_desvinculacion(motivo_desvinculacion:  MotivoDesvinculacionPutSchema, response: Response):
     existe = await ServicioMotivoDesvinculacion.buscar_por_id(motivo_desvinculacion.id)
     if existe:
-        actualizado = await ServicioMotivoDesvinculacion.agregar_registro(motivo_desvinculacion)
+        actualizado = await ServicioMotivoDesvinculacion.actualizar_registro(motivo_desvinculacion)
         if actualizado:
             return MessageSchema(type="success", content=PUT_SUCCESS_MSG)
 

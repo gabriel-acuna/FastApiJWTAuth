@@ -4,7 +4,7 @@ from typing import List
 import logging
 
 
-class ServicioInfromacionReproductiva():
+class ServicioInformacionReproductiva():
 
     @classmethod
     async def listar_por_persona(cls, id_persona: str) -> List[InformacionReproductivaSchema]:
