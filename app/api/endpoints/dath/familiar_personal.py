@@ -11,8 +11,8 @@ router = APIRouter(prefix="/familiares-personal")
 @router.get("/personal/{id}",
             response_model=List[FamiliarSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def listar_familiares():
-    return await ServicioFamiliarPersonal.listar_por_id_persona()
+async def listar_familiares(id: str):
+    return await ServicioFamiliarPersonal.listar_por_id_persona(id)
 
 
 @router.get("/{id}",

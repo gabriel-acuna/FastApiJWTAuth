@@ -20,7 +20,7 @@ class ServicioFamiliarPersonal():
                     identificacion=familiar.identificacion,
                     nombres=familiar.nombres,
                     apellidos=familiar.apellidos,
-                    sexo=familiar.sexo,
+                    sexo=familiar.sexo.value,
                     fecha_nacimiento=familiar.fecha_nacimiento,
                     edad=familiar.calcular_edad()
 
@@ -42,7 +42,7 @@ class ServicioFamiliarPersonal():
                     identificacion=respuesta[0].identificacion,
                     nombres=respuesta[0].nombres,
                     apellidos=respuesta[0].apellidos,
-                    sexo=respuesta[0].sexo,
+                    sexo=respuesta[0].sexo.value,
                     fecha_nacimiento=respuesta[0].fecha_nacimiento,
                     edad=respuesta[0].calcular_edad()
 
@@ -58,7 +58,7 @@ class ServicioFamiliarPersonal():
             return await FamiliarPersonal.crear(
                 id_persona=familiar.id_persona,
                 parentesco=familiar.parentesco,
-                identificacio=familiar.identificacion,
+                identificacion=familiar.identificacion,
                 nombres=familiar.nombres,
                 apellidos=familiar.apellidos,
                 sexo=familiar.sexo,
@@ -70,10 +70,10 @@ class ServicioFamiliarPersonal():
     @classmethod
     async def actualizar_registro(cls, familiar: FamiliarPutSchema) -> bool:
         try:
-            return await FamiliarPersonal.crear(
+            return await FamiliarPersonal.actualizar(
                 id=familiar.id,
                 parentesco=familiar.parentesco,
-                identificacio=familiar.identificacion,
+                identificacion=familiar.identificacion,
                 nombres=familiar.nombres,
                 apellidos=familiar.apellidos,
                 sexo=familiar.sexo,
