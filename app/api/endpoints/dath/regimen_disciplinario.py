@@ -22,7 +22,7 @@ async def listar_regimen_disciplinario_por_año_mes(anio: int, mes: str):
     return await ServicioRegimenDisciplinario.listar_por_anio_mes(anio, mes)
 
 
-@router.get("personal/{id}",
+@router.get("/personal/{id}",
             response_model=List[RegimenDisciplinarioSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_regimen_disciplinario_por_persona(id: str):
