@@ -13,7 +13,7 @@ class ServicioEvaluacionPersonal():
             filas = await EvaluacionPersonal.filtarPor(id_persona=id_persona)
             for fila in filas:
                 evaluaciones.append(
-                    EvaluacionPersonalSchema(**fila[0].__dict__)
+                    EvaluacionPersonalSchema(EvaluacionPersonalSchema(**fila[0].__dict__))
                 )
 
         except Exception as ex:

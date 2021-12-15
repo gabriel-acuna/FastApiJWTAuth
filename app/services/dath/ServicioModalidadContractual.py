@@ -12,7 +12,7 @@ class ServicioModalidadContractual():
         try:
             filas = await ModalidadContractual.listar()
             for fila in filas:
-                modalidades.append(**fila[0].__dict__)
+                modalidades.append(ModalidadContractualSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return modalidades

@@ -12,7 +12,7 @@ class ServicioSancion():
         try:
             filas = await Sancion.listar()
             for fila in filas:
-                sanciones.append(**fila[0].__dict__)
+                sanciones.append(SancionSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return sanciones

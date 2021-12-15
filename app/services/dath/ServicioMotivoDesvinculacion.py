@@ -12,7 +12,7 @@ class ServicioMotivoDesvinculacion():
         try:
             filas = await MotivoDesvinculacion.listar()
             for fila in filas:
-                motivos.append(**fila[0].__dict__)
+                motivos.append(MotivoDesvinculacionPutSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return motivos

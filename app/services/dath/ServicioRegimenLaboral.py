@@ -12,7 +12,7 @@ class ServicioRegimenLaboral():
         try:
             filas = await RegimenLaboral.listar()
             for fila in filas:
-                regimenes.append(**fila[0].__dict__)
+                regimenes.append(RegimenLaboralSchema(**fila[0].__dict__))
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
         return regimenes
