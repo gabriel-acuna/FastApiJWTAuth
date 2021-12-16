@@ -1,6 +1,6 @@
 from app.schemas.Message import MessageSchema
 from app.api.messages import *
-from typing import List
+from typing import List, Optional
 from app.services.dath.ServicioRegimenDisciplinario import ServicioRegimenDisciplinario, RegimenDisciplinarioSchema, RegimenDisciplinarioPutSchema, RegimenDisciplinarioPostSchema
 from fastapi import APIRouter, HTTPException, Body, Response, Depends, status
 from app.services.auth import ServicioToken
@@ -8,18 +8,13 @@ from app.services.auth import ServicioToken
 router = APIRouter(prefix="/regimenes-disciplinarios")
 
 
-@router.get("/{anio}",
+@router.get("/",
             response_model=List[RegimenDisciplinarioSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())])
-async def listar_regimen_disciplinario_por_año(anio: int):
+async def listar_regimen_disciplinario_por_año(anio: int, mes: Optional[str] = None):
+    if mes:
+        return await ServicioRegimenDisciplinario.listar_por_anio_mes(anio, mes)
     return await ServicioRegimenDisciplinario.listar_por_anio(anio)
-
-
-@router.get("/{id}/{mes}",
-            response_model=List[RegimenDisciplinarioSchema],
-            dependencies=[Depends(ServicioToken.JWTBearer())])
-async def listar_regimen_disciplinario_por_año_mes(anio: int, mes: str):
-    return await ServicioRegimenDisciplinario.listar_por_anio_mes(anio, mes)
 
 
 @router.get("/personal/{id}",
