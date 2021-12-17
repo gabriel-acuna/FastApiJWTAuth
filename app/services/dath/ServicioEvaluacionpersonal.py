@@ -13,7 +13,7 @@ class ServicioEvaluacionPersonal():
             filas = await EvaluacionPersonal.filtarPor(id_persona=id_persona)
             for fila in filas:
                 evaluaciones.append(
-                    EvaluacionPersonalSchema(EvaluacionPersonalSchema(**fila[0].__dict__))
+                   EvaluacionPersonalSchema(**fila[0].__dict__)
                 )
 
         except Exception as ex:
@@ -27,7 +27,7 @@ class ServicioEvaluacionPersonal():
         try:
             resultado = await EvaluacionPersonal.obtener(id)
             if resultado:
-                evaluacion = EvaluacionPersonalSchema(**resultado.__dict__)
+                evaluacion = EvaluacionPersonalSchema(**resultado[0].__dict__)
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
 
@@ -41,7 +41,7 @@ class ServicioEvaluacionPersonal():
                 desde=evaluacion.desde,
                 hasta=evaluacion.hasta,
                 puntaje=evaluacion.puntaje,
-                calificaion=evaluacion.calificacion
+                calificacion=evaluacion.calificacion
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
@@ -49,13 +49,13 @@ class ServicioEvaluacionPersonal():
     @classmethod
     async def actualizar_registro(cls, evaluacion: EvaluacionPersonalPutSchema) -> bool:
         try:
-            return await EvaluacionPersonal.crear(
+            return await EvaluacionPersonal.actualizar(
                 id=evaluacion.id,
                 id_persona=evaluacion.id_persona,
                 desde=evaluacion.desde,
                 hasta=evaluacion.hasta,
                 puntaje=evaluacion.puntaje,
-                calificaion=evaluacion.calificacion
+                calificacion=evaluacion.calificacion
             )
         except Exception as ex:
             logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
