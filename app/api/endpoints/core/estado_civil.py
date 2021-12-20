@@ -57,7 +57,7 @@ async def actualizar_estado_civil(response: Response, estado_civil: EstadoCivilP
 
 
 @router.delete("/{id}", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
-async def eliminar_estado_civil(id: str, response: Response):
+async def eliminar_estado_civil(id: int, response: Response):
     etnia = await ServicioEstadoCivil.buscar_por_id(id)
     if etnia:
         eliminado = await ServicioEstadoCivil.eliminar_registro(id)
