@@ -27,7 +27,7 @@ class ServicioInformacionReproductiva():
                     id = resultado[0].id,
                     id_persona = resultado[0].id_persona,
                     estado = resultado[0].estado,
-                    incio = resultado[0].inicio,
+                    inicio = resultado[0].inicio,
                     fin = resultado[0].fin
                 )
         except Exception as ex:
@@ -41,7 +41,7 @@ class ServicioInformacionReproductiva():
             return await InformacionReproductiva.crear(
                 id_persona = registro.id_persona,
                 estado = registro.estado,
-                incio = registro.inicio,
+                inicio = registro.inicio,
                 fin = registro.fin
             )
         
@@ -54,7 +54,7 @@ class ServicioInformacionReproductiva():
             return await InformacionReproductiva.actualizar(
                 id = registro.id,
                 estado = registro.estado,
-                incio = registro.incio,
+                inicio = registro.inicio,
                 fin = registro.fin
             )
         

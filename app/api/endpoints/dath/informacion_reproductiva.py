@@ -22,7 +22,7 @@ async def obtener_informacion_reproductiva(id: str):
     informacion_reproductiva = await ServicioInformacionReproductiva.buscar_por_id(id)
     if not informacion_reproductiva:
         raise HTTPException(
-            status_code=404, detail="Estado umario no encontrado")
+            status_code=404, detail="Registro no encontrado")
     return informacion_reproductiva
 
 

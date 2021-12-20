@@ -6,18 +6,18 @@ class InformacionReproductivaSchema(BaseModel):
     id: str
     id_persona: str
     estado: str
-    incio: date
+    inicio: date
     fin: date
 
 
 class InformacionReproductivaPostSchema(BaseModel):
     id_persona: str = Field(...)
     estado: str = Field(...)
-    incio: date = Field(...)
+    inicio: date = Field(...)
     fin: date = Field(...)
 
 class InformacionReproductivaPutSchema(BaseModel):
     id: str = Field(...)
     estado: str = Field(...)
-    incio: date = Field(...)
+    inicio: date = Field(...)
     fin: date = Field(...)
