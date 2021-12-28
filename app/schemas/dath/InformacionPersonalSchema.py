@@ -150,7 +150,7 @@ class InformacionPersonalPutSchema(BaseModel):
     discapacidad: str = Field(...)
     carnet_conadis: Optional[str]
     porcentaje_discapacidad: int = Field(...)
-    sustituto: Optional[str] = Field(...)
+    sustituto: Optional[str] = Field()
     etnia: str = Field(...)
     nacionalidad: Optional[str]
     correo_institucional: EmailStr = Field(...)

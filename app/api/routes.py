@@ -85,6 +85,8 @@ api_router.include_router(dath.evaluacion_personal.router, tags=[
                           "Evaluaciones personal"])
 api_router.include_router(dath.informacion_reproductiva.router, tags=[
                           "Información reproductiva"])
+api_router.include_router(dath.sustituto_personal.router, tags=[
+"Sustituto"])
 
 
 api_router.include_router(cv.tipo_evento.router, tags=["Tipos de eventos"])
