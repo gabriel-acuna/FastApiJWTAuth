@@ -8,7 +8,7 @@ from app.services.auth import ServicioToken
 router = APIRouter(prefix="/sustitutos")
 
 
-@router.get("/personal/{id}",
+@router.get("/personal/{id_persona}",
             response_model=List[SustitutoSchema],
             dependencies=[Depends(ServicioToken.JWTBearer())])
 async def listar_sustitutos_persona(id_persona:str):

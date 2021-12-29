@@ -255,8 +255,8 @@ class ServicioInformacionPersonal():
             if persona.carnet_conadis:
                 informacion_personal.carnet_conadis = persona.carnet_conadis
             informacion_personal.porcentaje_discapacidad = persona.porcentaje_discapacidad
-            if persona.sustituto:
-                informacion_personal.sustituto = persona.sustituto
+          
+            informacion_personal.sustituto = persona.sustituto
             informacion_personal.correo_institucional = persona.correo_institucional
             informacion_personal.correo_personal = persona.correo_personal
             if persona.telefono_domicilio:
@@ -365,11 +365,9 @@ class ServicioInformacionPersonal():
             else:
                 informacion_personal.id_nacionalidad = None
             informacion_personal.id_discapacidad = persona.discapacidad
-            if persona.carnet_conadis:
-                informacion_personal.carnet_conadis = persona.carnet_conadis
+            informacion_personal.carnet_conadis = persona.carnet_conadis
             informacion_personal.porcentaje_discapacidad = persona.porcentaje_discapacidad
-            if persona.sustituto:
-                informacion_personal.sustituto = persona.sustituto
+            informacion_personal.sustituto = persona.sustituto
             informacion_personal.correo_institucional = persona.correo_institucional
             informacion_personal.correo_personal = persona.correo_personal
             informacion_personal.telefono_domicilio = persona.telefono_domicilio if persona.telefono_domicilio is None else '0000000000'
@@ -400,6 +398,9 @@ class ServicioInformacionPersonal():
             await async_db_session.execute(query)
             query = delete(ContactoEmergencia).where(
                 ContactoEmergencia.id_persona == id)
+            await async_db_session.execute(query)
+            query = delete(InformacionBancaria).where(
+                InformacionBancaria.id_persona == id)
             await async_db_session.execute(query)
             query = delete(ExpedienteLaboral).where(
                 ExpedienteLaboral.id_persona == id)
