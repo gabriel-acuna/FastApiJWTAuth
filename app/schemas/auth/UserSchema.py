@@ -18,3 +18,8 @@ class UserPostSchema(BaseModel):
                
             }
         }
+        
+class ChangePasswordSchema(BaseModel):
+    email: EmailStr = Field(...)
+    clave_actual: str = Field(...)
+    clave_nueva: str = Field(...)
