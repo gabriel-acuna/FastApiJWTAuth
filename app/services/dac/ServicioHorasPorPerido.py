@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 from app.models.foreign_tables import *
 from sqlalchemy import and_
-
+from decouple import config
 class ServicioHorasPorPerido():
 
     @classmethod
@@ -19,8 +19,8 @@ class ServicioHorasPorPerido():
             res = session.execute(
                 f'''select per.cedula, per.pasaporte,
                        per.nombres, per.apellido1, per.apellido2
-                       from sga.sga_persona  per inner join
-                       sga.sga_profesor pro on per.id = pro.persona_id where pro.id = {asignacion.profesor_id}''' )
+                       from {config('SGA_DB_SCHEMA')}.sga_persona  per inner join
+                       {config('SGA_DB_SCHEMA')}.sga_profesor pro on per.id = pro.persona_id where pro.id = {asignacion.profesor_id}''' )
                 
             profesor = res.all()
             asignacion_profesor['periodo'] = periodo_academico
@@ -31,8 +31,8 @@ class ServicioHorasPorPerido():
                 'nombres': profesor[0][2]
             }
             res = session.execute(
-                f'''select dd.horas from sga.sga_detalledistributivo dd inner join  
-                    sga.sga_criteriodocenciaperiodo  cdp on  dd.criteriodocenciaperiodo_id = cdp.id 
+                f'''select dd.horas from {config('SGA_DB_SCHEMA')}.sga_detalledistributivo dd inner join  
+                    {config('SGA_DB_SCHEMA')}.sga_criteriodocenciaperiodo  cdp on  dd.criteriodocenciaperiodo_id = cdp.id 
                     where dd.distributivo_id ={asignacion.id} and 
                     (cdp.criterio_id = 5 or cdp.criterio_id = 6 or cdp.criterio_id = 19)''')
             h_clase = res.all()
@@ -41,8 +41,8 @@ class ServicioHorasPorPerido():
             else:
                 asignacion_profesor['horas_calse'] = 0
             res = session.execute(
-                f'''select dd.horas from sga.sga_detalledistributivo dd inner join  
-                    sga.sga_criteriodocenciaperiodo  cdp on  dd.criteriodocenciaperiodo_id = cdp.id
+                f'''select dd.horas from {config('SGA_DB_SCHEMA')}.sga_detalledistributivo dd inner join  
+                    {config('SGA_DB_SCHEMA')}.sga_criteriodocenciaperiodo  cdp on  dd.criteriodocenciaperiodo_id = cdp.id
                     where dd.distributivo_id ={asignacion.id} and cdp.criterio_id = 17''')
             h_tutorias = res.all()
             

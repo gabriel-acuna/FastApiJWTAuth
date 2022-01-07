@@ -1,0 +1,36 @@
+<html>
+
+<body style="margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif;">
+  <div style="width: 100%; background: whitesmoke;padding-top: 10px; padding-bottom: 20px;">
+    <div style="margin: 0 auto; width: 90%">
+      <h1
+        style="background-image: linear-gradient(-180deg, rgba(12, 240, 210, 0.83), rgb(90, 158, 92)); padding: 5px 10px; border-radius: 5px; color: white; text-align: center; margin-top: 10px;">
+        {{ title }}</h1>
+      <div
+        style="margin: 30px auto; background: white; width: 50%; border-radius: 10px; padding: 40px; box-shadow: 5px 7px 10px rgb(36, 38, 39);">
+        <p style="margin-bottom: 30px; font-size: 18px; font-weight: 700;"> Estimado(a) {{ name }} </p>
+        <p style="margin-bottom: 14px; text-align: left;">{{ content }}</p>
+        {% if credentials and credentials.email %}
+        <p>usuario: {{ credentials.email }} </p>
+        {% endif %}
+        {% if credentials and credentials.password %}
+        <p>contraseña: {{ credentials.password }} </p>
+        {% endif %}
+        {% if credentials and credentials.token %}
+        <p> token: {{ credentials.token }}</p>
+        {% endif %}
+
+        {% if recommendation %}
+
+        <div style="padding: 10px; border: dotted 1px rgba(32, 114, 139, 0.782);">
+          <p style="text-align: left;">{{ recommendation }}</p>
+        </div>
+        {% endif %}
+
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
