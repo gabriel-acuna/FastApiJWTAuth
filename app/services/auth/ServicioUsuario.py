@@ -23,8 +23,12 @@ class ServicioUsuario():
         return bcrypt.checkpw(clave.encode(), clave_encriptada.encode())
 
     @classmethod
-    async def cambiar_clave(cls, id:str,clave: str) -> bool:
-        return await CuentaUsuario.actualizar(id=id,clave_encriptada=clave)
+    async def cambiar_clave(cls, id: str, clave: str) -> bool:
+        return await CuentaUsuario.actualizar(id=id, clave_encriptada=clave)
+
+    @classmethod
+    def cifrar_clave(cls, clave: str) -> str:
+        return CuentaUsuario.cifrar_clave(clave)
 
     @classmethod
     async def obtener_roles(cls, id: str):

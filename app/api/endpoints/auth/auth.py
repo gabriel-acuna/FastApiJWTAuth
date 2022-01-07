@@ -5,7 +5,7 @@ from app.schemas.auth.UserLoginSchema import UserLoginSchema
 from app.schemas.auth.UserSchema import ChangePasswordSchema
 from app.services.auth.ServicioUsuario import ServicioUsuario
 from app.schemas.Message import MessageSchema
-from app.models.auth.cuentas_usuarios import CuentaUsuario, TipoToken
+from app.models.auth.cuentas_usuarios import  TipoToken
 from app.api.messages import ERROR_MSG
 router = APIRouter()
 
@@ -64,7 +64,7 @@ async def change_password(response: Response, data: ChangePasswordSchema = Body(
         raise HTTPException(
             status_code=400, detail="La nueva contraseña no debe ser igual a la contraseña actual")
 
-    clave_cifrada = CuentaUsuario.cifrar_clave(data.clave_nueva)
+    clave_cifrada = ServicioUsuario.cifrar_clave(data.clave_nueva)
     actualizada = await ServicioUsuario.cambiar_clave(usuario.id, clave_cifrada)
     if actualizada:
         return MessageSchema(type="success", content="Cambio de contraseña exitoso")

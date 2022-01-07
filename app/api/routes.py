@@ -2,7 +2,7 @@ from decouple import config
 import socket
 from app.schemas.InfoIES import InfoIESSchema
 from fastapi import APIRouter, FastAPI
-from app.api.endpoints.auth import auth
+import app.api.endpoints.auth as auth
 import app.api.endpoints.core as core
 import app.api.endpoints.dath as dath
 import app.api.endpoints.cv as cv
@@ -12,7 +12,8 @@ from starlette.middleware.cors import CORSMiddleware
 
 api_router = APIRouter()
 
-api_router.include_router(auth.router, tags=["Auth"])
+api_router.include_router(auth.auth.router, tags=["Auth"])
+api_router.include_router(auth.rol.router, tags=["Roles"])
 api_router.include_router(core.pais.router, tags=["Países"])
 api_router.include_router(core.provincia.router, tags=["Provincias"])
 api_router.include_router(core.canton.router, tags=["Cantones"])
@@ -86,7 +87,7 @@ api_router.include_router(dath.evaluacion_personal.router, tags=[
 api_router.include_router(dath.informacion_reproductiva.router, tags=[
                           "Información reproductiva"])
 api_router.include_router(dath.sustituto_personal.router, tags=[
-"Sustituto"])
+    "Sustituto"])
 
 
 api_router.include_router(cv.tipo_evento.router, tags=["Tipos de eventos"])
