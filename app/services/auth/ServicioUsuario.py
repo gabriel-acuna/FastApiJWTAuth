@@ -99,6 +99,48 @@ class ServicioUsuario():
         return usuarios
 
     @classmethod
+    async def buscar_por_id(cls, id: str) -> UserSchema:
+        usuario: UserSchema = None
+        try:
+            async_db_session = AsyncDatabaseSession()
+            await async_db_session.init()
+            results = await async_db_session.execute(
+                '''select c.id, p.primer_nombre, p.segundo_nombre, p.primer_apellido,
+                p.segundo_apellido, p.correo_personal, p.correo_institucional, c.estado from 
+                datos_personales p left join cuentas_usuarios c on c.email = p.correo_institucional'''
+            )
+            cuenta_usuario = results.all()
+            if cuenta_usuario:
+                roles: List[RolSchema] = []
+                usuario_id: str = None
+                if cuenta_usuario[0][0] is not None:
+                    usuario_id = str(cuenta_usuario[0][0])
+                    results1 = await async_db_session.execute(
+                        '''SELECT r.id, r.rol, r.descripcion FROM roles_usuarios ru INNER JOIN roles r ON ru.rol_id=r.id
+                    WHERE ru.usuario_id = :usuario_id''', {"usuario_id": usuario_id})
+
+                    lista = results1.all()
+
+                    for item in lista:
+                        roles.append(
+                            RolSchema(id=str(item[0]), rol=item[1], descripcion=item[2]))
+
+                usuario = UserSchema(
+                    id=usuario_id,
+                    primer_nombre=usuario[0][1],
+                    segundo_nombre=usuario[0][2],
+                    primer_apellido=usuario[0][3],
+                    segundo_apellido=usuario[0][4],
+                    email_personal=usuario[0][5],
+                    email_institucional=usuario[0][6],
+                    estado=usuario[0][7],
+                    roles=roles
+                )
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        return usuario
+
+    @classmethod
     async def crear_cuenta(cls, usuario: UserPostSchema) -> bool:
         resgistrado: bool = False
         try:

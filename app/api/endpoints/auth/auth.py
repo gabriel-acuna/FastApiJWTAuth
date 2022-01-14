@@ -2,24 +2,40 @@ from app.schemas.auth.TokenSchema import TokenSchema
 from fastapi import APIRouter, Body, Response, status, HTTPException, Depends
 from app.services.auth import ServicioToken
 from app.schemas.auth.UserLoginSchema import UserLoginSchema
-from app.schemas.auth.UserSchema import ChangePasswordSchema
+from app.schemas.auth.UserSchema import ChangePasswordSchema, UserPostSchema, UserPutSchema
 from app.services.auth.ServicioUsuario import ServicioUsuario
 from app.schemas.Message import MessageSchema
-from app.models.auth.cuentas_usuarios import  TipoToken
-from app.api.messages import ERROR_MSG
+from app.models.auth.cuentas_usuarios import TipoToken
+from app.api.messages import ERROR_MSG, PUT_WARNING_MSG
+
 router = APIRouter()
 
 
-''''
-@router.post("/signup")
-async def create_user(user: UserSchema.UserPostSchema = Body(...)):
-    users.append(user) 
-    return signJWT(user.email)
-'''
+@router.post("/account", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
+async def crear_cuenta(user: UserPostSchema = Body(...)):
+    registrado = await ServicioUsuario.crear_cuenta(user)
+    if not registrado:
+        raise HTTPException(
+            status_code=400, detail="No se pudo crear la cuenta")
+    return MessageSchema(type='success', content="La cuenta se creo exitosamente")
 
 
-@router.post("/login", response_model=TokenSchema)
-async def user_login(user: UserLoginSchema = Body(...)):
+@router.put("/account", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
+async def actulizar_cuenta(response: Response, user: UserPutSchema = Body(...)):
+    existe = await ServicioUsuario.buscar_por_id(user.id)
+    if not existe:
+        response.status_code = status.HTTP_202_ACCEPTED
+        return MessageSchema(type="warning", content=PUT_WARNING_MSG)
+
+    actualizado = await ServicioUsuario.actualizar_cuenta(user)
+    if not actualizado:
+        response.status_code = status.HTTP_409_CONFLICT
+        return MessageSchema(type="error", content=ERROR_MSG)
+    return MessageSchema(type='success', content="La cuenta se actualizó exitosamente")
+
+
+@router.post("/login", response_model=TokenSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
+async def acceso_usuario(user: UserLoginSchema = Body(...)):
     usuario = await ServicioUsuario.verificar_usuario(credenciales=user)
     if usuario and usuario.estado == True:
         calve_valida = await ServicioUsuario.verificar_clave(user.password, usuario.clave_encriptada)
@@ -48,7 +64,7 @@ async def user_login(user: UserLoginSchema = Body(...)):
 
 
 @router.put("/change-password", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
-async def change_password(response: Response, data: ChangePasswordSchema = Body(...)):
+async def cambiar_clave(response: Response, data: ChangePasswordSchema = Body(...)):
     usuario = await ServicioUsuario.verificar_usuario(credenciales=data)
     if not usuario:
         response.status_code = status.HTTP_202_ACCEPTED
