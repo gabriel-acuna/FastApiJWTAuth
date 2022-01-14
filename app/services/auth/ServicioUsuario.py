@@ -3,10 +3,12 @@ from sqlalchemy.sql.expression import select
 from app.models.auth.cuentas_usuarios import CuentaUsuario, Rol, TipoToken, rol_usuario
 from app.schemas.auth.RolSchema import RolSchema
 from app.schemas.auth.UserLoginSchema import UserLoginSchema
-from app.schemas.auth.UserSchema import UserSchema
+from app.schemas.auth.UserSchema import UserPostSchema, UserPutSchema, UserSchema
 import bcrypt
+from app.utils.generar_clave import generar_calve
 from app.database.conf import AsyncDatabaseSession
 import logging
+from app.services.notification.NotificacionCorreoElectronico import NotificacionCorreoElectronico
 
 
 class ServicioUsuario():
@@ -95,3 +97,68 @@ class ServicioUsuario():
         finally:
             await async_db_session.close()
         return usuarios
+
+    @classmethod
+    async def crear_cuenta(cls, usuario: UserPostSchema) -> bool:
+        resgistrado: bool = False
+        try:
+            async_db_session = AsyncDatabaseSession()
+            roles: List[Rol] = []
+            await async_db_session.init()
+            clave = await generar_calve()
+            cuenta_usuario = CuentaUsuario()
+            cuenta_usuario.primer_nombre = usuario.primer_nombre
+            cuenta_usuario.segundo_nombre = usuario.segundo_nombre,
+            cuenta_usuario.primer_apellido = usuario.primer_apellido
+            cuenta_usuario.segundo_apellido = usuario.segundo_apellido,
+            cuenta_usuario.email = usuario.email_institucional
+            cuenta_usuario.cifrar_clave = cuenta_usuario.cifrar_clave(clave)
+
+            for rol in roles:
+                r = await async_db_session.execute(select(Rol).where(Rol.id == rol.id))
+                roles.append(r.scalar_one())
+            cuenta_usuario.roles = roles
+            async_db_session.add(cuenta_usuario)
+            await async_db_session.commit()
+            resgistrado = True
+            await NotificacionCorreoElectronico.enviar_correo_asinconico(
+                subject="Creación de cuenta de usuario",
+                email_to=usuario.email_personal,
+                body={
+                    'title': 'Creación de cuenta de usuario',
+                    'name': f'{usuario.primer_nombre} {usuario.segundo_nombre} {usuario.primer_apellido} {usuario.segundo_apellido}',
+                    'content': 'Su cuenta de usuario ha sido creada satisfactoriamente, para acceder al sistema deberá usar las siguientes credenciales.',
+                    'credentials': {
+                        'email': usuario.email_institucional,
+                        'password': clave
+                    },
+                    'recommendation': 'Se recomienda iniciar sesión y realizar cambio de contraseña.'
+                }
+            )
+
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        finally:
+            await async_db_session.close()
+        return resgistrado
+
+    @classmethod
+    async def actualizar_cuenta(cls, usuario: UserPutSchema) -> bool:
+        actualizado: bool = False
+        try:
+            async_db_session = AsyncDatabaseSession()
+            await async_db_session.init()
+            resultado = await async_db_session.execute(select(CuentaUsuario).where(CuentaUsuario.id == usuario.id))
+            cuenta_usuario: CuentaUsuario = resultado.scalar_one()
+            cuenta_usuario.estado = usuario.estado
+            cuenta_usuario.roles = []
+            await async_db_session.commit()
+            cuenta_usuario.roles = usuario.roles
+            await async_db_session.commit()
+            actualizado = True
+
+        except Exception as ex:
+            logging.error(f"Ha ocurrido una excepción {ex}", exc_info=True)
+        finally:
+            await async_db_session.close()
+        return actualizado
