@@ -34,7 +34,7 @@ async def actulizar_cuenta(response: Response, user: UserPutSchema = Body(...)):
     return MessageSchema(type='success', content="La cuenta se actualizó exitosamente")
 
 
-@router.post("/login", response_model=TokenSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
+@router.post("/login", response_model=TokenSchema)
 async def acceso_usuario(user: UserLoginSchema = Body(...)):
     usuario = await ServicioUsuario.verificar_usuario(credenciales=user)
     if usuario and usuario.estado == True:
