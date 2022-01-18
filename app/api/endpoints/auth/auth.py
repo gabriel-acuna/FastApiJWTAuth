@@ -1,8 +1,9 @@
+from typing import List
 from app.schemas.auth.TokenSchema import TokenSchema
 from fastapi import APIRouter, Body, Response, status, HTTPException, Depends
 from app.services.auth import ServicioToken
 from app.schemas.auth.UserLoginSchema import UserLoginSchema
-from app.schemas.auth.UserSchema import ChangePasswordSchema, UserPostSchema, UserPutSchema
+from app.schemas.auth.UserSchema import ChangePasswordSchema, UserPostSchema, UserPutSchema, UserSchema
 from app.services.auth.ServicioUsuario import ServicioUsuario
 from app.schemas.Message import MessageSchema
 from app.models.auth.cuentas_usuarios import TipoToken
@@ -10,8 +11,11 @@ from app.api.messages import ERROR_MSG, PUT_WARNING_MSG
 
 router = APIRouter()
 
+@router.get("/accounts", response_model=List[UserSchema],  dependencies=[Depends(ServicioToken.JWTBearer())])
+async def listar_usuarios():
+    return await ServicioUsuario.listar_usuarios()
 
-@router.post("/account", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
+@router.post("/accounts", response_model=MessageSchema, status_code=201, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def crear_cuenta(user: UserPostSchema = Body(...)):
     registrado = await ServicioUsuario.crear_cuenta(user)
     if not registrado:
@@ -20,7 +24,7 @@ async def crear_cuenta(user: UserPostSchema = Body(...)):
     return MessageSchema(type='success', content="La cuenta se creo exitosamente")
 
 
-@router.put("/account", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
+@router.put("/accounts", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
 async def actulizar_cuenta(response: Response, user: UserPutSchema = Body(...)):
     existe = await ServicioUsuario.buscar_por_id(user.id)
     if not existe:
