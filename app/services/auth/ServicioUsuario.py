@@ -107,7 +107,8 @@ class ServicioUsuario():
             results = await async_db_session.execute(
                 '''select c.id, p.primer_nombre, p.segundo_nombre, p.primer_apellido,
                 p.segundo_apellido, p.correo_personal, p.correo_institucional, c.estado from 
-                datos_personales p left join cuentas_usuarios c on c.email = p.correo_institucional'''
+                datos_personales p left join cuentas_usuarios c on c.email = p.correo_institucional
+                where c.id = :usuario_id''', {"usuario_id": id}
             )
             cuenta_usuario = results.all()
             if cuenta_usuario:
@@ -127,13 +128,13 @@ class ServicioUsuario():
 
                 usuario = UserSchema(
                     id=usuario_id,
-                    primer_nombre=usuario[0][1],
-                    segundo_nombre=usuario[0][2],
-                    primer_apellido=usuario[0][3],
-                    segundo_apellido=usuario[0][4],
-                    email_personal=usuario[0][5],
-                    email_institucional=usuario[0][6],
-                    estado=usuario[0][7],
+                    primer_nombre=cuenta_usuario[0][1],
+                    segundo_nombre=cuenta_usuario[0][2],
+                    primer_apellido=cuenta_usuario[0][3],
+                    segundo_apellido=cuenta_usuario[0][4],
+                    email_personal=cuenta_usuario[0][5],
+                    email_institucional=cuenta_usuario[0][6],
+                    estado=cuenta_usuario[0][7],
                     roles=roles
                 )
         except Exception as ex:
@@ -145,23 +146,24 @@ class ServicioUsuario():
         resgistrado: bool = False
         try:
             async_db_session = AsyncDatabaseSession()
-            roles: List[Rol] = []
             await async_db_session.init()
             clave = await generar_calve()
             cuenta_usuario = CuentaUsuario()
             cuenta_usuario.primer_nombre = usuario.primer_nombre
-            cuenta_usuario.segundo_nombre = usuario.segundo_nombre,
+            cuenta_usuario.segundo_nombre = usuario.segundo_nombre
             cuenta_usuario.primer_apellido = usuario.primer_apellido
-            cuenta_usuario.segundo_apellido = usuario.segundo_apellido,
+            cuenta_usuario.segundo_apellido = usuario.segundo_apellido
             cuenta_usuario.email = usuario.email_institucional
-            cuenta_usuario.cifrar_clave = cuenta_usuario.cifrar_clave(clave)
-
-            for rol in roles:
-                r = await async_db_session.execute(select(Rol).where(Rol.id == rol.id))
-                roles.append(r.scalar_one())
-            cuenta_usuario.roles = roles
+            cuenta_usuario.clave_encriptada = cuenta_usuario.cifrar_clave(
+                clave)
             async_db_session.add(cuenta_usuario)
             await async_db_session.commit()
+            for rol in usuario.roles:
+                await async_db_session.execute('''
+                INSERT INTO roles_usuarios (usuario_id, rol_id) values  (:usuario_id, :rol_id)
+                ''', {"usuario_id": cuenta_usuario.id, "rol_id": rol.id})
+            await async_db_session.commit()
+
             resgistrado = True
             await NotificacionCorreoElectronico.enviar_correo_asinconico(
                 subject="Creación de cuenta de usuario",
@@ -190,12 +192,15 @@ class ServicioUsuario():
         try:
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
+            await async_db_session.execute('''delete from roles_usuarios where usuario_id = :usuario_id''', {"usuario_id": usuario.id})
+            await async_db_session.commit()
             resultado = await async_db_session.execute(select(CuentaUsuario).where(CuentaUsuario.id == usuario.id))
             cuenta_usuario: CuentaUsuario = resultado.scalar_one()
             cuenta_usuario.estado = usuario.estado
-            cuenta_usuario.roles = []
-            await async_db_session.commit()
-            cuenta_usuario.roles = usuario.roles
+            for rol in usuario.roles:
+                await async_db_session.execute('''
+                INSERT INTO roles_usuarios (usuario_id, rol_id) values  (:usuario_id, :rol_id)
+                ''', {"usuario_id": usuario.id, "rol_id": rol.id})
             await async_db_session.commit()
             actualizado = True
 
