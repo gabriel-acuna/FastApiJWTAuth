@@ -41,30 +41,37 @@ async def actulizar_cuenta(response: Response, user: UserPutSchema = Body(...)):
 @router.post("/login", response_model=TokenSchema)
 async def acceso_usuario(user: UserLoginSchema = Body(...)):
     usuario = await ServicioUsuario.verificar_usuario(credenciales=user)
-    if usuario and usuario.estado == True:
-        calve_valida = await ServicioUsuario.verificar_clave(user.password, usuario.clave_encriptada)
-        if calve_valida:
-            roles = await ServicioUsuario.obtener_roles(id=usuario.id)
-
-            data_usuario = {
-                'nombre': usuario.primer_nombre,
-                'apellido': usuario.primer_apellido,
-                'email': usuario.email,
-                'roles': roles
-            }
-
-            token = ServicioToken.ServicioToken.firmar_token(data_usuario)
-            token_auth = {
-                'tipo_token': TipoToken.acceso,
-                'token': token,
-                'usuario_id': usuario.id
-            }
-            token_almacenado = await ServicioToken.ServicioToken.agregar_registro(**token_auth)
-            if token_almacenado:
-                return TokenSchema(token=token, type=TipoToken.acceso.value)
-
-    raise HTTPException(
+    if not usuario :
+        raise HTTPException(
         status_code=400, detail="Credenciales incorrectas, la clave o el usuario no son correctos")
+    if not usuario.estado:
+        raise HTTPException(
+        status_code=400, detail="Cuenta deshabilitada, esta cuenta se no encuentra activa")
+    calve_valida = await ServicioUsuario.verificar_clave(user.password, usuario.clave_encriptada)
+    if not calve_valida:
+        raise HTTPException(
+        status_code=400, detail="Credenciales incorrectas, la clave o el usuario no son correctos")
+    
+    roles = await ServicioUsuario.obtener_roles(id=usuario.id)
+
+    data_usuario = {
+        'nombre': usuario.primer_nombre,
+        'apellido': usuario.primer_apellido,
+        'email': usuario.email,
+        'roles': roles
+    }
+
+    token = ServicioToken.ServicioToken.firmar_token(data_usuario)
+    token_auth = {
+        'tipo_token': TipoToken.acceso,
+        'token': token,
+        'usuario_id': usuario.id
+    }
+    token_almacenado = await ServicioToken.ServicioToken.agregar_registro(**token_auth)
+    if token_almacenado:
+        return TokenSchema(token=token, type=TipoToken.acceso.value)
+
+    
 
 
 @router.put("/change-password", response_model=MessageSchema, dependencies=[Depends(ServicioToken.JWTBearer())])
