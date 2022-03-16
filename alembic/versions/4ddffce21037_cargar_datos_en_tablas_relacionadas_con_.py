@@ -13,6 +13,7 @@ from sqlalchemy.sql.expression import select
 from app.models.core.modelos_principales import CampoEducativoAmplio, CampoEducativoEspecifico, CampoEducativoDetallado
 import json
 from sqlalchemy.orm.session import Session
+import platform
 
 # revision identifiers, used by Alembic.
 revision = '4ddffce21037'
@@ -26,6 +27,8 @@ def upgrade():
     session = Session(bind=op.get_bind())
     try:
         file_path = '.\\app\\utils\\campo_educativo.json'
+        if platform.system() == 'Linux':
+            file_path = './/app//utils//campo_educativo.json'
         with open(file_path, encoding='utf8') as f:
             campos_educativos = json.load(f)
         print('insertando datos ...')

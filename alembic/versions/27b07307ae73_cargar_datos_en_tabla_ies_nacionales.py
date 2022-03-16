@@ -13,6 +13,7 @@ from app.utils.cargar_datos import CsvtoList
 from app.models.core.modelos_principales import IESNacional
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import delete
+import platform
 
 # revision identifiers, used by Alembic.
 revision = '27b07307ae73'
@@ -27,6 +28,9 @@ def upgrade():
     sesion = Session(bind=op.get_bind())
     try:
         file_path = '.\\app\\utils\\ies_nacionales.csv'
+        if platform.system() == 'Linux':
+            file_path = './/app//utils//ies_nacionales.csv'
+
         listado_ies = CsvtoList(filename=file_path)
         ies_nacionales: List[IESNacional] = []
         for ies in listado_ies.getList():

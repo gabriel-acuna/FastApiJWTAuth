@@ -12,6 +12,7 @@ from sqlalchemy.orm.session import Session
 from app.utils.cargar_datos import CsvtoList
 from app.models.core.modelos_principales import Provincia, Canton
 import json
+import platform
 
 # revision identifiers, used by Alembic.
 revision = 'baec5138cbbd'
@@ -149,6 +150,8 @@ def upgrade():
     print("Insertando datos en tabla países ...")
     try:
         file_path = '.\\app\\utils\\listado_paises.csv'
+        if platform.system() == 'Linux':
+            file_path = './/app//utils//listado_paises.csv'
         listado_paises = CsvtoList(filename=file_path)
         op.bulk_insert(paises, listado_paises.getList(),  multiinsert=False)
         print("Datos insertados")
@@ -315,6 +318,8 @@ def upgrade():
     print("Insertando datos en las tablas provincias y cantones ...")
     try:
         file_path = '.\\app\\utils\\provincias_cantones.json'
+        if platform.system() == 'Linux':
+           file_path = './/app//utils//provincias_cantones.json' 
         with open(file_path, encoding='utf8') as f:
             listado_provincias = json.load(f)
         for fila in listado_provincias:

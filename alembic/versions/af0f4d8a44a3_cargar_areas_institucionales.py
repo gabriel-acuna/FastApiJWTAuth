@@ -12,6 +12,7 @@ from sqlalchemy.orm.session import Session
 import json
 
 from app.models.core.modelos_principales import AreaInstitucion
+import platform
 
 # revision identifiers, used by Alembic.
 revision = 'af0f4d8a44a3'
@@ -26,6 +27,8 @@ def upgrade():
     listadoAreas: List[AreaInstitucion] = []
     try:
         file_path = ".\\app\\utils\\areas.json"
+        if platform.system() == 'Linux':
+            file_path = ".//app//utils//areas.json"
         with open(file_path, encoding='utf8') as f:
             areas = json.load(f)
         for area in areas:
