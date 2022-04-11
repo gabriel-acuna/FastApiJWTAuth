@@ -105,9 +105,9 @@ class ServicioUsuario():
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
             results = await async_db_session.execute(
-                '''select c.id, p.primer_nombre, p.segundo_nombre, p.primer_apellido,
-                p.segundo_apellido, p.correo_personal, p.correo_institucional, c.estado from 
-                datos_personales p left join cuentas_usuarios c on c.email = p.correo_institucional
+                '''select c.id, c.primer_nombre, c.segundo_nombre, c.primer_apellido,
+                c.segundo_apellido, p.correo_personal, c.email, c.estado from 
+                cuentas_usuarios c left join  datos_personales p on c.email = p.correo_institucional
                 where c.id = :usuario_id''', {"usuario_id": id}
             )
             cuenta_usuario = results.all()
@@ -132,7 +132,7 @@ class ServicioUsuario():
                     segundo_nombre=cuenta_usuario[0][2],
                     primer_apellido=cuenta_usuario[0][3],
                     segundo_apellido=cuenta_usuario[0][4],
-                    email_personal=cuenta_usuario[0][5],
+                    email_personal=cuenta_usuario[0][5] if cuenta_usuario[0][5] is not None else 'example@mail.com',
                     email_institucional=cuenta_usuario[0][6],
                     estado=cuenta_usuario[0][7],
                     roles=roles
