@@ -59,9 +59,9 @@ class ServicioUsuario():
             async_db_session = AsyncDatabaseSession()
             await async_db_session.init()
             results = await async_db_session.execute(
-                '''select c.id, c.primer_nombre, c.segundo_nombre, c.primer_apellido,
-                c.segundo_apellido, p.correo_personal, c.email, c.estado from 
-                cuentas_usuarios c left join  datos_personales p on c.email = p.correo_institucional'''
+                '''select c.id, p.primer_nombre, p.segundo_nombre, p.primer_apellido,
+                p.segundo_apellido, p.correo_personal, p.correo_institucional, c.estado from 
+                cuentas_usuarios c right join  datos_personales p on c.email = p.correo_institucional'''
             )
             filas = results.all()
             for usuario in filas:
@@ -87,7 +87,7 @@ class ServicioUsuario():
                         primer_apellido=usuario[3],
                         segundo_apellido=usuario[4],
                         email_personal=usuario[5] if usuario[5] is not None else 'example@mail.com',
-                        email_institucional=usuario[6],
+                        email_institucional=usuario[6] ,
                         estado=usuario[7],
                         roles=roles
                     )
